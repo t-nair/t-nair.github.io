@@ -39,18 +39,14 @@ nav ul li a:hover {
     color: #ffcc00; /* yellow color on hover */
 }
 
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the wrapper takes up at least the full height of the viewport */
+}
+
 .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-section {
-    padding: 50px 0;
-}
-
-h1, h2 {
-    color: #333; /* dark gray headings */
+    flex: 1; /* Allow the container to grow and take up remaining space */
 }
 
 footer {
@@ -58,6 +54,15 @@ footer {
     color: #fff;
     text-align: center;
     padding: 20px;
+}
+
+
+section {
+    padding: 50px 0;
+}
+
+h1, h2 {
+    color: #333; /* dark gray headings */
 }
 
 .intro {
