@@ -31,6 +31,10 @@ nav ul li a {
     transition: color 0.3s ease; /* smooth transition for link color */
 }
 
+nav ul li:last-child {
+    margin-right: 0; /* Remove margin from the last link to avoid extra spacing */
+}
+
 nav ul li a:hover {
     color: #ffcc00; /* yellow color on hover */
 }
