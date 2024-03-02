@@ -66,20 +66,18 @@ h1, h2 {
 }
 
 .intro {
-    float: right; /* Float the intro content to the left */
+    float: left; /* Float the intro content to the left */
     width: 50%; /* Make the intro content take up 50% of the container width */
 }
 
 .profile-picture {
-    float: left; /* Float the profile picture to the right */
+    float: right; /* Float the profile picture to the right */
     width: 50%; /* Make the profile picture take up 50% of the container width */
     text-align: center; /* Center the image horizontally */
-    padding-top: 20px; /* Add some top padding to separate it from the intro content */
 }
 
 .profile-picture img {
     max-width: 100%; /* Ensure the image doesn't exceed its container's width */
     height: auto; /* Maintain aspect ratio */
-    border-radius: 20%; /* Make the image round */
 }
 
