@@ -81,3 +81,38 @@ h1, h2 {
     height: auto; /* Maintain aspect ratio */
 }
 
+/* Add this CSS to style the project modules */
+.project {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.project img {
+    width: 200px; /* Adjust the thumbnail image size as needed */
+    margin-right: 20px;
+}
+
+.project-info {
+    flex: 1;
+}
+
+.project-info h2 {
+    margin-bottom: 10px;
+}
+
+.project-info p {
+    margin-bottom: 20px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.button:hover {
+    background-color: #555;
+}
