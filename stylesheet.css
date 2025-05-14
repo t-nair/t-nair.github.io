@@ -1,6 +1,6 @@
 body {
     font-family: 'Arvo', serif;
-    margin: 20px;
+    margin: 30px; /* Increased overall body margin */
     background-color: #f8f8f8;
     color: #333;
     line-height: 1.6;
@@ -9,27 +9,27 @@ body {
 h1, h2 {
     font-family: 'Arvo', serif;
     color: #222;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.7em; /* Slightly increased bottom margin for headings */
 }
 
 h1 {
     font-size: 2.5em;
     text-align: center;
-    margin-top: 1em;
-    margin-bottom: 0.2em;
+    margin-top: 1.5em; /* Increased top margin for the main title */
+    margin-bottom: 0.3em;
 }
 
 .subtitle {
     font-size: 1.1em;
     color: #555;
     text-align: center;
-    margin-bottom: 1.5em;
+    margin-bottom: 2em; /* Increased bottom margin for the subtitle */
 }
 
 p, ul {
     font-size: 1em;
     color: #444;
-    margin-bottom: 1em;
+    margin-bottom: 1.2em; /* Slightly increased bottom margin for paragraphs and lists */
 }
 
 ul {
@@ -38,7 +38,7 @@ ul {
 }
 
 li {
-    margin-bottom: 0.5em;
+    margin-bottom: 0.6em; /* Slightly increased bottom margin for list items */
 }
 
 b { /* For the bold text in your list */
