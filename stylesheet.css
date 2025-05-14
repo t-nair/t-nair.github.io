@@ -1,0 +1,143 @@
+/*
+  Project: Tanya's Website
+  Description: Website of my interests, past/current projects, and more.
+*/
+
+/* Table of Contents:
+   1. Reset / Normalize
+   2. Base Styles (Typography, Colors, etc.)
+   3. Layout (Grid, Flexbox, etc.)
+   4. Components (Buttons, Forms, Navigation, etc.)
+   5. Utilities (Helpers, Margins, Paddings, etc.)
+   6. Responsive Design (Media Queries)
+*/
+
+/* -------------------------------------------------------------------------- */
+/* 1. Reset / Normalize
+/* -------------------------------------------------------------------------- */
+
+/* Include a reset or normalize stylesheet here.
+   Examples: reset-css.org or normalize.css */
+
+/* -------------------------------------------------------------------------- */
+/* 2. Base Styles
+/* -------------------------------------------------------------------------- */
+
+html {
+  font-size: 16px; /* Base font size */
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: .arvo-regular, sans-serif; /* Base font family, with fallback */
+  line-height: 1.5;
+  color: #333; /* Base text color */
+  background-color: #fff; /* Base background color */
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  line-height: 1.2;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-family: .arvo-bold, serif; /* Apply Arvo Bold to headings */
+}
+
+a {
+  color: blue;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.arvo-regular {
+  font-family: "Arvo", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.arvo-bold {
+  font-family: "Arvo", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.arvo-regular-italic {
+  font-family: "Arvo", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.arvo-bold-italic {
+  font-family: "Arvo", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Add more base styles as needed (e.g., for paragraphs, lists, etc.) */
+
+/* -------------------------------------------------------------------------- */
+/* 3. Layout
+/* -------------------------------------------------------------------------- */
+
+/* Define your main layout structures here (e.g., using Grid or Flexbox) */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. Components
+/* -------------------------------------------------------------------------- */
+
+/* Style individual components like buttons, forms, navigation menus, etc. */
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* Add more component styles here */
+
+/* -------------------------------------------------------------------------- */
+/* 5. Utilities
+/* -------------------------------------------------------------------------- */
+
+/* Helper classes for common styling needs */
+.mt-1 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 1rem; }
+.text-center { text-align: center; }
+
+/* Add more utility classes as needed */
+
+/* -------------------------------------------------------------------------- */
+/* 6. Responsive Design
+/* -------------------------------------------------------------------------- */
+
+/* Media queries for different screen sizes */
+@media (max-width: 768px) {
+  /* Styles for smaller screens */
+  .container {
+    padding: 0 15px;
+  }
+}
+
+@media (min-width: 992px) {
+  /* Styles for larger screens */
+}
