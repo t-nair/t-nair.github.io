@@ -1,48 +1,90 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
 body {
-    font-family: 'Open Sans', sans-serif;
-    margin-top: 30px; 
-    margin-bottom: 30px; 
-    padding-left: 150px; 
-    padding-right: 150px; 
-    background-color: #f8f8f8;
-    color: #333;
-    line-height: 1.6;
-}
-
-h1, h2, h3 {
     font-family: 'Arvo', serif;
-    color: #222;
-    margin-bottom: 0.7em;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.8;
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: auto;
 }
 
+/* Main Heading */
 h1 {
-    font-size: 2.5em;
-    text-align: left;
-    margin-top: 1.5em;
-    margin-bottom: 0.3em;
+    text-align: center;
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    color: #002d72; /* JHU Blue */
 }
 
+/* Subtitle */
 .subtitle {
+    text-align: center;
+    font-size: 1.3em;
+    color: #0072ce; /* JHU Light Blue */
+    margin-bottom: 30px;
+}
+
+/* Section Headings */
+h2 {
+    font-size: 1.8em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #002d72;
+    border-bottom: 3px solid #0072ce;
+    padding-bottom: 5px;
+}
+
+/* Paragraph Styling */
+p {
     font-size: 1.1em;
-    color: #555;
-    text-align: left;
-    margin-bottom: 2em;
+    margin-bottom: 20px;
 }
 
-p, ul {
-    font-size: 1em;
-    color: #444;
-    margin-bottom: 1.2em;
-}
-
+/* Unordered Lists */
 ul {
-    padding-left: 0;
+    padding-left: 20px;
+    margin-bottom: 20px;
 }
 
-li {
-    margin-bottom: 0.6em;
+ul li {
+    font-size: 1.05em;
+    margin-bottom: 10px;
 }
 
-b { /* For the bold text in your list */
-    font-weight: 700;
+/* Inline Links */
+a {
+    color: #0072ce;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Custom List Items (Indented) */
+ul li[style*="text-indent"] {
+    margin-left: 20px;
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.2em;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    .subtitle {
+        font-size: 1.1em;
+    }
 }
