@@ -88,3 +88,54 @@ ul li[style*="text-indent"] {
         font-size: 1.1em;
     }
 }
+/* Navbar Styling */
+.navbar {
+    background-color: #002d72;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.nav-logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #aad4ff;
+}
+
+/* Responsive Navbar */
+@media (max-width: 600px) {
+    .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 10px;
+        gap: 10px;
+    }
+}
