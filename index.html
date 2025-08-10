@@ -1,44 +1,639 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Tanya Nair</title>
-    <link rel="stylesheet" href="stylesheet.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[YOUR NAME] | Computer Engineering Researcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #f1c40f;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --light-bg: #fff;
+            --dark-bg: #34495e;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--light);
+        }
+
+        .dark-mode .card,
+        .dark-mode footer {
+            background-color: var(--dark);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Arvo', serif;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Arvo', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            font-weight: 600;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.7)), url('https://placehold.co/1920x1080') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--secondary);
+            color: var(--primary);
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--secondary);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--secondary);
+            color: var(--primary);
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .card-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .card .btn {
+            margin: 15px 0 0;
+            display: inline-block;
+        }
+
+        .publications-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .publication-item {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .publication-item:last-child {
+            border-bottom: none;
+        }
+
+        .publication-item h3 {
+            margin-bottom: 10px;
+        }
+
+        .publication-meta {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .publication-link {
+            font-weight: 600;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: var(--secondary);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .theme-toggle i {
+            font-size: 1.5rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-center">
-            <a href="index.html" class="nav-item">Home</a>
-            <a href="levy-lab-research-24/index.html" class="nav-item">Levy Lab Project</a>
-            <a href="#contact" class="nav-item">Contact</a>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">[YOUR NAME]</div>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#research">Research</a></li>
+                    <li><a href="#media">Media</a></li>
+                    <li><a href="#publications">Publications</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>[YOUR NAME]</h1>
+                <p>"Resilience in Research | Innovation in AI | Leadership in Technology"</p>
+                <a href="#research" class="btn">View Projects</a>
+                <a href="#contact" class="btn btn-outline">Contact Me</a>
+            </div>
+        </div>
+    </section>
 
-    <h1>Tanya Nair</h1>
-    <div class="subtitle">JHU Class of 2029</div>
-    <p>Hi, I'm Tanya! I'm a first-year Computer Engineering student at Johns Hopkins, passionate about research, service, and accessibility in technological development. I'm especially interested in ML and its applications to various fields including accessibility, medicine, and more.</p>
-    <h2>Relevant Experience</h2>
-    <ul>
-        <li><b>Dartmouth Health: </b>Built a RAG model for clinician cross-referencing of pathology reports with fusion vector search (Okapi BM25 and FAISS), implemented Microsoft's phi-2 for efficiency. Link to project portfolio website <a href="https://t-nair.github.io/levy-lab-research-24/">here</a>.</li>
-        <li><b>University of WA: </b>Working on an automated pipeline to enhance accessibility of .pptx presentations for vision-impaired students.</li>
-    </ul>
-    <h2>Relevant Publications</h2>
-    <ul>
-        <li><a href="https://www.jsr.org/hs/index.php/path/article/view/4418" target="_blank">Natural Language Processing used in sentiment analysis of poetry: a study of six common techniques</a></li>
-    </ul>
-    <h2 id="contact">Contact Info</h2>
-    <p>You can best reach me via <a href="https://www.linkedin.com/in/tanya-nair-617473287/" target="_blank">LinkedIn</a> or <a href="https://x.com/t_nair_" target="_blank">X</a>, my DMs are open for anyone looking to collaborate on a new project!</p>
-    <h2>Other Things</h2>
-    <p>Hobbies/Side Projects</p>
-    <ul>
-        <li style="text-indent: 40px;">MLinguist <a href="https://www.youtube.com/@MLinguist" target="_blank">YouTube channel</a></li>
-        <li style="text-indent: 40px;">GEE Crop Yield Forecasting Project</li>
-        <li style="text-indent: 40px;">Triathlon?</li>
-    </ul>
-    
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Me</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://placehold.co/600x800" alt="Professional portrait of [YOUR NAME]">
+                </div>
+                <div class="about-text">
+                    <p>[PLACEHOLDER: Brief introduction about yourself. For example: "I'm a computer engineering researcher specializing in artificial intelligence and human-computer interaction. With [X] years of experience at [Institution/Company], my work focuses on..."].</p>
+                    <p>My core values: "The pain hurt, but it did not break me."</p>
+                    <div style="margin-top: 30px;">
+                        <a href="#" class="btn" download>[Download CV]</a>
+                        <a href="#" class="btn btn-outline">View Portfolio</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research" style="background-color: #f9f9f9;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Research & Projects</h2>
+            </div>
+            <div class="projects-grid">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://placehold.co/800x600" alt="Dashboard interface of the Dartmouth Health RAG model showing data analytics">
+                    </div>
+                    <div class="card-content">
+                        <h3>Dartmouth Health RAG Model</h3>
+                        <p>[PLACEHOLDER: Brief description of this project and its impact. Example: "Developed a novel retrieval-augmented generation model for healthcare analytics that improved accuracy by 30%..."].</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://placehold.co/800x600" alt="Mobile application interface demonstrating accessibility automation features">
+                    </div>
+                    <div class="card-content">
+                        <h3>Accessibility Automation</h3>
+                        <p>[PLACEHOLDER: Description of this research. Example: "Created automated tools to improve digital accessibility for users with disabilities, reducing manual testing time by 70%..."].</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image">
+                        <img src="https://placehold.co/800x600" alt="Visualization of machine learning model analyzing emotional states from speech patterns">
+                    </div>
+                    <div class="card-content">
+                        <h3>Emotional AI Analysis</h3>
+                        <p>[PLACEHOLDER: 1-2 sentences about this research project's scope and impact].</p>
+                        <a href="#" class="btn">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="media">
+        <div class="container">
+            <div class="section-title">
+                <h2>Creative Work & Media</h2>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <div style="margin-bottom: 40px; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/[PLACEHOLDER]" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <h3>MLinguist YouTube Channel</h3>
+                <p>[PLACEHOLDER: Describe your YouTube channel or other media presence. Example: "Through my MLinguist channel, I explore the intersection of machine learning and linguistics, making technical concepts accessible..."].</p>
+                <div style="margin-top: 30px;">
+                    <a href="#" class="btn" target="_blank">View Channel</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="publications" style="background-color: #f9f9f9;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Publications</h2>
+            </div>
+            <div class="publications-list">
+                <div class="publication-item">
+                    <h3>[PLACEHOLDER: Title of your paper]</h3>
+                    <div class="publication-meta">Published in [PLACEHOLDER: Journal/Conference], [YEAR]</div>
+                    <p>[PLACEHOLDER: Brief summary of the paper's contributions]</p>
+                    <a href="#" class="publication-link">Read Paper →</a>
+                </div>
+                <div class="publication-item">
+                    <h3>[PLACEHOLDER: Title of your paper]</h3>
+                    <div class="publication-meta">Published in [PLACEHOLDER: Journal/Conference], [YEAR]</div>
+                    <p>[PLACEHOLDER: Brief summary of the paper's contributions]</p>
+                    <a href="#" class="publication-link">Read Paper →</a>
+                </div>
+                <div class="publication-item">
+                    <h3>[PLACEHOLDER: Title of your paper]</h3>
+                    <div class="publication-meta">Published in [PLACEHOLDER: Journal/Conference], [YEAR]</div>
+                    <p>[PLACEHOLDER: Brief summary of the paper's contributions]</p>
+                    <a href="#" class="publication-link">Read Paper →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Me</h2>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" class="form-control" placeholder="Your message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; [YEAR] [YOUR NAME]. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <script>
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+
+        // Check for saved theme preference or use preferred color scheme
+        const currentTheme = localStorage.getItem('theme') || 
+                           (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-mode');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission handling
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Add your form submission logic here
+                alert('[PLACEHOLDER: Replace with actual form submission logic]');
+                this.reset();
+            });
+        }
+    </script>
 </body>
 </html>
