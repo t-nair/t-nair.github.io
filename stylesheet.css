@@ -328,6 +328,8 @@ body.dark-mode .btn-outline:hover {
 
 .about-image img {
     width: 100%;
+    max-width: 100%;
+    height: auto;
     border-radius: var(--radius);
     display: block;
 }
@@ -667,6 +669,13 @@ body.dark-mode .close:hover {
     }
     .about-image {
         max-width: 100%;
+    }
+    .about-image img {
+        max-width: 220px;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        display: block;
     }
     .modal-content {
         padding: 18px 8px 18px 8px;
