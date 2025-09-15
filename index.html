@@ -408,6 +408,46 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            background: rgba(44,62,80,0.7);
+            transition: all 0.3s;
+        }
+        .modal-content {
+            background: #fff;
+            margin: 8% auto;
+            padding: 30px 40px;
+            border-radius: 10px;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            color: var(--text);
+        }
+        .dark-mode .modal-content {
+            background: var(--dark);
+            color: var(--light);
+        }
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 18px;
+            right: 28px;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .close:hover {
+            color: var(--secondary);
+        }
     </style>
 </head>
 <body>
@@ -452,8 +492,8 @@
                     <p>My key research interests: RAG/Agentic AI, improving efficiency of AI systems, PIML</p>
                     <p>In my free time, I love building things! Check out my projects below.</p>
                     <div style="margin-top: 30px;">
-                        <a href="#" class="btn" download>[Download CV]</a>
-                        <a href="#" class="btn btn-outline">View Portfolio</a>
+                        <a href="2029_TanyaNair_Resume.pdf" class="btn" download>Download Resume</a>
+                        <a href="#contact" class="btn">Contact Me</a>
                     </div>
                 </div>
             </div>
@@ -472,8 +512,7 @@
                     </div>
                     <div class="card-content">
                         <h3>RAG for Pathology Reports - Levy Lab (Dartmouth Hitchcock Health Center)</h3>
-                        <p>Worked under the guidance of Dr. Joshua Levy. Developed a retrieval-augmented generation model using a fusion search method incorporating Okapi BM-25 and FAISS for clinician cross-referencing of pathology reports.</p>
-                        <a href="https://t-nair.github.io/levy-lab-research-24/" class="btn">Additional Info</a>
+                        <a href="#" class="btn" id="levyDetailsBtn">View Details</a>
                     </div>
                 </div>
                 <div class="card">
@@ -482,8 +521,7 @@
                     </div>
                     <div class="card-content">
                         <h3>Advancing Accessibility for Engineering Education - University of Washington Seattle</h3>
-                        <p>Worked under the guidance of Prof. Anant P. Anantram and Dr. Lalitha Subramanian. Created a novel pipeline to mass-enhance the accessibility of PPT presentations for blind/low-vision students pursuing higher education.</p>
-                        <a href="#" class="btn">View Details</a>
+                        <a href="#" class="btn" id="accessibilityDetailsBtn">View Details</a>
                     </div>
                 </div>
                 <div class="card">
@@ -492,8 +530,7 @@
                     </div>
                     <div class="card-content">
                         <h3>[Paper]: Natural Language Processing used in sentiment analysis of poetry: a study of six common techniques</h3>
-                        <p>Conducted a comparative study of six different natural language processing techniques when applied to sentiment analysis of English poetry. Published in the Journal of Student Research: High School Edition in May 2023.</p>
-                        <a href="https://www.jsr.org/hs/index.php/path/article/view/4418" class="btn" target="_blank">View Paper</a>
+                        <a href="#" class="btn" id="nlpDetailsBtn">View Details</a>
                     </div>
                 </div>
             </div>
@@ -534,12 +571,50 @@
         </div>
     </section>
 
+    <section id="awards">
+        <div class="container">
+            <div class="section-title">
+                <h2>Awards</h2>
+            </div>
+            <div class="publications-list">
+                <div class="publication-item">
+                    <h3>HopHacks: 1st Place in Data Visualization Track</h3>
+                    <div class="publication-meta">2025</div>
+                    <p>sine was recognized as the 1st place winner of the Data Visualization track at HopHacks 2025.</p>
+                    <a href="https://devpost.com/software/syne-di1q5h" target="_blank">[View Devpost]</a>
+                    <a href="https://github.com/t-nair/sine-hophacks25" target="_blank">[View Repo]</a>
+                </div>
+                <div class="publication-item">
+                    <h3>HackPNW: Best Use of Sponsor's API</h3>
+                    <div class="publication-meta">2023</div>
+                    <p>Lensa was recognized as the project that implemented sponsor Twilio's API in the most unique and useful way.</p>
+                    <a href="https://devpost.com/software/lensa" target="_blank">[View Devpost]</a>
+                    <a href="https://github.com/t-nair/lensa" target="_blank">[View Repo]</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="contact">
         <div class="container">
             <div class="section-title">
                 <h2>Contact Me</h2>
             </div>
-            <p>The best way to contact me would be through LinkedIn or X/Twitter!</p>
+            <form class="contact-form" action="https://formspree.io/f/mblaezdg" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" class="form-control" required></textarea>
+                </div>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/tanya-nair-617473287/" class="social-link" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 <a href="https://x.com/t_nair_" class="social-link" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -557,6 +632,42 @@
 
     <div class="theme-toggle" id="themeToggle">
         <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Modal for RAG for Pathology Reports -->
+    <div id="levyModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="closeLevyModal">&times;</span>
+            <h2>RAG for Pathology Reports - Levy Lab (Dartmouth Hitchcock Health Center)</h2>
+            <p><strong>Mentor:</strong> Dr. Joshua Levy</p>
+            <p><strong>Description:</strong> Developed a retrieval-augmented generation model using a fusion search method incorporating Okapi BM-25 and FAISS for clinician cross-referencing of pathology reports.</p>
+            <a href="https://t-nair.github.io/levy-lab-research-24/" class="btn" target="_blank">Additional Info</a>
+        </div>
+    </div>
+    <!-- Modal for Accessibility Project Details -->
+    <div id="accessibilityModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="closeAccessibilityModal">&times;</span>
+            <h2>Advancing Accessibility for Engineering Education</h2>
+            <p><strong>Institution:</strong> University of Washington Seattle</p>
+            <p><strong>Mentors:</strong> Prof. Anant P. Anantram, Dr. Lalitha Subramanian</p>
+            <p><strong>Summary:</strong> Developed an automated pipeline using n8n, Python, and Azure OCR to convert PowerPoint presentations into accessible formats for blind/low-vision students. The system extracts text, generates alt text for images, and produces screen-reader-friendly documents at scale, improving accessibility in higher education STEM courses.</p>
+            <ul>
+                <li>Automated extraction and conversion of slide content</li>
+                <li>Integration with cloud OCR and AI image captioning</li>
+                <li>Batch processing for large course content</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Modal for NLP Paper -->
+    <div id="nlpModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="closeNlpModal">&times;</span>
+            <h2>Natural Language Processing used in sentiment analysis of poetry: a study of six common techniques</h2>
+            <p><strong>Publication:</strong> Journal of Student Research: High School Edition, 2023</p>
+            <p><strong>Description:</strong> Conducted a comparative study of six different natural language processing techniques when applied to sentiment analysis of English poetry.</p>
+            <a href="https://www.jsr.org/hs/index.php/path/article/view/4418" class="btn" target="_blank">View Paper</a>
+        </div>
     </div>
 
     <script>
@@ -598,14 +709,58 @@
             });
         });
 
-        // Form submission handling
-        const contactForm = document.querySelector('form');
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
+        // Modal for Accessibility Project
+        const accessibilityBtn = document.getElementById('accessibilityDetailsBtn');
+        const accessibilityModal = document.getElementById('accessibilityModal');
+        const closeAccessibilityModal = document.getElementById('closeAccessibilityModal');
+        if (accessibilityBtn && accessibilityModal && closeAccessibilityModal) {
+            accessibilityBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                // Add your form submission logic here
-                alert('[PLACEHOLDER: Replace with actual form submission logic]');
-                this.reset();
+                accessibilityModal.style.display = 'block';
+            });
+            closeAccessibilityModal.addEventListener('click', function() {
+                accessibilityModal.style.display = 'none';
+            });
+            window.addEventListener('click', function(event) {
+                if (event.target === accessibilityModal) {
+                    accessibilityModal.style.display = 'none';
+                }
+            });
+        }
+        // Modal for Levy Lab Project
+        const levyBtn = document.getElementById('levyDetailsBtn');
+        const levyModal = document.getElementById('levyModal');
+        const closeLevyModal = document.getElementById('closeLevyModal');
+        if (levyBtn && levyModal && closeLevyModal) {
+            levyBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                levyModal.style.display = 'block';
+            });
+            closeLevyModal.addEventListener('click', function() {
+                levyModal.style.display = 'none';
+            });
+            window.addEventListener('click', function(event) {
+                if (event.target === levyModal) {
+                    levyModal.style.display = 'none';
+                }
+            });
+        }
+        // Modal for NLP Paper
+        const nlpBtn = document.getElementById('nlpDetailsBtn');
+        const nlpModal = document.getElementById('nlpModal');
+        const closeNlpModal = document.getElementById('closeNlpModal');
+        if (nlpBtn && nlpModal && closeNlpModal) {
+            nlpBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                nlpModal.style.display = 'block';
+            });
+            closeNlpModal.addEventListener('click', function() {
+                nlpModal.style.display = 'none';
+            });
+            window.addEventListener('click', function(event) {
+                if (event.target === nlpModal) {
+                    nlpModal.style.display = 'none';
+                }
             });
         }
     </script>
