@@ -3,33 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanya Nair | EE & CompE @ Johns Hopkins, AI Researcher, 2x Hackathon Winner</title>
+    <title>Tanya Nair | CompE @ Johns Hopkins, Aspiring AI/ML Researcher</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Arvo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-    <!-- Add a top-right contact button -->
-    <header class="site-header">
-        <a class="contact-btn" href="mailto:tnair4@jh.edu" aria-label="Email Tanya">Contact <i class="fa fa-envelope" aria-hidden="true"></i></a>
-    </header>
-
     <h1>Tanya Nair</h1>
     <div class="subtitle">JHU Class of 2029</div>
-    <p>First-year undergraduate at Johns Hopkins, double-majoring in Electrical and Computer Engineering. Passion for applying cutting-edge AI and emerging technologies to problems spanning medicine, accessibility, and more. Interested in making a sustainable, accessible, AI-enhanced future.</p>
+    <p>I'm a first-year undergraduate at Johns Hopkins, double-majoring in Electrical and Computer Engineering. My passions lie in the fields of cutting-edge AI, sustainability, accessibility, and emerging technologies. I'm particularly interested in making an AI-powered future that's accessible and sustainable for all.</p>
     <h2>Core Skills</h2>
         <ul>
-        <li><b>Languages:</b> C, C++, Python, Java</li>
-        <li><b>Frameworks:</b> PyTorch, TensorFlow, HF Transformers</li>
-        <li><b>Systems:</b> Linux/UNIX, Git, Docker, Cloudflare Workers, Render</li>
-        <li><b>Focus Areas:</b> Sustainable Systems, Accessibility Tech, Healthcare & Surgical AI, Resource Optimization</li>
+        <li><b>Languages:</b> C, C++, Python, CUDA, Bash</li>
+        <li><b>Frameworks:</b> PyTorch, JAX, ONNX Runtime, FAISS</li>
+        <li><b>Systems:</b> Linux/UNIX, Git, Docker</li>
+        <li><b>Focus Areas:</b> Sustainable innovation</li>
+        </ul>
     <h2>My Areas of Interest:</h2>
     <ul>
-        <li>RAG and Knowledge-Grounded LLMs</li>
-        <li>Energy- and Resource-Efficient AI Systems</li>
-        <li>Multilingual and Cross-Cultural Language Models/Information Flows</li>
-        <li>Societal, Ethical, and Accessibility Impacts of AI</li>
-        <li>LLM Reliability & Security: Hallucinations, Robustness, and Data Privacy</li>
+        <li>Retrieval-Augmented Generation</li>
+        <li>Energy/Resource-Efficient AI</li>
+        <li>Multilingual LLMs</li>
+        <li>Societal Impacts of AI</li>
+        <li>LLM Security Issues: Hallucinations, Data Security, etc.</li>
     </ul>
     <h2>Current Experience</h2>
     <ul>
@@ -45,11 +41,8 @@
     </ul>
     <h2>Additional Projects</h2>
     <ul>
-        <li><b>Startup (in progress): </b>Building a research-informed life analytics platform.</li>
-        <!--<li><b>Open Source: </b> Contributing to open-source AI tools like Fairlearn</li> -->
-        <li><b>Reading: </b>30 books this year!</li>
-        <li><b>YouTube channel: </b>Posting about AI & linguistics once a month (in an ideal world).</li>
+        <li><b></b></li>
     </ul>
 </body>
 </html>
-
+            
