@@ -9,9 +9,20 @@
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-    <!-- Add a top-right contact button -->
+    <!-- Hamburger menu -->
     <header class="site-header">
-        <a class="contact-btn" href="mailto:tnair4@jh.edu" aria-label="Email Tanya">Contact <i class="fa fa-envelope" aria-hidden="true"></i></a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="mailto:tnair4@jh.edu">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
     <h1>Tanya Nair</h1>
@@ -23,6 +34,7 @@
         <li><b>Frameworks:</b> PyTorch, TensorFlow, HF Transformers</li>
         <li><b>Systems:</b> Linux/UNIX, Git, Docker, Cloudflare Workers, Render</li>
         <li><b>Focus Areas:</b> Sustainable Systems, Accessibility Tech, Healthcare & Surgical AI, Resource Optimization</li>
+        </ul>
     <h2>My Areas of Interest:</h2>
     <ul>
         <li>RAG and Knowledge-Grounded LLMs</li>
@@ -45,11 +57,40 @@
     </ul>
     <h2>Additional Projects</h2>
     <ul>
+        <li>
+            <b><a href="https://tanyas-sql-pokedex.streamlit.app/" target="_blank">pokedex-sql:</a></b> A SQL-powered Pokédex dashboard for exploring Pokémon data by generation, stats, and type distributions. 
+            Built on a normalized SQLite schema with Python-backed analytics and a Streamlit frontend. 
+            Features generation-based filtering, stat aggregation/ranking, and a Pokédex-style sprite list.
+        </li>
+
         <li><b>Startup (in progress): </b>Building a research-informed life analytics platform.</li>
         <!--<li><b>Open Source: </b> Contributing to open-source AI tools like Fairlearn</li> -->
         <li><b>Reading: </b>30 books this year!</li>
         <li><b>YouTube channel: </b>Posting about AI & linguistics once a month (in an ideal world).</li>
     </ul>
 </body>
+<script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active');
+        hamburger.setAttribute(
+            'aria-expanded',
+            navMenu.classList.contains('active')
+        );
+    });
+
+    
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', false);
+        });
+    });
+</script>
 </html>
 

@@ -58,8 +58,16 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-family: "Arvo", Georgia, Cambria, "Times New Roman", serif;
-  font-size: var(--h1);
+  margin-top: 8px;
+}
+
+h1 + .subtitle {
+  margin-bottom: 14px;
+}
+
+h1 + .subtitle + p {
+  margin-top: 18px;
+  max-width: 65ch;
 }
 
 h2 {
@@ -197,59 +205,121 @@ p:has(a[href^="mailto:"]) {
   }
 }
 
-/* Top-right contact button — moved further right, anchored to center of layout */
+/* Hamburger Menu */
 .site-header {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  /* push the button outside the centered content column:
-     half of the max content width + extra gap */
-  transform: translateX(calc(var(--maxw) / 2 + 36px));
+  position: relative;            
+  width: min(100%, var(--maxw));
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 24px auto 0;
   z-index: 1200;
+}
+
+
+
+/* Hamburger button */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin: -8px;
+  z-index: 1201;
+}
+
+.hamburger span {
+  width: 26px;
+  height: 3px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 300ms ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(11px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-10px);
+}
+
+/* Navigation menu */
+.nav-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-bottom-left-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 200px;
+  transform: translateY(8px) scaleY(0);
+  transform-origin: top right;
+  transition: transform 300ms ease;
+  margin-top: 0;
   pointer-events: none;
 }
 
-.contact-btn {
+.nav-menu.active {
+  transform: translateY(0) scaleY(1);
   pointer-events: auto;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  background: var(--accent);
-  color: white;
+}
+
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-menu ul li {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu a {
+  display: block;
+  padding: 12px 20px;
+  color: var(--text);
   text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 999px;
-  box-shadow: 0 6px 18px rgba(14, 56, 30, 0.18);
-  font-weight: 600;
-  font-family: inherit;
-  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
-  border: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid var(--border);
+  background: none !important;
+  transition: background-color 200ms ease;
 }
 
-.contact-btn i { font-size: 0.9em; line-height: 0; }
-
-/* Hover / focus */
-.contact-btn:hover,
-.contact-btn:focus {
-  background: var(--accent-ink);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(14, 56, 30, 0.22);
-  outline: none;
-  color: #fff;
+.nav-menu a:last-child {
+  border-bottom: none;
 }
 
-/* Responsive fallback: on narrower viewports, pin to the right edge instead */
-@media (max-width: 920px) {
-  .site-header {
-    left: auto;
-    right: 16px;
-    transform: none;
-    top: 18px;
-  }
+.nav-menu a:hover {
+  background-color: var(--border);
+  color: var(--accent);
 }
 
-/* Small screens: slightly smaller button */
+/* Show hamburger on smaller screens */
 @media (max-width: 520px) {
-  .site-header { top: 12px; right: 12px; left: auto; transform: none; }
-  .contact-btn { padding: 6px 10px; font-size: 14px; }
+  .hamburger {
+    display: flex;
+  }
+
+  .site-header {
+    top: 16px;
+    right: 16px;
+  }
+
+  .nav-menu {
+    top: 50px;
+    right: 0;
+  }
 }
