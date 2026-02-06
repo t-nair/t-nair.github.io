@@ -70,27 +70,23 @@
     </ul>
 </body>
 <script>
-    // Hamburger menu toggle
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-    
-    hamburger.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        hamburger.classList.toggle('active');
-        hamburger.setAttribute(
-            'aria-expanded',
-            navMenu.classList.contains('active')
-        );
-    });
+  const hamburger = document.getElementById('hamburger');
+  const navMenu = document.getElementById('navMenu');
 
-    
-    // Close menu when a link is clicked
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', false);
-        });
+  hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+  });
+
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', false);
     });
+  });
 </script>
+
 </html>
 
