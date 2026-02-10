@@ -1,1 +1,60 @@
-Under construction. Check back soon!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Tanya Nair</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Arvo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <!-- Hamburger menu -->
+    <header class="site-header">
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="mailto:tnair4@jh.edu">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Blog</h1>
+    <div class="subtitle">Perspectives on emerging research, trends, and innovation in technology and beyond. Repurposed from my Substack, <a href="https://substack.com/@tanyanairnotes" target="_blank">@tanyanairnotes</a>.</div>
+    
+    <h2>Recent Posts</h2>
+    <ul>
+        <li>
+            <b><a href="#coming-soon">Coming soon</a></b>
+            More blog posts coming soon. Check back in a bit!
+        </li>
+    </ul>
+
+</body>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navMenu = document.getElementById('navMenu');
+
+  hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+  });
+
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', false);
+    });
+  });
+</script>
+
+</html>
