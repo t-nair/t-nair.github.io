@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:coverartarchive.org)",
+      "WebFetch(domain:archive.org)",
+      "WebFetch(domain:www.goodreads.com)",
+      "WebFetch(domain:ttte.fandom.com)",
+      "WebFetch(domain:dn710707.ca.archive.org)",
+      "WebFetch(domain:openlibrary.org)",
+      "WebFetch(domain:www.penguinrandomhouse.com)",
+      "Bash(curl -s \"https://cdn.jsdelivr.net/npm/us-atlas@3/states-110m.json\" -o \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/states-110m.json\")",
+      "Bash(node -e \":*)",
+      "Bash(wc -c \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/_fills.txt\" \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/_border.txt\")"
+    ]
+  }
+}

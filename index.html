@@ -179,6 +179,38 @@
     }
     .past-toggle:hover { color: #1a2e1a; }
     .past-toggle.hidden-state { opacity: 0.45; text-decoration: line-through; }
+
+    /* ── Topics widget ── */
+    .topics-toggle {
+      font-size: 10px; color: #7a9a7a; letter-spacing: 0.03em;
+      cursor: default; margin-top: 6px;
+      position: relative; display: inline-block;
+    }
+    .topics-toggle::after {
+      content: " ✦";
+      font-size: 8px; opacity: 0.6;
+    }
+    .topics-popover {
+      position: absolute; top: calc(100% + 10px); left: 0;
+      display: flex; gap: 8px; align-items: center;
+      z-index: 500;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+    .topics-toggle:hover .topics-popover {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .topic-pill {
+      font-size: 10px; color: #2d5a2d; letter-spacing: 0.03em;
+      background: rgba(45,90,45,0.08);
+      border: 1px solid rgba(45,90,45,0.2);
+      border-radius: 20px;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -186,7 +218,16 @@
 <div class="header">
   <h1><img src="goat-eye-logo.png" alt="goat eye logo">Tanya Nair</h1>
   <div class="sub">ECE @ Johns Hopkins</div>
+  <div class="topics-toggle">let's talk
+    <div class="topics-popover">
+      <div class="topic-pill">startups</div>
+      <div class="topic-pill">sustainability</div>
+      <div class="topic-pill">ai</div>
+    </div>
+  </div>
 </div>
+
+<div style="position: fixed; bottom: 28px; left: 36px; font-size: 8px; color: #6a8a6a; letter-spacing: 0.02em;">exploring my different interests and (somehow) trying to connect them</div>
 
 <div class="nav">
   <a href="portfolio.html">portfolio</a>
@@ -240,10 +281,10 @@ const nodes = [
   // Interests
   { id: "nlp",          label: "NLP & Language Models",   type: "interest", desc: "Cross-lingual systems, multilingual benchmarks, and understanding how language shapes knowledge." },
   { id: "healthcare & accessibility",   label: "Healthcare and Accessibility Tech",           type: "interest", desc: "Applying ML to clinical and surgical settings — from pathology reports to resource allocation, and using AI to make information and tools genuinely accessible to people with disabilities." },
-  { id: "ethics",       label: "AI Ethics & Efficiency",     type: "interest", desc: "Building AI that is both ethical and efficient." },
+  { id: "ethics",       label: "Ethical & Efficient Tech/Systems",     type: "interest", desc: "Building AI that is both ethical and efficient." },
   { id: "space",          label: "Spaceflight and UAVs",             type: "interest", desc: "Building systems for space exploration and unmanned aerial vehicles. Inspired by my love for <i>The Martian</i>." },
-  { id: "entrepreneurship", label: "Tinkering/Entrepreneurship",       type: "interest", desc: "Side ventures and entrepreneurial endeavors. Exploring venture capital and building side projects." },
-  
+  { id: "entrepreneurship", label: "Hacking/Entrepreneurship",       type: "interest", desc: "Side ventures and entrepreneurial endeavors. Exploring venture capital and building side projects." },
+   
   // Projects / Experience
   { id: "clsp",     label: "CLSP Multilingual Benchmark", type: "project", status: "present",
     desc: "With Prof. Ziang Xiao — building a benchmark to evaluate LLM outputs across languages and cultures.",
@@ -251,8 +292,8 @@ const nodes = [
   { id: "dartmouth",label: "Dartmouth Health RAG",         type: "project", status: "past",
     desc: "Clinical RAG model for pathology report cross-referencing. BM25 + FAISS fusion search, Microsoft phi-2.",
     link: "https://t-nair.github.io/levy-lab-research-24/" },
-  { id: "argos",    label: "ARGOS Surgical AI",            type: "project", status: "present",
-    desc: "Transparency gaps in surgical LLM research; geospatial disparities in community opportunity metrics for equitable surgical resource allocation." },
+  // { id: "argos",    label: "ARGOS Surgical AI",            type: "project", status: "present",
+    // desc: "Transparency gaps in surgical LLM research; geospatial disparities in community opportunity metrics for equitable surgical resource allocation." },
   { id: "uw",       label: "UW Accessibility Pipeline",    type: "project", status: "present",
     desc: "Automated pipeline to enhance .pptx accessibility for vision-impaired students. Presented at EDUCAUSE 2025." },
   { id: "poetry",   label: "Published: NLP in Poetry",     type: "project", status: "past",
@@ -277,6 +318,8 @@ const nodes = [
     desc: "Mentored interns across clinical ML projects at Dartmouth Health; led preprocessing and experiment design including WSI tiling, stain normalization, class imbalance mitigation, and multimodal alignment." },
   { id: "apollo",   label: "Apollo App — AI Team",         type: "project", status: "past",
     desc: "Developed and tested AI models for Apollo, a platform helping students learn and succeed in school." },
+  { id: "idle", label: "Baltimore MSW Case Study", type: "project", status: "present",
+    desc: "Case study on Baltimore Municipal Solid Waste Management System." },
 ];
 
 const links = [
@@ -295,7 +338,7 @@ const links = [
 
   // Healthcare cluster
   { source: "healthcare & accessibility", target: "dartmouth" },
-  { source: "healthcare & accessibility", target: "argos" },
+  // { source: "healthcare & accessibility", target: "argos" },
 
   // Accessibility cluster
   { source: "healthcare & accessibility", target: "uw" },
@@ -306,8 +349,9 @@ const links = [
 
   // Ethics cluster
   { source: "ethics", target: "clsp" },
-  { source: "ethics", target: "argos" },
+  // { source: "ethics", target: "argos" },
   { source: "ethics", target: "blog" },
+  { source: "ethics", target: "idle"},
 
   // RAG cluster
   { source: "ethics", target: "dartmouth" },
