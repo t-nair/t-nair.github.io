@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tanya Nair</title>
+  <link rel="icon" type="image/svg+xml" href="goat-eye-logo.png">
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +29,11 @@
       font-family: 'Inter', sans-serif;
       font-size: 20px; font-weight: bold;
       color: #1a2e1a; letter-spacing: 0.01em;
+      display: flex; align-items: center; gap: 9px;
+    }
+    .header h1 img {
+      width: 26px; height: 26px;
+      display: block; flex-shrink: 0;
     }
     .header .sub {
       font-size: 11px; color: #6a8a6a;
@@ -87,6 +93,26 @@
     }
     #tooltip .tip-link:hover { text-decoration: underline; }
 
+    /* ── Hint ── */
+    #hint {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 300;
+      display: flex; flex-direction: column; gap: 10px; align-items: center;
+      background: rgba(240, 235, 224, 0.97);
+      border: 1px solid rgba(60,100,60,0.18);
+      border-radius: 4px;
+      padding: 22px 32px;
+      pointer-events: none;
+      opacity: 1; transition: opacity 1.2s ease;
+    }
+    #hint.fade { opacity: 0; }
+    #hint span {
+      font-size: 11px; color: #5a7a5a; letter-spacing: 0.04em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    #hint span::before { content: "—"; opacity: 0.35; font-size: 9px; }
+
     /* ── Legend ── */
     .legend {
       position: fixed; bottom: 36px; right: 36px; z-index: 100;
@@ -137,7 +163,7 @@
     }
     .list-item-link:hover { text-decoration: underline; }
 
-    /* ── View toggle button ── */
+    /* ── Toggle buttons ── */
     .view-toggle {
       background: none; border: none; cursor: pointer;
       font-family: 'Inter', sans-serif;
@@ -145,12 +171,20 @@
       padding: 0; transition: color 180ms;
     }
     .view-toggle:hover { color: #1a2e1a; }
+    .past-toggle {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px; color: #7a9a7a; letter-spacing: 0.02em;
+      padding: 0; transition: color 180ms, opacity 180ms;
+    }
+    .past-toggle:hover { color: #1a2e1a; }
+    .past-toggle.hidden-state { opacity: 0.45; text-decoration: line-through; }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>Tanya Nair</h1>
+  <h1><img src="goat-eye-logo.png" alt="goat eye logo">Tanya Nair</h1>
   <div class="sub">ECE @ Johns Hopkins</div>
 </div>
 
@@ -171,6 +205,13 @@
 
 <div id="list-view"></div>
 
+<div id="hint">
+  <span>hover nodes to explore</span>
+  <span>click to pin</span>
+  <span>drag to rearrange</span>
+  <span>toggle past experiences in the legend</span>
+</div>
+
 <div class="legend">
   <div class="legend-item">
     <div class="legend-dot" style="width:13px;height:13px;background:#2d5a2d;"></div>
@@ -178,7 +219,15 @@
   </div>
   <div class="legend-item">
     <div class="legend-dot" style="width:8px;height:8px;background:#6a9a6a;"></div>
-    project / experience
+    active
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="width:8px;height:8px;background:#a0b8a0;"></div>
+    <button class="past-toggle" id="past-toggle">past</button>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="width:8px;height:8px;background:#1a2d5a;"></div>
+    future
   </div>
 </div>
 
@@ -196,35 +245,41 @@ const nodes = [
   { id: "entrepreneurship", label: "Tinkering/Entrepreneurship",       type: "interest", desc: "Side ventures and entrepreneurial endeavors. Exploring venture capital and building side projects." },
   
   // Projects / Experience
-  { id: "clsp",     label: "CLSP Multilingual Benchmark", type: "project",
+  { id: "clsp",     label: "CLSP Multilingual Benchmark", type: "project", status: "present",
     desc: "With Prof. Ziang Xiao — building a benchmark to evaluate LLM outputs across languages and cultures.",
     link: "https://arxiv.org/abs/2407.05502" },
-  { id: "dartmouth",label: "Dartmouth Health RAG",         type: "project",
+  { id: "dartmouth",label: "Dartmouth Health RAG",         type: "project", status: "past",
     desc: "Clinical RAG model for pathology report cross-referencing. BM25 + FAISS fusion search, Microsoft phi-2.",
     link: "https://t-nair.github.io/levy-lab-research-24/" },
-  { id: "argos",    label: "ARGOS Surgical AI",            type: "project",
+  { id: "argos",    label: "ARGOS Surgical AI",            type: "project", status: "present",
     desc: "Transparency gaps in surgical LLM research; geospatial disparities in community opportunity metrics for equitable surgical resource allocation." },
-  { id: "uw",       label: "UW Accessibility Pipeline",    type: "project",
+  { id: "uw",       label: "UW Accessibility Pipeline",    type: "project", status: "present",
     desc: "Automated pipeline to enhance .pptx accessibility for vision-impaired students. Presented at EDUCAUSE 2025." },
-  { id: "poetry",   label: "Published: NLP in Poetry",     type: "project",
+  { id: "poetry",   label: "Published: NLP in Poetry",     type: "project", status: "past",
     desc: "Published in JSR — sentiment analysis of poetry using six NLP techniques.",
     link: "https://www.jsr.org/hs/index.php/path/article/view/4418" },
-  { id: "hophacks", label: "HopHacks — 1st Place",         type: "project",
-    desc: "1st Place, Data Visualization Track at HopHacks." },
-  { id: "hackpnw",  label: "HackPNW Winner",               type: "project",
+  { id: "hophacks", label: "HopHacks",         type: "project", status: "present",
+    desc: "1st Place, Data Visualization Track at HopHacks 2025. Now on organizing team." },
+  { id: "hackpnw",  label: "HackPNW Winner",               type: "project", status: "past",
     desc: "Best Use of Sponsor API (Twilio) at HackPNW." },
-  { id: "pokedex",  label: "pokedex-sql",                  type: "project",
+  { id: "pokedex",  label: "pokedex-sql",                  type: "project", status: "past",
     desc: "SQL-powered Pokédex — normalized SQLite schema, Python analytics, Streamlit frontend.",
     link: "https://tanyas-sql-pokedex.streamlit.app/" },
-  { id: "spark",    label: "Spark Accelerator",            type: "project",
-    desc: "Building a research-informed life analytics platform." },
-  { id: "blog",     label: "Blog & YouTube",               type: "project",
+  { id: "blog",     label: "Blog & YouTube",               type: "project", status: "present",
     desc: "Writing and talking about AI & linguistics — monthly (in an ideal world).",
     link: "blog.html" },
-    { id: "cansat", label:"CanSat Competition", type: "project",
+  { id: "cansat",   label: "CanSat Competition",           type: "project", status: "present",
     desc: "Designed and built a 1kg satellite for the international CanSat competition. In charge of Ground Control System, Sensor Subsystem, and Communication and Data Handling sections. 1/40 teams in the US to advance to launch." },
-    { id: "mrt", label:"Mars Rover Team", type: "project",
-    desc: "Designed and built a Mars Rover for the international University Rover Challenge. Active part of electrical subteam, working on communication and  power system design." },
+  { id: "mrt",      label: "Mars Rover Team",              type: "project", status: "present",
+    desc: "Designed and built a Mars Rover for the international University Rover Challenge. Active part of electrical subteam, working on communication and power system design." },
+  { id: "chewy",    label: "Chewy AI Co-op",               type: "project", status: "future",
+    desc: "Incoming AI Technologist Co-op at Chewy, Summer/Fall 2026. Bellevue, WA." },
+  { id: "axon",     label: "Axon (Co-Founder)",            type: "project", status: "present",
+    desc: "Co-founded Axon in January 2026. A cognitive wellbeing analytics platform with continuous, convenient, non-invasive monitoring." },
+  { id: "edit_mentor", label: "EDIT AI Mentor",            type: "project", status: "past",
+    desc: "Mentored interns across clinical ML projects at Dartmouth Health; led preprocessing and experiment design including WSI tiling, stain normalization, class imbalance mitigation, and multimodal alignment." },
+  { id: "apollo",   label: "Apollo App — AI Team",         type: "project", status: "past",
+    desc: "Developed and tested AI models for Apollo, a platform helping students learn and succeed in school." },
 ];
 
 const links = [
@@ -250,7 +305,6 @@ const links = [
   { source: "entrepreneurship", target: "hackpnw" },
 
   // Efficient AI cluster
-  { source: "entrepreneurship", target: "spark" },
   { source: "entrepreneurship", target: "pokedex" },
   { source: "entrepreneurship", target: "hophacks" },
 
@@ -263,6 +317,10 @@ const links = [
   { source: "ethics", target: "dartmouth" },
   { source: "space", target: "cansat" },
   { source: "space", target: "mrt" },
+  { source: "nlp", target: "chewy" },
+  { source: "entrepreneurship", target: "axon" },
+  { source: "healthcare & accessibility", target: "edit_mentor" },
+  { source: "nlp", target: "apollo" },
 ];
 
 // ── Setup ──────────────────────────────────────────────────────────────
@@ -279,7 +337,15 @@ merge.append("feMergeNode").attr("in", "blur");
 merge.append("feMergeNode").attr("in", "SourceGraphic");
 
 const R = { self: 20, interest: 12, project: 6 };
-const COLOR = { self: "#1a3d1a", interest: "#2d5a2d", project: "#6a9a6a" };
+const COLOR = { self: "#1a3d1a", interest: "#2d5a2d", project: "#6a9a6a", past: "#a0b8a0", future: "#1a2d5a" };
+function getColor(d) {
+  if (d.type === "self") return COLOR.self;
+  if (d.type === "interest") return COLOR.interest;
+  if (d.status === "past") return COLOR.past;
+  if (d.status === "future") return COLOR.future;
+  return COLOR.project;
+}
+let showPast = true;
 
 // Pin self to center
 const selfNode = nodes.find(n => n.id === "tanya");
@@ -320,8 +386,8 @@ const nodeSel = svg.append("g")
 // Main circle
 nodeSel.append("circle")
   .attr("r", d => R[d.type])
-  .attr("fill", d => COLOR[d.type])
-  .attr("opacity", d => d.type === "project" ? 0.78 : 0.92)
+  .attr("fill", d => getColor(d))
+  .attr("opacity", d => d.type !== "project" ? 0.92 : d.status === "past" ? 0.55 : 0.78)
   .attr("filter", d => d.type !== "project" ? "url(#glow)" : null);
 
 // Inner highlight dot for interest nodes
@@ -357,10 +423,11 @@ function applyHighlight(d) {
     if (l.target.id === d.id) connectedIds.add(l.source.id);
   });
   nodeSel.selectAll("circle:first-child")
-    .attr("opacity", n => connectedIds.has(n.id) ? (n.type === "self" ? 1 : 0.92) : 0.15);
+    .attr("opacity", n => isPastHidden(n) ? 0 : connectedIds.has(n.id) ? (n.type === "self" ? 1 : 0.92) : 0.15);
   nodeSel.selectAll("text")
-    .attr("opacity", n => connectedIds.has(n.id) ? 1 : 0.15);
+    .attr("opacity", n => isPastHidden(n) ? 0 : connectedIds.has(n.id) ? 1 : 0.15);
   linkSel
+    .attr("opacity", l => baseLinkOpacity(l) ?? 1)
     .attr("stroke", l => (l.source.id === d.id || l.target.id === d.id)
       ? "rgba(45,90,45,0.55)" : "rgba(45,90,45,0.04)")
     .attr("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? 1.5 : 1);
@@ -376,11 +443,30 @@ function applyHighlight(d) {
   tooltip.classList.add("visible");
 }
 
+function isPastHidden(n) {
+  return !showPast && n.type === "project" && n.status === "past";
+}
+function baseNodeOpacity(n) {
+  if (isPastHidden(n)) return 0;
+  if (n.type !== "project") return 0.92;
+  if (n.status === "past") return 0.55;
+  if (n.status === "future") return 0.65;
+  return 0.78;
+}
+function baseLinkOpacity(l) {
+  const srcId = typeof l.source === "object" ? l.source.id : l.source;
+  const tgtId = typeof l.target === "object" ? l.target.id : l.target;
+  const src = nodes.find(n => n.id === srcId);
+  const tgt = nodes.find(n => n.id === tgtId);
+  if (!showPast && ((src?.status === "past" && src?.type === "project") || (tgt?.status === "past" && tgt?.type === "project"))) return 0;
+  return null;
+}
+
 function clearHighlight() {
-  nodeSel.selectAll("circle:first-child")
-    .attr("opacity", n => n.type === "project" ? 0.78 : 0.92);
-  nodeSel.selectAll("text").attr("opacity", 1);
-  linkSel.attr("stroke", "rgba(45,90,45,0.18)").attr("stroke-width", 1);
+  nodeSel.selectAll("circle:first-child").attr("opacity", n => baseNodeOpacity(n));
+  nodeSel.selectAll("text").attr("opacity", n => isPastHidden(n) ? 0 : 1);
+  linkSel.attr("stroke", "rgba(45,90,45,0.18)").attr("stroke-width", 1)
+    .attr("opacity", l => baseLinkOpacity(l) ?? 1);
   tooltip.classList.remove("visible");
 }
 
@@ -511,6 +597,23 @@ function setListView(active) {
 }
 
 toggleBtn.addEventListener("click", () => setListView(!listActive));
+
+const hintEl = document.getElementById("hint");
+function dismissHint() { hintEl.classList.add("fade"); }
+setTimeout(dismissHint, 5000);
+svg.on("click.hint", dismissHint);
+nodeSel.on("mouseenter.hint", dismissHint);
+
+const pastToggleBtn = document.getElementById("past-toggle");
+pastToggleBtn.addEventListener("click", () => {
+  showPast = !showPast;
+  pastToggleBtn.classList.toggle("hidden-state", !showPast);
+  if (lockedNode) {
+    applyHighlight(lockedNode);
+  } else {
+    clearHighlight();
+  }
+});
 
 // Auto list view on mobile
 if (window.innerWidth < 768 || navigator.maxTouchPoints > 1) {
