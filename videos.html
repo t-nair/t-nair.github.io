@@ -1,15 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Videos</title>
-    <link rel="stylesheet" href="stylesheet.css"></link>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videos | Tanya Nair</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; min-height: 100%;
+      background-color: #f0ebe0;
+      background-image: radial-gradient(circle, rgba(60,100,60,0.12) 1px, transparent 1px);
+      background-size: 26px 26px;
+      font-family: 'Inter', sans-serif;
+      color: #1a2e1a;
+    }
+
+    /* ── Header ── */
+    .header {
+      position: fixed; top: 28px; left: 36px; z-index: 100;
+    }
+    .header h1 {
+      font-size: 20px; font-weight: 600;
+      color: #1a2e1a; letter-spacing: 0.01em;
+    }
+    .header h1 a {
+      color: inherit; text-decoration: none;
+    }
+    .header .sub {
+      font-size: 11px; color: #6a8a6a;
+      margin-top: 5px; letter-spacing: 0.02em;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed; top: 32px; right: 36px; z-index: 100;
+      display: flex; gap: 20px;
+    }
+    .nav a {
+      font-size: 12px; color: #7a9a7a;
+      text-decoration: none; letter-spacing: 0.03em;
+      transition: color 180ms;
+    }
+    .nav a:hover { color: #1a2e1a; }
+
+    /* ── Content ── */
+    .content {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 110px 36px 80px;
+    }
+
+    .page-title {
+      font-size: 22px; font-weight: 600;
+      color: #1a2e1a; letter-spacing: 0.01em;
+      margin-bottom: 8px;
+    }
+    .page-subtitle {
+      font-size: 13px; color: #5a7a5a; line-height: 1.6;
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #6a8a6a;
+      margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(60,100,60,0.15);
+    }
+  </style>
 </head>
 <body>
-    <div class="title">Videos</div>
-    <div class="subtitle">All My Videos</div>
-    <div class="brief-description">
-        <p>I enjoy making videos about computational linguistics in my free time - below are the various videos I've made over the years across multiple channels.</p>
-    </div>
+
+<div class="header">
+  <h1><a href="index.html">Tanya Nair</a></h1>
+  <div class="sub">ECE @ Johns Hopkins</div>
+</div>
+
+<div class="nav">
+  <a href="portfolio.html">portfolio</a>
+  <a href="blog.html">blog</a>
+  <a href="mailto:tnair4@jh.edu">contact</a>
+</div>
+
+<div class="content">
+  <div class="page-title">Videos</div>
+  <div class="page-subtitle">
+    Videos about computational linguistics and AI — across multiple channels.
+  </div>
+
+  <div class="section-label">All Videos</div>
+</div>
+
 </body>
 </html>
