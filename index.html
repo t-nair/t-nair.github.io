@@ -1,92 +1,521 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanya Nair | EE & CompE @ Johns Hopkins, AI Researcher, 2x Hackathon Winner</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Arvo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="stylesheet.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tanya Nair</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background-color: #f0ebe0;
+      background-image: radial-gradient(circle, rgba(60,100,60,0.12) 1px, transparent 1px);
+      background-size: 26px 26px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── Header ── */
+    .header {
+      position: fixed; top: 28px; left: 36px; z-index: 100;
+    }
+    .header h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px; font-weight: bold;
+      color: #1a2e1a; letter-spacing: 0.01em;
+    }
+    .header .sub {
+      font-size: 11px; color: #6a8a6a;
+      margin-top: 5px; letter-spacing: 0.02em;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed; top: 32px; right: 36px; z-index: 100;
+      display: flex; gap: 20px;
+    }
+    .nav a {
+      font-size: 12px; color: #7a9a7a;
+      text-decoration: none; letter-spacing: 0.03em;
+      transition: color 180ms;
+    }
+    .nav a:hover { color: #1a2e1a; }
+
+    /* ── SVG ── */
+    #graph {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* ── Tooltip ── */
+    #tooltip {
+      position: fixed; bottom: 36px; left: 36px;
+      max-width: 300px;
+      background: rgba(244, 239, 228, 0.96);
+      border: 1px solid rgba(60, 100, 60, 0.2);
+      border-radius: 3px;
+      padding: 14px 16px;
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 200ms ease, transform 200ms ease;
+      pointer-events: none;
+    }
+    #tooltip.visible {
+      opacity: 1; transform: translateY(0);
+    }
+    #tooltip .tip-title {
+      font-size: 12px; font-weight: bold;
+      color: #1a2e1a; letter-spacing: 0.01em;
+      margin-bottom: 7px;
+    }
+    #tooltip .tip-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; color: #5a7a5a;
+      line-height: 1.6;
+    }
+    #tooltip .tip-link {
+      display: none;
+      margin-top: 10px;
+      font-size: 11px; color: #2d5a2d;
+      text-decoration: none; letter-spacing: 0.02em;
+    }
+    #tooltip .tip-link:hover { text-decoration: underline; }
+
+    /* ── Legend ── */
+    .legend {
+      position: fixed; bottom: 36px; right: 36px; z-index: 100;
+      display: flex; flex-direction: column; gap: 9px;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 10px; color: #7a9a7a; letter-spacing: 0.02em;
+    }
+    .legend-dot { border-radius: 50%; flex-shrink: 0; }
+
+    /* ── List View ── */
+    #list-view {
+      display: none;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      overflow-y: auto;
+      padding: 90px 36px 60px;
+    }
+    #list-view.active { display: block; }
+    .list-section { margin-bottom: 40px; }
+    .list-section h2 {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #6a8a6a;
+      margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(60,100,60,0.15);
+    }
+    .list-item {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(60,100,60,0.08);
+    }
+    .list-item-header {
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .list-item-dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .list-item-title {
+      font-size: 13px; font-weight: 600; color: #1a2e1a;
+    }
+    .list-item-desc {
+      font-size: 12px; color: #5a7a5a; line-height: 1.6;
+      margin-top: 5px; margin-left: 17px;
+    }
+    .list-item-link {
+      display: inline-block; margin-top: 6px; margin-left: 17px;
+      font-size: 11px; color: #2d5a2d; text-decoration: none;
+    }
+    .list-item-link:hover { text-decoration: underline; }
+
+    /* ── View toggle button ── */
+    .view-toggle {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; color: #7a9a7a; letter-spacing: 0.03em;
+      padding: 0; transition: color 180ms;
+    }
+    .view-toggle:hover { color: #1a2e1a; }
+  </style>
 </head>
 <body>
-    <!-- Hamburger menu -->
-    <header class="site-header">
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <nav class="nav-menu" id="navMenu">
-            <ul>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="mailto:tnair4@jh.edu">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <h1>Tanya Nair</h1>
-    <div class="subtitle">Johns Hopkins Electrical and Computer Engineering</div>
-    <p>Undergraduate at Johns Hopkins, majoring in Computer Engineering. Passion for applying cutting-edge AI and emerging technologies to problems spanning medicine, accessibility, and more. Interested in making a sustainable, accessible, AI-enhanced future.</p>
-    <h2>Core Skills</h2>
-        <ul>
-        <li><b>Languages:</b> C, C++, Python, Java</li>
-        <li><b>Frameworks:</b> PyTorch, TensorFlow, HF Transformers</li>
-        <li><b>Systems:</b> Linux/UNIX, Git, Docker, Cloudflare Workers, Render</li>
-        <li><b>Focus Areas:</b> Sustainable Systems, Accessibility Tech, Healthcare & Surgical AI, Resource Optimization</li>
-        </ul>
-    <h2>My Areas of Interest:</h2>
-    <ul>
-        <li>RAG and Knowledge-Grounded LLMs</li>
-        <li>Energy- and Resource-Efficient AI Systems</li>
-        <li>Multilingual and Cross-Cultural Language Models/Information Flows</li>
-        <li>Societal, Ethical, and Accessibility Impacts of AI</li>
-        <li>LLM Reliability & Security: Hallucinations, Robustness, and Data Privacy</li>
-    </ul>
-    <h2>Current Experience</h2>
-    <ul>
-        <li><b>Johns Hopkins Center for Language and Speech Processing: </b>Working with Prof. Ziang Xiao and Nikhil Sharma to build a benchmark for multilingual LLM outputs to queries. Continuation of work by <a href="https://arxiv.org/abs/2407.05502">Sharma, et. al.</a>.</li>
-        <li><b>ARGOS Research Lab: </b>Transparency Gaps in Surgical LLM Research, Geospatial Disparities in Community Opportunity Metrics: A Data-Driven Framework for Equitable Surgical Resource Allocation </li>
-        <li><b>University of WA: </b>Working on an automated pipeline to enhance accessibility of .pptx presentations for vision-impaired students. Presented at EDUCAUSE 2025. <a href="mailto:tanyan07@uw.edu?subject=Contributing to the Automated Accessibility Enhancer">Contribute</a> to the open source script!</li>
-    </ul>
-    <h2>Past Experience</h2>
-    <ul>
-        <li><b>Dartmouth Health: </b>Built a RAG model for clinician cross-referencing of pathology reports with fusion vector search (Okapi BM25 and FAISS), implemented Microsoft's phi-2 for efficiency. Link to project portfolio website <a href="https://t-nair.github.io/levy-lab-research-24/">here</a>.</li>
-        <li><b>Published Research: </b><a href="https://www.jsr.org/hs/index.php/path/article/view/4418" target="_blank">Natural Language Processing used in sentiment analysis of poetry: a study of six common techniques</a></li>
-        <li><b>Won Hackathons: </b> HopHacks (1st Place Data Visualization Track), HackPNW (Best Use of Sponsor's API - Twilio)</li>
-    </ul>
-    <h2>Additional Projects</h2>
-    <ul>
-        <li>
-            <b><a href="https://tanyas-sql-pokedex.streamlit.app/" target="_blank">pokedex-sql:</a></b> A SQL-powered Pokédex dashboard for exploring Pokémon data by generation, stats, and type distributions. 
-            Built on a normalized SQLite schema with Python-backed analytics and a Streamlit frontend. 
-            Features generation-based filtering, stat aggregation/ranking, and a Pokédex-style sprite list.
-        </li>
+<div class="header">
+  <h1>Tanya Nair</h1>
+  <div class="sub">ECE @ Johns Hopkins</div>
+</div>
 
-        <li><b>Spark Accelerator: </b>Building a research-informed life analytics platform.</li>
-        <!--<li><b>Open Source: </b> Contributing to open-source AI tools like Fairlearn</li> -->
-        <li><b>Reading: </b>30 books this year!</li>
-        <li><b>YouTube channel/<a href="blog.html">Blog</a>: </b>Posting about AI & linguistics once a month (in an ideal world).</li>
-    </ul>
-</body>
+<div class="nav">
+  <a href="portfolio.html">portfolio</a>
+  <a href="blog.html">blog</a>
+  <a href="mailto:tnair4@jh.edu">contact</a>
+  <button class="view-toggle" id="view-toggle">list</button>
+</div>
+
+<svg id="graph"></svg>
+
+<div id="tooltip">
+  <div class="tip-title" id="tip-title"></div>
+  <div class="tip-desc" id="tip-desc"></div>
+  <a class="tip-link" id="tip-link" href="#" target="_blank"></a>
+</div>
+
+<div id="list-view"></div>
+
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="width:13px;height:13px;background:#2d5a2d;"></div>
+    interest
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="width:8px;height:8px;background:#6a9a6a;"></div>
+    project / experience
+  </div>
+</div>
+
 <script>
-  const hamburger = document.getElementById('hamburger');
-  const navMenu = document.getElementById('navMenu');
+const nodes = [
+  // Self
+  { id: "tanya", label: "Tanya Nair", type: "self",
+    desc: "Undergraduate at Johns Hopkins, majoring in Electrical/Computer Engineering. Passionate about AI for medicine, accessibility, and society." },
 
-  hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-    hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+  // Interests
+  { id: "nlp",          label: "NLP & Language Models",   type: "interest", desc: "Cross-lingual systems, multilingual benchmarks, and understanding how language shapes knowledge." },
+  { id: "healthcare & accessibility",   label: "Healthcare and Accessibility Tech",           type: "interest", desc: "Applying ML to clinical and surgical settings — from pathology reports to resource allocation, and using AI to make information and tools genuinely accessible to people with disabilities." },
+  { id: "ethics",       label: "AI Ethics & Efficiency",     type: "interest", desc: "Building AI that is both ethical and efficient." },
+  { id: "space",          label: "Spaceflight and UAVs",             type: "interest", desc: "Building systems for space exploration and unmanned aerial vehicles. Inspired by my love for <i>The Martian</i>." },
+  { id: "entrepreneurship", label: "Tinkering/Entrepreneurship",       type: "interest", desc: "Side ventures and entrepreneurial endeavors. Exploring venture capital and building side projects." },
+  
+  // Projects / Experience
+  { id: "clsp",     label: "CLSP Multilingual Benchmark", type: "project",
+    desc: "With Prof. Ziang Xiao — building a benchmark to evaluate LLM outputs across languages and cultures.",
+    link: "https://arxiv.org/abs/2407.05502" },
+  { id: "dartmouth",label: "Dartmouth Health RAG",         type: "project",
+    desc: "Clinical RAG model for pathology report cross-referencing. BM25 + FAISS fusion search, Microsoft phi-2.",
+    link: "https://t-nair.github.io/levy-lab-research-24/" },
+  { id: "argos",    label: "ARGOS Surgical AI",            type: "project",
+    desc: "Transparency gaps in surgical LLM research; geospatial disparities in community opportunity metrics for equitable surgical resource allocation." },
+  { id: "uw",       label: "UW Accessibility Pipeline",    type: "project",
+    desc: "Automated pipeline to enhance .pptx accessibility for vision-impaired students. Presented at EDUCAUSE 2025." },
+  { id: "poetry",   label: "Published: NLP in Poetry",     type: "project",
+    desc: "Published in JSR — sentiment analysis of poetry using six NLP techniques.",
+    link: "https://www.jsr.org/hs/index.php/path/article/view/4418" },
+  { id: "hophacks", label: "HopHacks — 1st Place",         type: "project",
+    desc: "1st Place, Data Visualization Track at HopHacks." },
+  { id: "hackpnw",  label: "HackPNW Winner",               type: "project",
+    desc: "Best Use of Sponsor API (Twilio) at HackPNW." },
+  { id: "pokedex",  label: "pokedex-sql",                  type: "project",
+    desc: "SQL-powered Pokédex — normalized SQLite schema, Python analytics, Streamlit frontend.",
+    link: "https://tanyas-sql-pokedex.streamlit.app/" },
+  { id: "spark",    label: "Spark Accelerator",            type: "project",
+    desc: "Building a research-informed life analytics platform." },
+  { id: "blog",     label: "Blog & YouTube",               type: "project",
+    desc: "Writing and talking about AI & linguistics — monthly (in an ideal world).",
+    link: "blog.html" },
+    { id: "cansat", label:"CanSat Competition", type: "project",
+    desc: "Designed and built a 1kg satellite for the international CanSat competition. In charge of Ground Control System, Sensor Subsystem, and Communication and Data Handling sections. 1/40 teams in the US to advance to launch." },
+    { id: "mrt", label:"Mars Rover Team", type: "project",
+    desc: "Designed and built a Mars Rover for the international University Rover Challenge. Active part of electrical subteam, working on communication and  power system design." },
+];
+
+const links = [
+  // Self → interests
+  { source: "tanya", target: "nlp" },
+  { source: "tanya", target: "healthcare & accessibility" },
+  { source: "tanya", target: "ethics" },
+  { source: "tanya", target: "space" },
+  { source: "tanya", target: "entrepreneurship" },
+
+  // NLP cluster
+  { source: "nlp", target: "clsp" },
+  { source: "nlp", target: "poetry" },
+  { source: "nlp", target: "hophacks" },
+  { source: "nlp", target: "blog" },
+
+  // Healthcare cluster
+  { source: "healthcare & accessibility", target: "dartmouth" },
+  { source: "healthcare & accessibility", target: "argos" },
+
+  // Accessibility cluster
+  { source: "healthcare & accessibility", target: "uw" },
+  { source: "entrepreneurship", target: "hackpnw" },
+
+  // Efficient AI cluster
+  { source: "entrepreneurship", target: "spark" },
+  { source: "entrepreneurship", target: "pokedex" },
+  { source: "entrepreneurship", target: "hophacks" },
+
+  // Ethics cluster
+  { source: "ethics", target: "clsp" },
+  { source: "ethics", target: "argos" },
+  { source: "ethics", target: "blog" },
+
+  // RAG cluster
+  { source: "ethics", target: "dartmouth" },
+  { source: "space", target: "cansat" },
+  { source: "space", target: "mrt" },
+];
+
+// ── Setup ──────────────────────────────────────────────────────────────
+const svg = d3.select("#graph");
+let W = window.innerWidth, H = window.innerHeight;
+svg.attr("viewBox", [0, 0, W, H]);
+
+// Glow filter for interest / self nodes
+const defs = svg.append("defs");
+const glow = defs.append("filter").attr("id", "glow").attr("x", "-50%").attr("y", "-50%").attr("width", "200%").attr("height", "200%");
+glow.append("feGaussianBlur").attr("in", "SourceGraphic").attr("stdDeviation", "4").attr("result", "blur");
+const merge = glow.append("feMerge");
+merge.append("feMergeNode").attr("in", "blur");
+merge.append("feMergeNode").attr("in", "SourceGraphic");
+
+const R = { self: 20, interest: 12, project: 6 };
+const COLOR = { self: "#1a3d1a", interest: "#2d5a2d", project: "#6a9a6a" };
+
+// Pin self to center
+const selfNode = nodes.find(n => n.id === "tanya");
+selfNode.fx = W / 2;
+selfNode.fy = H / 2;
+
+const simulation = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(d => d.id)
+    .distance(d => {
+      const src = d.source.type || nodes.find(n => n.id === d.source)?.type;
+      return src === "self" ? 170 : 110;
+    })
+    .strength(0.55)
+  )
+  .force("charge", d3.forceManyBody().strength(d =>
+    d.type === "self" ? -800 : d.type === "interest" ? -320 : -160
+  ))
+  .force("center", d3.forceCenter(W / 2, H / 2).strength(0.04))
+  .force("collision", d3.forceCollide().radius(d => R[d.type] + 18))
+  .alphaDecay(0.008)
+  .alphaTarget(0.02);
+
+// ── Links ──────────────────────────────────────────────────────────────
+const linkSel = svg.append("g")
+  .selectAll("line")
+  .data(links)
+  .join("line")
+  .attr("stroke", "rgba(45,90,45,0.18)")
+  .attr("stroke-width", 1);
+
+// ── Nodes ──────────────────────────────────────────────────────────────
+const nodeSel = svg.append("g")
+  .selectAll("g")
+  .data(nodes)
+  .join("g")
+  .style("cursor", "default");
+
+// Main circle
+nodeSel.append("circle")
+  .attr("r", d => R[d.type])
+  .attr("fill", d => COLOR[d.type])
+  .attr("opacity", d => d.type === "project" ? 0.78 : 0.92)
+  .attr("filter", d => d.type !== "project" ? "url(#glow)" : null);
+
+// Inner highlight dot for interest nodes
+nodeSel.filter(d => d.type === "interest")
+  .append("circle")
+  .attr("r", 3.5)
+  .attr("fill", "rgba(255,255,255,0.35)");
+
+// Labels
+nodeSel.append("text")
+  .attr("dy", d => R[d.type] + 13)
+  .attr("text-anchor", "middle")
+  .attr("font-family", "'Inter', sans-serif")
+  .attr("font-size", d => d.type === "self" ? "12px" : d.type === "interest" ? "10.5px" : "9px")
+  .attr("font-weight", d => d.type === "self" ? "bold" : d.type === "interest" ? "bold" : "normal")
+  .attr("fill", d => d.type === "project" ? "#6a8a6a" : "#1a2e1a")
+  .attr("letter-spacing", "0.04em")
+  .attr("pointer-events", "none")
+  .text(d => d.label);
+
+// ── Tooltip ────────────────────────────────────────────────────────────
+const tooltip  = document.getElementById("tooltip");
+const tipTitle = document.getElementById("tip-title");
+const tipDesc  = document.getElementById("tip-desc");
+const tipLink  = document.getElementById("tip-link");
+
+let lockedNode = null;
+
+function applyHighlight(d) {
+  const connectedIds = new Set([d.id]);
+  links.forEach(l => {
+    if (l.source.id === d.id) connectedIds.add(l.target.id);
+    if (l.target.id === d.id) connectedIds.add(l.source.id);
+  });
+  nodeSel.selectAll("circle:first-child")
+    .attr("opacity", n => connectedIds.has(n.id) ? (n.type === "self" ? 1 : 0.92) : 0.15);
+  nodeSel.selectAll("text")
+    .attr("opacity", n => connectedIds.has(n.id) ? 1 : 0.15);
+  linkSel
+    .attr("stroke", l => (l.source.id === d.id || l.target.id === d.id)
+      ? "rgba(45,90,45,0.55)" : "rgba(45,90,45,0.04)")
+    .attr("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? 1.5 : 1);
+  tipTitle.textContent = d.label;
+  tipDesc.innerHTML    = d.desc || "";
+  if (d.link) {
+    tipLink.href = d.link;
+    tipLink.textContent = "→ open";
+    tipLink.style.display = "inline-block";
+  } else {
+    tipLink.style.display = "none";
+  }
+  tooltip.classList.add("visible");
+}
+
+function clearHighlight() {
+  nodeSel.selectAll("circle:first-child")
+    .attr("opacity", n => n.type === "project" ? 0.78 : 0.92);
+  nodeSel.selectAll("text").attr("opacity", 1);
+  linkSel.attr("stroke", "rgba(45,90,45,0.18)").attr("stroke-width", 1);
+  tooltip.classList.remove("visible");
+}
+
+nodeSel
+  .on("click", (event, d) => {
+    event.stopPropagation();
+    if (lockedNode && lockedNode.id === d.id) {
+      lockedNode = null;
+      tooltip.style.pointerEvents = "none";
+      clearHighlight();
+    } else {
+      lockedNode = d;
+      tooltip.style.pointerEvents = "auto";
+      applyHighlight(d);
+    }
+  })
+  .on("mouseenter", (event, d) => {
+    if (lockedNode) return;
+    applyHighlight(d);
+  })
+  .on("mouseleave", () => {
+    if (lockedNode) return;
+    clearHighlight();
   });
 
-  document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('active');
-      hamburger.classList.remove('active');
-      hamburger.setAttribute('aria-expanded', false);
+// Click background to unlock
+svg.on("click", () => {
+  if (lockedNode) {
+    lockedNode = null;
+    tooltip.style.pointerEvents = "none";
+    clearHighlight();
+  }
+});
+
+// ── Drag ───────────────────────────────────────────────────────────────
+nodeSel.filter(d => d.type !== "self").call(
+  d3.drag()
+    .on("start", (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+    .on("drag",  (e, d) => { d.fx = e.x; d.fy = e.y; })
+    .on("end",   (e, d) => { if (!e.active) simulation.alphaTarget(0.02); d.fx = null; d.fy = null; })
+);
+
+// ── Tick ───────────────────────────────────────────────────────────────
+simulation.on("tick", () => {
+  nodes.forEach(d => {
+    const pad = 90;
+    d.x = Math.max(pad, Math.min(W - pad, d.x));
+    d.y = Math.max(pad, Math.min(H - pad, d.y));
+  });
+  linkSel
+    .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+    .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+  nodeSel.attr("transform", d => `translate(${d.x},${d.y})`);
+});
+
+// ── Resize ─────────────────────────────────────────────────────────────
+window.addEventListener("resize", () => {
+  W = window.innerWidth; H = window.innerHeight;
+  svg.attr("viewBox", [0, 0, W, H]);
+  selfNode.fx = W / 2; selfNode.fy = H / 2;
+  simulation.force("center", d3.forceCenter(W / 2, H / 2).strength(0.04));
+  simulation.alpha(0.3).restart();
+});
+
+// ── List View ──────────────────────────────────────────────────────────
+const listView   = document.getElementById("list-view");
+const graphEl    = document.getElementById("graph");
+const legendEl   = document.querySelector(".legend");
+const toggleBtn  = document.getElementById("view-toggle");
+
+function buildListView() {
+  const interests = nodes.filter(n => n.type === "interest");
+  const self      = nodes.find(n => n.type === "self");
+
+  // Map each project to its parent interest(s)
+  const parentMap = {};
+  links.forEach(l => {
+    const srcId = typeof l.source === "object" ? l.source.id : l.source;
+    const tgtId = typeof l.target === "object" ? l.target.id : l.target;
+    const src = nodes.find(n => n.id === srcId);
+    if (src && src.type === "interest") {
+      if (!parentMap[tgtId]) parentMap[tgtId] = srcId;
+    }
+  });
+
+  // Self blurb
+  const selfSection = document.createElement("div");
+  selfSection.className = "list-section";
+  selfSection.innerHTML = `<div class="list-item"><div class="list-item-header">
+    <div class="list-item-dot" style="background:#1a3d1a"></div>
+    <div class="list-item-title">${self.label}</div></div>
+    <div class="list-item-desc">${self.desc}</div></div>`;
+  listView.appendChild(selfSection);
+
+  // Interests + their projects
+  interests.forEach(interest => {
+    const section = document.createElement("div");
+    section.className = "list-section";
+    let html = `<h2>${interest.label}</h2>`;
+    html += `<div class="list-item"><div class="list-item-header">
+      <div class="list-item-dot" style="background:#2d5a2d"></div>
+      <div class="list-item-title">${interest.label}</div></div>
+      <div class="list-item-desc">${interest.desc}</div></div>`;
+
+    const children = nodes.filter(n => parentMap[n.id] === interest.id);
+    children.forEach(p => {
+      html += `<div class="list-item"><div class="list-item-header">
+        <div class="list-item-dot" style="background:#6a9a6a"></div>
+        <div class="list-item-title">${p.label}</div></div>
+        <div class="list-item-desc">${p.desc}</div>
+        ${p.link ? `<a class="list-item-link" href="${p.link}" target="_blank">→ open</a>` : ""}
+        </div>`;
     });
+    section.innerHTML = html;
+    listView.appendChild(section);
   });
+}
+
+buildListView();
+
+let listActive = false;
+function setListView(active) {
+  listActive = active;
+  listView.classList.toggle("active", active);
+  graphEl.style.display  = active ? "none" : "";
+  legendEl.style.display = active ? "none" : "";
+  toggleBtn.textContent  = active ? "graph" : "list";
+}
+
+toggleBtn.addEventListener("click", () => setListView(!listActive));
+
+// Auto list view on mobile
+if (window.innerWidth < 768 || navigator.maxTouchPoints > 1) {
+  setListView(true);
+}
 </script>
-
+</body>
 </html>
-
