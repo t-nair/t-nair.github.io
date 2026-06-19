@@ -50,8 +50,8 @@ def parse_shelf(xml_bytes, limit=None):
     return items
 
 
-currently_reading = parse_shelf(fetch_shelf("currently-reading"))
-recently_read = parse_shelf(fetch_shelf("read"), limit=6)
+currently_reading = parse_shelf(fetch_shelf("currently-reading"), limit=1)
+recently_read = parse_shelf(fetch_shelf("read"), limit=3)
 
 data = {
     "currently_reading": currently_reading,
