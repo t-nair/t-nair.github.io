@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tanya Nair</title>
+  <meta property="og:title" content="Tanya Nair">
+  <meta property="og:description" content="ECE student at Johns Hopkins working on NLP, AI, and healthcare technology.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://t-nair.github.io">
+  <meta property="og:image" content="https://t-nair.github.io/goat-eye-logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Tanya Nair">
+  <meta name="twitter:description" content="ECE student at Johns Hopkins working on NLP, AI, and healthcare technology.">
+  <meta name="twitter:image" content="https://t-nair.github.io/goat-eye-logo.png">
   <link rel="icon" type="image/svg+xml" href="goat-eye-logo.png">
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -124,53 +133,6 @@
     }
     .legend-dot { border-radius: 50%; flex-shrink: 0; }
 
-    /* ── List View ── */
-    #list-view {
-      display: none;
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      overflow-y: auto;
-      padding: 90px 36px 60px;
-    }
-    #list-view.active { display: block; }
-    .list-section { margin-bottom: 40px; }
-    .list-section h2 {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-      text-transform: uppercase; color: #6a8a6a;
-      margin-bottom: 16px; padding-bottom: 8px;
-      border-bottom: 1px solid rgba(60,100,60,0.15);
-    }
-    .list-item {
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(60,100,60,0.08);
-    }
-    .list-item-header {
-      display: flex; align-items: baseline; gap: 10px;
-    }
-    .list-item-dot {
-      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .list-item-title {
-      font-size: 13px; font-weight: 600; color: #1a2e1a;
-    }
-    .list-item-desc {
-      font-size: 12px; color: #5a7a5a; line-height: 1.6;
-      margin-top: 5px; margin-left: 17px;
-    }
-    .list-item-link {
-      display: inline-block; margin-top: 6px; margin-left: 17px;
-      font-size: 11px; color: #2d5a2d; text-decoration: none;
-    }
-    .list-item-link:hover { text-decoration: underline; }
-
-    /* ── Toggle buttons ── */
-    .view-toggle {
-      background: none; border: none; cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      font-size: 12px; color: #7a9a7a; letter-spacing: 0.03em;
-      padding: 0; transition: color 180ms;
-    }
-    .view-toggle:hover { color: #1a2e1a; }
     .past-toggle {
       background: none; border: none; cursor: pointer;
       font-family: 'Inter', sans-serif;
@@ -231,8 +193,9 @@
 
 <div class="nav">
   <a href="blog.html">blog</a>
+  <a href="now.html">now</a>
+  <a href="projects.html">projects</a>
   <a href="mailto:tnair4@jh.edu">contact</a>
-  <button class="view-toggle" id="view-toggle">list</button>
 </div>
 
 <svg id="graph"></svg>
@@ -243,7 +206,6 @@
   <a class="tip-link" id="tip-link" href="#" target="_blank"></a>
 </div>
 
-<div id="list-view"></div>
 
 <div id="hint">
   <span>hover nodes to explore</span>
@@ -264,10 +226,6 @@
   <div class="legend-item">
     <div class="legend-dot" style="width:8px;height:8px;background:#a0b8a0;"></div>
     <button class="past-toggle" id="past-toggle">past</button>
-  </div>
-  <div class="legend-item">
-    <div class="legend-dot" style="width:8px;height:8px;background:#1a2d5a;"></div>
-    future
   </div>
 </div>
 
@@ -309,8 +267,8 @@ const nodes = [
     desc: "Designed and built a 1kg satellite for the international CanSat competition. In charge of Ground Control System, Sensor Subsystem, and Communication and Data Handling sections. 1/40 teams in the US to advance to launch." },
   { id: "mrt",      label: "Mars Rover Team",              type: "project", status: "present",
     desc: "Designed and built a Mars Rover for the international University Rover Challenge. Active part of electrical subteam, working on communication and power system design." },
-  { id: "chewy",    label: "Chewy AI Co-op",               type: "project", status: "future",
-    desc: "Incoming AI Technologist Co-op at Chewy, Summer/Fall 2026. Bellevue, WA." },
+  { id: "chewy",    label: "Chewy AI Co-op",               type: "project", status: "present",
+    desc: "AI Technologist Co-op at Chewy, Summer/Fall 2026. Building agents as part of the Data & Innovation team. Bellevue, WA." },
   { id: "edit_mentor", label: "EDIT AI Mentor",            type: "project", status: "past",
     desc: "Mentored interns across clinical ML projects at Dartmouth Health; led preprocessing and experiment design including WSI tiling, stain normalization, class imbalance mitigation, and multimodal alignment." },
   { id: "apollo",   label: "Apollo App — AI Team",         type: "project", status: "past",
@@ -373,7 +331,7 @@ merge.append("feMergeNode").attr("in", "blur");
 merge.append("feMergeNode").attr("in", "SourceGraphic");
 
 const R = { self: 20, interest: 12, project: 6 };
-const COLOR = { self: "#1a3d1a", interest: "#2d5a2d", project: "#6a9a6a", past: "#a0b8a0", future: "#1a2d5a" };
+const COLOR = { self: "#1a3d1a", interest: "#2d5a2d", project: "#6a9a6a", past: "#b8cbb8", future: "#1a2d5a" };
 function getColor(d) {
   if (d.type === "self") return COLOR.self;
   if (d.type === "interest") return COLOR.interest;
@@ -423,7 +381,7 @@ const nodeSel = svg.append("g")
 nodeSel.append("circle")
   .attr("r", d => R[d.type])
   .attr("fill", d => getColor(d))
-  .attr("opacity", d => d.type !== "project" ? 0.92 : d.status === "past" ? 0.55 : 0.78)
+  .attr("opacity", d => d.type !== "project" ? 0.92 : d.status === "past" ? 0.35 : 0.88)
   .attr("filter", d => d.type !== "project" ? "url(#glow)" : null);
 
 // Inner highlight dot for interest nodes
@@ -567,73 +525,6 @@ window.addEventListener("resize", () => {
   simulation.alpha(0.3).restart();
 });
 
-// ── List View ──────────────────────────────────────────────────────────
-const listView   = document.getElementById("list-view");
-const graphEl    = document.getElementById("graph");
-const legendEl   = document.querySelector(".legend");
-const toggleBtn  = document.getElementById("view-toggle");
-
-function buildListView() {
-  const interests = nodes.filter(n => n.type === "interest");
-  const self      = nodes.find(n => n.type === "self");
-
-  // Map each project to its parent interest(s)
-  const parentMap = {};
-  links.forEach(l => {
-    const srcId = typeof l.source === "object" ? l.source.id : l.source;
-    const tgtId = typeof l.target === "object" ? l.target.id : l.target;
-    const src = nodes.find(n => n.id === srcId);
-    if (src && src.type === "interest") {
-      if (!parentMap[tgtId]) parentMap[tgtId] = srcId;
-    }
-  });
-
-  // Self blurb
-  const selfSection = document.createElement("div");
-  selfSection.className = "list-section";
-  selfSection.innerHTML = `<div class="list-item"><div class="list-item-header">
-    <div class="list-item-dot" style="background:#1a3d1a"></div>
-    <div class="list-item-title">${self.label}</div></div>
-    <div class="list-item-desc">${self.desc}</div></div>`;
-  listView.appendChild(selfSection);
-
-  // Interests + their projects
-  interests.forEach(interest => {
-    const section = document.createElement("div");
-    section.className = "list-section";
-    let html = `<h2>${interest.label}</h2>`;
-    html += `<div class="list-item"><div class="list-item-header">
-      <div class="list-item-dot" style="background:#2d5a2d"></div>
-      <div class="list-item-title">${interest.label}</div></div>
-      <div class="list-item-desc">${interest.desc}</div></div>`;
-
-    const children = nodes.filter(n => parentMap[n.id] === interest.id);
-    children.forEach(p => {
-      html += `<div class="list-item"><div class="list-item-header">
-        <div class="list-item-dot" style="background:#6a9a6a"></div>
-        <div class="list-item-title">${p.label}</div></div>
-        <div class="list-item-desc">${p.desc}</div>
-        ${p.link ? `<a class="list-item-link" href="${p.link}" target="_blank">→ open</a>` : ""}
-        </div>`;
-    });
-    section.innerHTML = html;
-    listView.appendChild(section);
-  });
-}
-
-buildListView();
-
-let listActive = false;
-function setListView(active) {
-  listActive = active;
-  listView.classList.toggle("active", active);
-  graphEl.style.display  = active ? "none" : "";
-  legendEl.style.display = active ? "none" : "";
-  toggleBtn.textContent  = active ? "graph" : "list";
-}
-
-toggleBtn.addEventListener("click", () => setListView(!listActive));
-
 const hintEl = document.getElementById("hint");
 function dismissHint() { hintEl.classList.add("fade"); }
 setTimeout(dismissHint, 5000);
@@ -650,11 +541,6 @@ pastToggleBtn.addEventListener("click", () => {
     clearHighlight();
   }
 });
-
-// Auto list view on mobile
-if (window.innerWidth < 768 || navigator.maxTouchPoints > 1) {
-  setListView(true);
-}
 </script>
 </body>
 </html>

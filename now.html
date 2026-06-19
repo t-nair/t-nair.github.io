@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Now | Tanya Nair</title>
+  <meta property="og:title" content="Now | Tanya Nair">
+  <meta property="og:description" content="What Tanya is reading and watching right now.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://t-nair.github.io/now.html">
+  <meta property="og:image" content="https://t-nair.github.io/goat-eye-logo.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Now | Tanya Nair">
+  <meta name="twitter:description" content="What Tanya is reading and watching right now.">
+  <meta name="twitter:image" content="https://t-nair.github.io/goat-eye-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; min-height: 100%;
+      background-color: #f0ebe0;
+      background-image: radial-gradient(circle, rgba(60,100,60,0.12) 1px, transparent 1px);
+      background-size: 26px 26px;
+      font-family: 'Inter', sans-serif;
+      color: #1a2e1a;
+    }
+
+    /* ── Header ── */
+    .header { position: fixed; top: 28px; left: 36px; z-index: 100; }
+    .header h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px; font-weight: bold;
+      color: #1a2e1a; letter-spacing: 0.01em;
+    }
+    .header h1 a {
+      color: inherit; text-decoration: none;
+      display: flex; align-items: center; gap: 9px;
+    }
+    .header h1 img { width: 26px; height: 26px; display: block; flex-shrink: 0; }
+    .header .sub { font-size: 11px; color: #6a8a6a; margin-top: 5px; letter-spacing: 0.02em; }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed; top: 32px; right: 36px; z-index: 100;
+      display: flex; gap: 20px;
+    }
+    .nav a {
+      font-size: 12px; color: #7a9a7a;
+      text-decoration: none; letter-spacing: 0.03em;
+      transition: color 180ms;
+    }
+    .nav a:hover { color: #1a2e1a; }
+    .nav a.active { color: #1a2e1a; font-weight: 500; }
+
+    /* ── Content ── */
+    .content {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 110px 36px 80px;
+    }
+
+    .page-title { font-size: 22px; font-weight: 600; color: #1a2e1a; letter-spacing: 0.01em; margin-bottom: 8px; }
+    .page-subtitle { font-size: 13px; color: #5a7a5a; line-height: 1.6; margin-bottom: 48px; }
+
+    .section-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #6a8a6a;
+      margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(60,100,60,0.15);
+    }
+
+    .empty-note { font-size: 12px; color: #5a7a5a; }
+
+    /* ── Currently reading ── */
+    .current-book {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(60,100,60,0.08);
+    }
+    .current-book-cover {
+      width: 56px; flex-shrink: 0;
+      border-radius: 2px; display: block;
+      aspect-ratio: 2/3; object-fit: cover;
+      background: rgba(60,100,60,0.08);
+    }
+    .current-book-cover-placeholder {
+      width: 56px; flex-shrink: 0;
+      aspect-ratio: 2/3; border-radius: 2px;
+      background: rgba(60,100,60,0.08);
+    }
+    .current-book-title {
+      font-size: 13px; font-weight: 600; color: #1a2e1a; line-height: 1.4;
+    }
+    .current-book-title a { color: inherit; text-decoration: none; }
+    .current-book-title a:hover { text-decoration: underline; }
+    .current-book-author { font-size: 11px; color: #5a7a5a; margin-top: 4px; }
+
+    /* ── Media grid (books + films) ── */
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 16px;
+      margin-top: 4px;
+    }
+    .media-card a { text-decoration: none; color: inherit; }
+    .media-cover {
+      width: 100%; aspect-ratio: 2/3; object-fit: cover;
+      border-radius: 3px; display: block;
+      background: rgba(60,100,60,0.08);
+    }
+    .media-cover-placeholder {
+      width: 100%; aspect-ratio: 2/3;
+      border-radius: 3px; background: rgba(60,100,60,0.08);
+    }
+    .media-title {
+      font-size: 11px; font-weight: 600; color: #1a2e1a;
+      line-height: 1.3; margin-top: 6px;
+    }
+    .media-meta { font-size: 10px; color: #6a8a6a; margin-top: 2px; }
+    .media-stars { font-size: 10px; color: #2d5a2d; margin-top: 1px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1><a href="index.html"><img src="goat-eye-logo.png" alt="goat eye logo">Tanya Nair</a></h1>
+  <div class="sub">ECE @ Johns Hopkins</div>
+</div>
+
+<div class="nav">
+  <a href="blog.html">blog</a>
+  <a href="now.html" class="active">now</a>
+  <a href="projects.html">projects</a>
+  <a href="mailto:tnair4@jh.edu">contact</a>
+</div>
+
+<div class="content">
+  <div class="page-title">Now</div>
+  <div class="page-subtitle">What I'm reading and watching.</div>
+
+  <div class="section-label">Reading</div>
+  <div id="currently-reading"></div>
+
+  <div class="section-label" style="margin-top: 36px">Recently Finished</div>
+  <div id="recently-read" class="media-grid"></div>
+
+  <div class="section-label" style="margin-top: 48px">Watching</div>
+  <div id="films-grid" class="media-grid"></div>
+</div>
+
+<script>
+  function coverImg(src, alt, cls) {
+    return src
+      ? `<img class="${cls}" src="${src}" alt="${alt}" loading="lazy">`
+      : `<div class="${cls}-placeholder"></div>`;
+  }
+
+  function mediaCard(link, cover, title, meta, stars) {
+    return `
+      <div class="media-card">
+        <a href="${link}" target="_blank" rel="noopener">
+          ${coverImg(cover, title, 'media-cover')}
+        </a>
+        <div class="media-title"><a href="${link}" target="_blank" rel="noopener">${title}</a></div>
+        <div class="media-meta">${meta || ''}</div>
+        ${stars ? `<div class="media-stars">${stars}</div>` : ''}
+      </div>`;
+  }
+
+  // Goodreads
+  fetch('goodreads.json')
+    .then(r => r.json())
+    .then(({ currently_reading, recently_read }) => {
+      const currentEl = document.getElementById('currently-reading');
+      if (currently_reading.length) {
+        currentEl.innerHTML = currently_reading.map(b => `
+          <div class="current-book">
+            <a href="${b.link}" target="_blank" rel="noopener">
+              ${coverImg(b.cover, b.title, 'current-book-cover')}
+            </a>
+            <div>
+              <div class="current-book-title"><a href="${b.link}" target="_blank" rel="noopener">${b.title}</a></div>
+              <div class="current-book-author">${b.author || ''}</div>
+            </div>
+          </div>`).join('');
+      } else {
+        currentEl.innerHTML = '<p class="empty-note">Nothing in progress right now.</p>';
+      }
+
+      const readEl = document.getElementById('recently-read');
+      if (recently_read.length) {
+        readEl.innerHTML = recently_read.map(b =>
+          mediaCard(b.link, b.cover, b.title, b.author, b.rating ? '★'.repeat(b.rating) : null)
+        ).join('');
+      } else {
+        readEl.innerHTML = '<p class="empty-note">Nothing logged yet.</p>';
+      }
+    })
+    .catch(() => {});
+
+  // Letterboxd
+  fetch('letterboxd.json')
+    .then(r => r.json())
+    .then(films => {
+      const el = document.getElementById('films-grid');
+      if (films.length) {
+        el.innerHTML = films.map(f =>
+          mediaCard(f.link, f.poster, f.title, f.year, f.stars)
+        ).join('');
+      } else {
+        el.innerHTML = '<p class="empty-note">Nothing logged yet.</p>';
+      }
+    })
+    .catch(() => {});
+</script>
+
+</body>
+</html>
