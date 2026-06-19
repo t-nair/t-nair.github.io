@@ -6,7 +6,7 @@ import re
 
 RSS_URL = "https://letterboxd.com/tanyanair/rss/"
 OUTPUT = "letterboxd.json"
-MAX_ITEMS = 8
+MAX_ITEMS = 5
 
 
 def fetch():
