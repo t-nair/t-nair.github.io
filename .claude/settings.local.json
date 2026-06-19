@@ -15,7 +15,9 @@
       "Bash(wc -c \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/_fills.txt\" \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/_border.txt\")",
       "WebFetch(domain:tanyagents.substack.com)",
       "WebFetch(domain:tanyanairnotes.substack.com)",
-      "WebFetch(domain:substack.com)"
+      "WebFetch(domain:substack.com)",
+      "Bash(python .github/scripts/fetch_letterboxd.py)",
+      "Bash(python .github/scripts/fetch_goodreads.py)"
     ]
   }
 }

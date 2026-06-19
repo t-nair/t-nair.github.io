@@ -1,1 +1,65 @@
-[]
+[
+  {
+    "title": "Hidden Figures",
+    "year": "2016",
+    "link": "https://letterboxd.com/tanyanair/film/hidden-figures/",
+    "date": "2026-06-18",
+    "rating": 5.0,
+    "stars": "\u2605\u2605\u2605\u2605\u2605",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/3/1/6/3/1/2/316312-hidden-figures-0-600-0-900-crop.jpg?v=d40f6cc31a"
+  },
+  {
+    "title": "Obsession",
+    "year": "2025",
+    "link": "https://letterboxd.com/tanyanair/film/obsession-2025/",
+    "date": "2026-05-31",
+    "rating": 5.0,
+    "stars": "\u2605\u2605\u2605\u2605\u2605",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/1/2/3/4/4/7/2/1234472-obsession-2025-2-0-600-0-900-crop.jpg?v=cff6fc00b6"
+  },
+  {
+    "title": "Ex Machina",
+    "year": "2015",
+    "link": "https://letterboxd.com/tanyanair/film/ex-machina-2015/",
+    "date": "2026-05-27",
+    "rating": 5.0,
+    "stars": "\u2605\u2605\u2605\u2605\u2605",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/1/8/7/9/8/6/187986-ex-machina-0-600-0-900-crop.jpg?v=2b4212d498"
+  },
+  {
+    "title": "Project Hail Mary",
+    "year": "2026",
+    "link": "https://letterboxd.com/tanyanair/film/project-hail-mary/",
+    "date": "2026-05-26",
+    "rating": 4.0,
+    "stars": "\u2605\u2605\u2605\u2605",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/6/1/1/2/8/8/611288-project-hail-mary-0-600-0-900-crop.jpg?v=ac31b6ec03"
+  },
+  {
+    "title": "12th Fail",
+    "year": "2023",
+    "link": "https://letterboxd.com/tanyanair/film/12th-fail/",
+    "date": "2026-05-19",
+    "rating": 4.0,
+    "stars": "\u2605\u2605\u2605\u2605",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/1/0/4/9/2/0/6/1049206-12th-fail-0-600-0-900-crop.jpg?v=93f36b0cf3"
+  },
+  {
+    "title": "Zootopia 2",
+    "year": "2025",
+    "link": "https://letterboxd.com/tanyanair/film/zootopia-2/",
+    "date": "2026-01-15",
+    "rating": 4.5,
+    "stars": "\u2605\u2605\u2605\u2605\u00bd",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/9/7/7/3/4/2/977342-zootopia-2-0-600-0-900-crop.jpg?v=00a15a97bc"
+  },
+  {
+    "title": "Wicked",
+    "year": "2024",
+    "link": "https://letterboxd.com/tanyanair/film/wicked-2024/",
+    "date": "2026-01-09",
+    "rating": 4.0,
+    "stars": "\u2605\u2605\u2605\u2605",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/3/3/7/0/3/6/337036-wicked-2024-0-600-0-900-crop.jpg?v=c519c37ff7"
+  }
+]
