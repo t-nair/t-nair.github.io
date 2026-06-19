@@ -12,7 +12,10 @@
       "WebFetch(domain:www.penguinrandomhouse.com)",
       "Bash(curl -s \"https://cdn.jsdelivr.net/npm/us-atlas@3/states-110m.json\" -o \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/states-110m.json\")",
       "Bash(node -e \":*)",
-      "Bash(wc -c \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/_fills.txt\" \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/_border.txt\")"
+      "Bash(wc -c \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/_fills.txt\" \"c:/Users/nairt/Desktop/GitHub Repos/t-nair.github.io/_border.txt\")",
+      "WebFetch(domain:tanyagents.substack.com)",
+      "WebFetch(domain:tanyanairnotes.substack.com)",
+      "WebFetch(domain:substack.com)"
     ]
   }
 }
