@@ -1,5 +1,14 @@
 [
   {
+    "title": "Leviticus",
+    "year": "2026",
+    "link": "https://letterboxd.com/tanyanair/film/leviticus-2026/",
+    "date": "2026-06-19",
+    "rating": 5.0,
+    "stars": "\u2605\u2605\u2605\u2605\u2605",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/1/4/3/7/6/2/2/1437622-leviticus-2026-0-600-0-900-crop.jpg?v=87cb79b6d2"
+  },
+  {
     "title": "Hidden Figures",
     "year": "2016",
     "link": "https://letterboxd.com/tanyanair/film/hidden-figures/",
@@ -34,14 +43,5 @@
     "rating": 4.0,
     "stars": "\u2605\u2605\u2605\u2605",
     "poster": "https://a.ltrbxd.com/resized/film-poster/6/1/1/2/8/8/611288-project-hail-mary-0-600-0-900-crop.jpg?v=ac31b6ec03"
-  },
-  {
-    "title": "12th Fail",
-    "year": "2023",
-    "link": "https://letterboxd.com/tanyanair/film/12th-fail/",
-    "date": "2026-05-19",
-    "rating": 4.0,
-    "stars": "\u2605\u2605\u2605\u2605",
-    "poster": "https://a.ltrbxd.com/resized/film-poster/1/0/4/9/2/0/6/1049206-12th-fail-0-600-0-900-crop.jpg?v=93f36b0cf3"
   }
 ]
