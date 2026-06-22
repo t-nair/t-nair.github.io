@@ -43,6 +43,7 @@ def parse(xml_bytes):
         raw_rating = lb("memberRating")
         rating_val = float(raw_rating) if raw_rating else None
 
+        liked = lb("memberLike")
         items.append({
             "title": lb("filmTitle") or get("title"),
             "year": lb("filmYear"),
@@ -51,6 +52,7 @@ def parse(xml_bytes):
             "rating": rating_val,
             "stars": to_stars(rating_val),
             "poster": poster,
+            "liked": liked == "Yes",
         })
     return items
 

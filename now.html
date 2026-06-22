@@ -121,6 +121,7 @@
     }
     .media-meta { font-size: 10px; color: #6a8a6a; margin-top: 2px; }
     .media-stars { font-size: 10px; color: #2d5a2d; margin-top: 1px; }
+    .media-liked { font-size: 10px; color: #c0392b; margin-top: 1px; }
   </style>
 </head>
 <body>
@@ -159,7 +160,7 @@
       : `<div class="${cls}-placeholder"></div>`;
   }
 
-  function mediaCard(link, cover, title, meta, stars) {
+  function mediaCard(link, cover, title, meta, stars, liked) {
     return `
       <div class="media-card">
         <a href="${link}" target="_blank" rel="noopener">
@@ -167,7 +168,7 @@
         </a>
         <div class="media-title"><a href="${link}" target="_blank" rel="noopener">${title}</a></div>
         <div class="media-meta">${meta || ''}</div>
-        ${stars ? `<div class="media-stars">${stars}</div>` : ''}
+        ${stars ? `<div class="media-stars">${stars}${liked ? ' <span class="media-liked">♥</span>' : ''}</div>` : liked ? `<div class="media-liked">♥</div>` : ''}
       </div>`;
   }
 
@@ -209,7 +210,7 @@
       const el = document.getElementById('films-grid');
       if (films.length) {
         el.innerHTML = films.map(f =>
-          mediaCard(f.link, f.poster, f.title, f.year, f.stars)
+          mediaCard(f.link, f.poster, f.title, f.year, f.stars, f.liked)
         ).join('');
       } else {
         el.innerHTML = '<p class="empty-note">Nothing logged yet.</p>';
