@@ -25,12 +25,18 @@
     }
 
     .home {
-      display: inline-block; margin-top: 24px;
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-top: 24px; min-height: 44px;
       font-family: var(--font-mono);
       font-size: var(--text-base); color: var(--color-accent);
       text-decoration: none; letter-spacing: var(--track-mono);
     }
     .home:hover { text-decoration: underline; }
+
+    @media (max-width: 700px) {
+      .code { font-size: 48px; }
+      .box { padding: 0 var(--space-4); }
+    }
   </style>
 </head>
 <body>
