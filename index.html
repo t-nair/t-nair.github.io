@@ -18,48 +18,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      width: 100%; height: 100%;
-      overflow: hidden;
-      background-color: #f0ebe0;
-      background-image: radial-gradient(circle, rgba(60,100,60,0.12) 1px, transparent 1px);
-      background-size: 26px 26px;
-      font-family: 'Inter', sans-serif;
-    }
-
-    /* ── Header ── */
-    .header {
-      position: fixed; top: 28px; left: 36px; z-index: 100;
-    }
-    .header h1 {
-      font-family: 'Inter', sans-serif;
-      font-size: 20px; font-weight: bold;
-      color: #1a2e1a; letter-spacing: 0.01em;
-      display: flex; align-items: center; gap: 9px;
-    }
-    .header h1 img {
-      width: 26px; height: 26px;
-      display: block; flex-shrink: 0;
-    }
-    .header .sub {
-      font-size: 11px; color: #6a8a6a;
-      margin-top: 5px; letter-spacing: 0.02em;
-    }
-
-    /* ── Nav ── */
-    .nav {
-      position: fixed; top: 32px; right: 36px; z-index: 100;
-      display: flex; gap: 20px;
-    }
-    .nav a {
-      font-size: 12px; color: #7a9a7a;
-      text-decoration: none; letter-spacing: 0.03em;
-      transition: color 180ms;
-    }
-    .nav a:hover { color: #1a2e1a; }
+    html, body { height: 100%; overflow: hidden; }
 
     /* ── SVG ── */
     #graph {
@@ -91,13 +52,13 @@
     }
     #tooltip .tip-desc {
       font-family: 'Inter', sans-serif;
-      font-size: 12px; color: #5a7a5a;
+      font-size: 12px; color: var(--color-body);
       line-height: 1.6;
     }
     #tooltip .tip-link {
       display: none;
       margin-top: 10px;
-      font-size: 11px; color: #2d5a2d;
+      font-size: 11px; color: var(--color-accent);
       text-decoration: none; letter-spacing: 0.02em;
     }
     #tooltip .tip-link:hover { text-decoration: underline; }
@@ -117,7 +78,7 @@
     }
     #hint.fade { opacity: 0; }
     #hint span {
-      font-size: 11px; color: #5a7a5a; letter-spacing: 0.04em;
+      font-size: 11px; color: var(--color-body); letter-spacing: 0.04em;
       display: flex; align-items: center; gap: 8px;
     }
     #hint span::before { content: "—"; opacity: 0.35; font-size: 9px; }
@@ -129,22 +90,22 @@
     }
     .legend-item {
       display: flex; align-items: center; gap: 9px;
-      font-size: 10px; color: #7a9a7a; letter-spacing: 0.02em;
+      font-size: 10px; color: var(--color-nav); letter-spacing: 0.02em;
     }
     .legend-dot { border-radius: 50%; flex-shrink: 0; }
 
     .past-toggle {
       background: none; border: none; cursor: pointer;
       font-family: 'Inter', sans-serif;
-      font-size: 10px; color: #7a9a7a; letter-spacing: 0.02em;
-      padding: 0; transition: color 180ms, opacity 180ms;
+      font-size: 10px; color: var(--color-nav); letter-spacing: 0.02em;
+      padding: 0; transition: color var(--transition-fast), opacity var(--transition-fast);
     }
-    .past-toggle:hover { color: #1a2e1a; }
+    .past-toggle:hover { color: var(--color-ink); }
     .past-toggle.hidden-state { opacity: 0.45; text-decoration: line-through; }
 
     /* ── Topics widget ── */
     .topics-toggle {
-      font-size: 10px; color: #7a9a7a; letter-spacing: 0.03em;
+      font-size: 10px; color: var(--color-nav); letter-spacing: 0.03em;
       cursor: default; margin-top: 6px;
       position: relative; display: inline-block;
     }
@@ -166,7 +127,7 @@
       transform: translateY(0);
     }
     .topic-pill {
-      font-size: 10px; color: #2d5a2d; letter-spacing: 0.03em;
+      font-size: 10px; color: var(--color-accent); letter-spacing: 0.03em;
       background: rgba(45,90,45,0.08);
       border: 1px solid rgba(45,90,45,0.2);
       border-radius: 20px;
@@ -189,14 +150,14 @@
   </div>
 </div>
 
-<div style="position: fixed; bottom: 28px; left: 36px; font-size: 8px; color: #6a8a6a; letter-spacing: 0.02em;">exploring my different interests and (somehow) trying to connect them</div>
+<div class="tagline">exploring my different interests and (somehow) trying to connect them</div>
 
-<div class="nav">
+<nav class="nav">
   <a href="blog.html">blog</a>
   <a href="now.html">now</a>
   <a href="projects.html">projects</a>
   <a href="mailto:tnair4@jh.edu">contact</a>
-</div>
+</nav>
 
 <svg id="graph"></svg>
 
@@ -334,7 +295,12 @@ merge.append("feMergeNode").attr("in", "blur");
 merge.append("feMergeNode").attr("in", "SourceGraphic");
 
 const R = { self: 20, interest: 12, project: 6 };
-const COLOR = { self: "#1a3d1a", interest: "#2d5a2d", project: "#6a9a6a", past: "#b8cbb8", future: "#1a2d5a" };
+const tokens = getComputedStyle(document.documentElement);
+const colorAccent = tokens.getPropertyValue("--color-accent").trim();
+const colorMeta = tokens.getPropertyValue("--color-meta").trim();
+const colorNodePast = tokens.getPropertyValue("--color-node-past").trim();
+const colorInk = tokens.getPropertyValue("--color-ink").trim();
+const COLOR = { self: "#1a3d1a", interest: colorAccent, project: "#6a9a6a", past: colorNodePast, future: "#1a2d5a" };
 function getColor(d) {
   if (d.type === "self") return COLOR.self;
   if (d.type === "interest") return COLOR.interest;
@@ -400,7 +366,7 @@ nodeSel.append("text")
   .attr("font-family", "'Inter', sans-serif")
   .attr("font-size", d => d.type === "self" ? "12px" : d.type === "interest" ? "10.5px" : "9px")
   .attr("font-weight", d => d.type === "self" ? "bold" : d.type === "interest" ? "bold" : "normal")
-  .attr("fill", d => d.type === "project" ? "#6a8a6a" : "#1a2e1a")
+  .attr("fill", d => d.type === "project" ? colorMeta : colorInk)
   .attr("letter-spacing", "0.04em")
   .attr("pointer-events", "none")
   .text(d => d.label);
