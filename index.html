@@ -64,6 +64,7 @@
       text-decoration: none; letter-spacing: var(--track-mono);
     }
     #tooltip .tip-link:hover { text-decoration: underline; }
+    #tip-close { display: none; }
 
     /* ── Hint ── */
     #hint {
@@ -84,6 +85,7 @@
       display: flex; align-items: center; gap: 8px;
     }
     #hint span::before { content: "—"; opacity: 0.35; font-size: 11px; }
+    #hint .hint-mobile { display: none; }
 
     /* ── Legend ── */
     .legend {
@@ -109,13 +111,14 @@
     /* ── Topics widget ── */
     .topics-toggle {
       font-size: 12px; color: var(--color-nav); letter-spacing: 0;
-      cursor: default; margin-top: 7px;
+      cursor: pointer; margin-top: 7px;
       position: relative; display: inline-block;
     }
     .topics-toggle::after {
       content: " ✦";
       font-size: 11px; opacity: 0.6;
     }
+    .topics-toggle.open::after { display: none; }
     .topics-popover {
       position: absolute; top: calc(100% + 10px); left: 0;
       display: flex; gap: 8px; align-items: center;
@@ -125,9 +128,10 @@
       transform: translateY(6px);
       transition: opacity 200ms ease, transform 200ms ease;
     }
-    .topics-toggle:hover .topics-popover {
+    .topics-toggle.open .topics-popover {
       opacity: 1;
       transform: translateY(0);
+      pointer-events: auto;
     }
     .topic-pill {
       font-family: var(--font-mono);
@@ -137,6 +141,76 @@
       border-radius: 20px;
       padding: 4px 11px;
       white-space: nowrap;
+    }
+
+    /* ==========================================================================
+       Mobile mode (<=700px)
+       Desktop is a full-viewport, hover-driven, drag-to-rearrange graph. That
+       doesn't work on touch, so mobile gets its own deliberate mode: the page
+       scrolls normally, the graph lives in a contained box up top, hover
+       becomes tap-to-select, and details show in a bottom sheet.
+       ========================================================================== */
+    @media (max-width: 700px) {
+      html, body { height: auto; overflow: visible; }
+
+      #graph-stage {
+        position: relative; width: 100%;
+        height: 60vh; min-height: 340px; max-height: 560px;
+        overflow: hidden;
+        margin-top: var(--space-2);
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+      }
+      #graph { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+      .tagline { display: none; }
+
+      /* Tooltip becomes a slide-up bottom sheet instead of a corner card */
+      #tooltip {
+        left: 0; right: 0; bottom: 0; top: auto;
+        max-width: none; width: 100%;
+        border-radius: 16px 16px 0 0;
+        padding: 20px 44px 20px 20px;
+        padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        transform: translateY(100%);
+        box-shadow: 0 -8px 28px rgba(26,46,26,0.18);
+      }
+      #tooltip.visible { transform: translateY(0); }
+      #tip-close {
+        display: flex; align-items: center; justify-content: center;
+        position: absolute; top: 8px; right: 8px;
+        width: 44px; height: 44px;
+        background: none; border: none;
+        font-size: 22px; line-height: 1; color: var(--color-meta);
+        cursor: pointer;
+      }
+
+      .legend {
+        bottom: 14px; right: 14px;
+        background: rgba(240, 235, 224, 0.9);
+        padding: 8px 10px; border-radius: 8px;
+      }
+      .past-toggle {
+        display: inline-flex; align-items: center;
+        min-height: 44px; padding: 10px 0;
+      }
+
+      #hint { max-width: 82vw; padding: 18px 22px; }
+      #hint .hint-desktop { display: none; }
+      #hint .hint-mobile { display: flex; }
+
+      /* On mobile the popover would otherwise float (position:absolute) right
+         over the nav row below it. Make it take real space instead, so
+         opening it pushes the nav down rather than covering it. */
+      .topics-popover {
+        position: static;
+        display: none;
+        opacity: 1;
+        transform: none;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .topics-toggle.open .topics-popover { display: flex; }
     }
   </style>
 </head>
@@ -166,9 +240,12 @@
   <a href="mailto:tnair4@jh.edu">contact</a>
 </nav>
 
-<svg id="graph"></svg>
+<div id="graph-stage">
+  <svg id="graph"></svg>
+</div>
 
 <div id="tooltip">
+  <button id="tip-close" aria-label="Close details">&times;</button>
   <div class="tip-title" id="tip-title"></div>
   <div class="tip-desc" id="tip-desc"></div>
   <a class="tip-link" id="tip-link" href="#" target="_blank"></a>
@@ -176,9 +253,11 @@
 
 
 <div id="hint">
-  <span>hover nodes to explore</span>
-  <span>click to pin</span>
-  <span>drag to rearrange</span>
+  <span class="hint-desktop">hover nodes to explore</span>
+  <span class="hint-desktop">click to pin</span>
+  <span class="hint-desktop">drag to rearrange</span>
+  <span class="hint-mobile">tap a node to explore</span>
+  <span class="hint-mobile">tap again to close</span>
   <span>toggle past experiences in the legend</span>
 </div>
 
@@ -205,13 +284,13 @@ const nodes = [
 
   // Interests
   { id: "nlp",          label: "NLP & Language Models",   type: "interest", desc: "Cross-lingual systems, multilingual benchmarks, and understanding how language shapes knowledge." },
-  { id: "healthcare & accessibility",   label: "Healthcare and Accessibility Tech",           type: "interest", desc: "Applying ML to clinical and surgical settings — from pathology reports to resource allocation, and using AI to make information and tools genuinely accessible to people with disabilities." },
-  { id: "ethics",       label: "Ethical & Efficient Tech/Systems",     type: "interest", desc: "Building AI that is both ethical and efficient." },
+  { id: "healthcare & accessibility",   label: "Healthcare and Accessibility Tech", short: "Healthcare & A11y",          type: "interest", desc: "Applying ML to clinical and surgical settings — from pathology reports to resource allocation, and using AI to make information and tools genuinely accessible to people with disabilities." },
+  { id: "ethics",       label: "Ethical & Efficient Tech/Systems", short: "Ethics & Efficiency",     type: "interest", desc: "Building AI that is both ethical and efficient." },
   { id: "space",          label: "Spaceflight and UAVs",             type: "interest", desc: "Building systems for space exploration and unmanned aerial vehicles. Inspired by my love for <i>The Martian</i>." },
-  { id: "entrepreneurship", label: "Hacking/Entrepreneurship",       type: "interest", desc: "Side ventures and entrepreneurial endeavors. Exploring venture capital and building side projects." },
-   
+  { id: "entrepreneurship", label: "Hacking/Entrepreneurship", short: "Entrepreneurship",       type: "interest", desc: "Side ventures and entrepreneurial endeavors. Exploring venture capital and building side projects." },
+
   // Projects / Experience
-  { id: "clsp",     label: "CLSP Multilingual Benchmark", type: "project", status: "present",
+  { id: "clsp",     label: "CLSP Multilingual Benchmark", short: "CLSP Benchmark", type: "project", status: "present",
     desc: "With Prof. Ziang Xiao — building a benchmark to evaluate LLM outputs across languages and cultures.",
     link: "https://arxiv.org/abs/2407.05502" },
   { id: "dartmouth",label: "Dartmouth Health RAG",         type: "project", status: "past",
@@ -219,16 +298,16 @@ const nodes = [
     link: "https://t-nair.github.io/levy-lab-research-24/" },
   // { id: "argos",    label: "ARGOS Surgical AI",            type: "project", status: "present",
     // desc: "Transparency gaps in surgical LLM research; geospatial disparities in community opportunity metrics for equitable surgical resource allocation." },
-  { id: "uw",       label: "UW Accessibility Pipeline",    type: "project", status: "present",
+  { id: "uw",       label: "UW Accessibility Pipeline", short: "UW A11y Pipeline",    type: "project", status: "present",
     desc: "Automated pipeline to enhance .pptx accessibility for vision-impaired students. Presented at EDUCAUSE 2025." },
-  { id: "poetry",   label: "Published: NLP in Poetry",     type: "project", status: "past",
+  { id: "poetry",   label: "Published: NLP in Poetry", short: "NLP in Poetry",     type: "project", status: "past",
     desc: "Published in JSR — sentiment analysis of poetry using six NLP techniques.",
     link: "https://www.researchgate.net/publication/371524307_Natural_Language_Processing_used_in_sentiment_analysis_of_poetry_a_study_of_six_common_techniques" },
   { id: "hophacks", label: "HopHacks",         type: "project", status: "present",
     desc: "1st Place, Data Visualization Track at HopHacks 2025. Now on organizing team." },
   { id: "hackpnw",  label: "HackPNW Winner",               type: "project", status: "past",
     desc: "Best Use of Sponsor API (Twilio) at HackPNW." },
-  { id: "daybreak", label: "Scout for Daybreak Ventures",  type: "project", status: "present",
+  { id: "daybreak", label: "Scout for Daybreak Ventures", short: "Daybreak Scout",  type: "project", status: "present",
     desc: "Scouting early-stage startups for Daybreak Ventures." },
   { id: "blog",     label: "Blog & YouTube",               type: "project", status: "present",
     desc: "Writing and talking about AI & linguistics — monthly (in an ideal world).",
@@ -241,9 +320,9 @@ const nodes = [
     desc: "AI Technologist Co-op at Chewy, Summer/Fall 2026. Building agents as part of the Data & Innovation team. Bellevue, WA." },
   { id: "edit_mentor", label: "EDIT AI Mentor",            type: "project", status: "past",
     desc: "Mentored interns across clinical ML projects at Dartmouth Health; led preprocessing and experiment design including WSI tiling, stain normalization, class imbalance mitigation, and multimodal alignment." },
-  { id: "apollo",   label: "Apollo App — AI Team",         type: "project", status: "past",
+  { id: "apollo",   label: "Apollo App — AI Team", short: "Apollo — AI Team",        type: "project", status: "past",
     desc: "Developed and tested AI models for Apollo, a platform helping students learn and succeed in school." },
-  { id: "idle", label: "Baltimore MSW Case Study", type: "project", status: "present",
+  { id: "idle", label: "Baltimore MSW Case Study", short: "Baltimore MSW", type: "project", status: "present",
     desc: "Case study on Baltimore Municipal Solid Waste Management System." },
 ];
 
@@ -290,7 +369,17 @@ const links = [
 
 // ── Setup ──────────────────────────────────────────────────────────────
 const svg = d3.select("#graph");
-let W = window.innerWidth, H = window.innerHeight;
+
+function isMobileMode() { return window.matchMedia("(max-width: 700px)").matches; }
+let MOBILE = isMobileMode();
+
+// #graph is fixed full-viewport on desktop and absolute-fill of #graph-stage
+// on mobile — either way its own bounding rect is the right thing to measure.
+function measure() {
+  const r = svg.node().getBoundingClientRect();
+  return [Math.max(1, r.width), Math.max(1, r.height)];
+}
+let [W, H] = measure();
 svg.attr("viewBox", [0, 0, W, H]);
 
 // Glow filter for interest / self nodes
@@ -301,7 +390,18 @@ const merge = glow.append("feMerge");
 merge.append("feMergeNode").attr("in", "blur");
 merge.append("feMergeNode").attr("in", "SourceGraphic");
 
-const R = { self: 20, interest: 12, project: 6 };
+const R_DESKTOP = { self: 20, interest: 12, project: 6 };
+const R_MOBILE  = { self: 15, interest: 9,  project: 5 };
+function nodeRadius(d) { return (MOBILE ? R_MOBILE : R_DESKTOP)[d.type]; }
+
+// Force tuning differs sharply by mode: mobile packs ~20 nodes into a box a
+// fraction of desktop's area, so links/charge/collision all pull in tighter.
+const FORCE = {
+  desktop: { linkSelf: 170, linkOther: 110, linkStrength: 0.55, chargeSelf: -800, chargeInterest: -320, chargeProject: -160, collidePad: 18, padX: 8, padY: 5 },
+  mobile:  { linkSelf: 95,  linkOther: 56,  linkStrength: 0.9,  chargeSelf: -260, chargeInterest: -110, chargeProject: -50,  collidePad: 10, padX: 6, padY: 3 },
+};
+function cfg() { return MOBILE ? FORCE.mobile : FORCE.desktop; }
+
 const tokens = getComputedStyle(document.documentElement);
 const colorAccent = tokens.getPropertyValue("--color-accent").trim();
 const colorMeta = tokens.getPropertyValue("--color-meta").trim();
@@ -327,15 +427,16 @@ const simulation = d3.forceSimulation(nodes)
   .force("link", d3.forceLink(links).id(d => d.id)
     .distance(d => {
       const src = d.source.type || nodes.find(n => n.id === d.source)?.type;
-      return src === "self" ? 170 : 110;
+      return src === "self" ? cfg().linkSelf : cfg().linkOther;
     })
-    .strength(0.55)
+    .strength(() => cfg().linkStrength)
   )
-  .force("charge", d3.forceManyBody().strength(d =>
-    d.type === "self" ? -800 : d.type === "interest" ? -320 : -160
-  ))
+  .force("charge", d3.forceManyBody().strength(d => {
+    const c = cfg();
+    return d.type === "self" ? c.chargeSelf : d.type === "interest" ? c.chargeInterest : c.chargeProject;
+  }))
   .force("center", d3.forceCenter(W / 2, H / 2).strength(0.04))
-  .force("collision", d3.forceCollide().radius(d => R[d.type] + 18))
+  .force("collision", d3.forceCollide().radius(d => nodeRadius(d) + cfg().collidePad))
   .force("labels", forceLabelBox())
   .alphaDecay(0.008)
   .alphaTarget(0.02);
@@ -343,25 +444,38 @@ const simulation = d3.forceSimulation(nodes)
 // ── Anti-overlap: treat each node's circle + label as one rectangle ──────
 // forceCollide only spaces the dots; the wide mono labels beneath them still
 // collide. This resolves overlaps of the whole footprint (circle + label).
-function labelFontSize(d) { return d.type === "self" ? 13 : d.type === "interest" ? 12 : 11; }
+// Recomputed every tick (not just once) since it depends on MOBILE, which
+// can flip mid-session on resize/orientation change.
+function labelFontSize(d) {
+  const base = d.type === "self" ? 13 : d.type === "interest" ? 12 : 11;
+  return MOBILE ? base - 1 : base;
+}
+// Mobile substitutes shorter labels for the long descriptive ones (set via
+// `short` on the node) — full labels simply don't fit at 390px alongside 20 nodes.
+function labelText(d) {
+  return (MOBILE && d.short) ? d.short : d.label;
+}
 function forceLabelBox() {
-  const PAD_X = 8, PAD_Y = 5;
   let ns;
-  nodes.forEach(d => {
+  function recompute(d) {
     const fs = labelFontSize(d);
-    const r = R[d.type];
-    const lw = (d.label ? d.label.length : 0) * fs * 0.6; // IBM Plex Mono ≈ 0.6em advance
-    d._hw = Math.max(r, lw / 2) + PAD_X;                  // half-width
-    d._cy = (15 + fs * 0.2) / 2;                          // box centre offset below node
-    d._hh = r + d._cy + PAD_Y;                            // half-height (circle top → label bottom)
-  });
+    const r = nodeRadius(d);
+    const { padX, padY } = cfg();
+    const text = labelText(d);
+    const lw = (text ? text.length : 0) * fs * 0.6; // IBM Plex Mono ≈ 0.6em advance
+    d._hw = Math.max(r, lw / 2) + padX;                    // half-width
+    d._cy = (15 + fs * 0.2) / 2;                           // box centre offset below node
+    d._hh = r + d._cy + padY;                              // half-height (circle top → label bottom)
+  }
   function force() {
     const n = ns.length;
     for (let i = 0; i < n; i++) {
       const a = ns[i];
+      recompute(a);
       if (isPastHidden(a)) continue;
       for (let j = i + 1; j < n; j++) {
         const b = ns[j];
+        recompute(b);
         if (isPastHidden(b)) continue;
         let dx = b.x - a.x;
         let dy = (b.y + b._cy) - (a.y + a._cy);
@@ -404,25 +518,36 @@ const nodeSel = svg.append("g")
   .join("g")
   .style("cursor", "default");
 
+// Invisible touch hit area — larger than the visible dot so small project
+// nodes stay tappable on mobile; harmless on desktop where the mouse is precise.
+nodeSel.append("circle")
+  .attr("class", "hit-area")
+  .attr("r", d => MOBILE ? Math.max(16, nodeRadius(d) + 6) : nodeRadius(d))
+  .attr("fill", "transparent")
+  .attr("pointer-events", "all");
+
 // Main circle
 nodeSel.append("circle")
-  .attr("r", d => R[d.type])
+  .attr("class", "node-circle")
+  .attr("r", d => nodeRadius(d))
   .attr("fill", d => getColor(d))
   .attr("opacity", d => baseNodeOpacity(d))
-  .attr("filter", d => d.type !== "project" ? "url(#glow)" : null);
+  .attr("filter", d => d.type !== "project" ? "url(#glow)" : null)
+  .attr("pointer-events", "none");
 
 // Inner highlight dot for interest nodes
 nodeSel.filter(d => d.type === "interest")
   .append("circle")
   .attr("r", 3.5)
-  .attr("fill", "rgba(255,255,255,0.35)");
+  .attr("fill", "rgba(255,255,255,0.35)")
+  .attr("pointer-events", "none");
 
 // Labels
 nodeSel.append("text")
-  .attr("dy", d => R[d.type] + 15)
+  .attr("dy", d => nodeRadius(d) + 15)
   .attr("text-anchor", "middle")
   .attr("font-family", "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace")
-  .attr("font-size", d => d.type === "self" ? "13px" : d.type === "interest" ? "12px" : "11px")
+  .attr("font-size", d => labelFontSize(d) + "px")
   .attr("font-weight", d => d.type === "self" ? "600" : d.type === "interest" ? "500" : "400")
   .attr("fill", d => d.type === "project" ? colorMeta : colorInk)
   .attr("letter-spacing", "0.01em")
@@ -433,7 +558,7 @@ nodeSel.append("text")
   .attr("stroke-width", 3.5)
   .attr("stroke-linejoin", "round")
   .attr("opacity", d => isPastHidden(d) ? 0 : 1)
-  .text(d => d.label);
+  .text(d => labelText(d));
 
 // ── Tooltip ────────────────────────────────────────────────────────────
 const tooltip  = document.getElementById("tooltip");
@@ -449,7 +574,7 @@ function applyHighlight(d) {
     if (l.source.id === d.id) connectedIds.add(l.target.id);
     if (l.target.id === d.id) connectedIds.add(l.source.id);
   });
-  nodeSel.selectAll("circle:first-child")
+  nodeSel.selectAll("circle.node-circle")
     .attr("opacity", n => isPastHidden(n) ? 0 : connectedIds.has(n.id) ? (n.type === "self" ? 1 : 0.92) : 0.15);
   nodeSel.selectAll("text")
     .attr("opacity", n => isPastHidden(n) ? 0 : connectedIds.has(n.id) ? 1 : 0.15);
@@ -490,7 +615,7 @@ function baseLinkOpacity(l) {
 }
 
 function clearHighlight() {
-  nodeSel.selectAll("circle:first-child").attr("opacity", n => baseNodeOpacity(n));
+  nodeSel.selectAll("circle.node-circle").attr("opacity", n => baseNodeOpacity(n));
   nodeSel.selectAll("text").attr("opacity", n => isPastHidden(n) ? 0 : 1);
   linkSel.attr("stroke", "rgba(45,90,45,0.18)").attr("stroke-width", 1)
     .attr("opacity", l => baseLinkOpacity(l) ?? 1);
@@ -511,11 +636,11 @@ nodeSel
     }
   })
   .on("mouseenter", (event, d) => {
-    if (lockedNode) return;
+    if (MOBILE || lockedNode) return;
     applyHighlight(d);
   })
   .on("mouseleave", () => {
-    if (lockedNode) return;
+    if (MOBILE || lockedNode) return;
     clearHighlight();
   });
 
@@ -528,9 +653,20 @@ svg.on("click", () => {
   }
 });
 
+// Bottom-sheet close button (mobile)
+document.getElementById("tip-close").addEventListener("click", () => {
+  lockedNode = null;
+  tooltip.style.pointerEvents = "none";
+  clearHighlight();
+});
+
 // ── Drag ───────────────────────────────────────────────────────────────
+// Disabled on mobile — a touch-drag on a node would fight page scroll.
+// The filter is checked per-gesture, so it also reacts to MOBILE flipping
+// on resize/orientation change without re-binding anything.
 nodeSel.filter(d => d.type !== "self").call(
   d3.drag()
+    .filter(() => !MOBILE)
     .on("start", (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
     .on("drag",  (e, d) => { d.fx = e.x; d.fy = e.y; })
     .on("end",   (e, d) => { if (!e.active) simulation.alphaTarget(0.02); d.fx = null; d.fy = null; })
@@ -539,8 +675,14 @@ nodeSel.filter(d => d.type !== "self").call(
 // ── Tick ───────────────────────────────────────────────────────────────
 simulation.on("tick", () => {
   nodes.forEach(d => {
-    const px = Math.min(28 + (d._hw || 0), W * 0.45);
-    const py = Math.min(28 + (d._hh || 0), H * 0.45);
+    // Desktop reserves each node's full label footprint as edge margin so
+    // labels never clip. On mobile that would reserve most of a 390px-wide
+    // stage (long labels are wider than the viewport) and crush every node
+    // into a sliver in the middle — so mobile uses a small fixed margin and
+    // lets the label-box force (not this clamp) do the real spacing work,
+    // with any rare overflow caught by the stage's overflow:hidden.
+    const px = MOBILE ? Math.min(14 + (d._hw || 0) * 0.75, W * 0.4) : Math.min(28 + (d._hw || 0), W * 0.45);
+    const py = MOBILE ? Math.min(20 + (d._hh || 0) * 0.4, H * 0.3) : Math.min(28 + (d._hh || 0), H * 0.45);
     d.x = Math.max(px, Math.min(W - px, d.x));
     d.y = Math.max(py, Math.min(H - py, d.y));
   });
@@ -552,10 +694,18 @@ simulation.on("tick", () => {
 
 // ── Resize ─────────────────────────────────────────────────────────────
 window.addEventListener("resize", () => {
-  W = window.innerWidth; H = window.innerHeight;
+  MOBILE = isMobileMode();
+  [W, H] = measure();
   svg.attr("viewBox", [0, 0, W, H]);
   selfNode.fx = W / 2; selfNode.fy = H / 2;
   simulation.force("center", d3.forceCenter(W / 2, H / 2).strength(0.04));
+  nodeSel.select("circle.hit-area")
+    .attr("r", d => MOBILE ? Math.max(16, nodeRadius(d) + 6) : nodeRadius(d));
+  nodeSel.select("circle.node-circle").attr("r", d => nodeRadius(d));
+  nodeSel.select("text")
+    .attr("dy", d => nodeRadius(d) + 15)
+    .attr("font-size", d => labelFontSize(d) + "px")
+    .text(d => labelText(d));
   simulation.alpha(0.3).restart();
 });
 
@@ -574,6 +724,16 @@ pastToggleBtn.addEventListener("click", () => {
   } else {
     clearHighlight();
   }
+});
+
+// ── "let's talk" topics popover — tap/click toggle everywhere ───────────
+const topicsToggle = document.querySelector(".topics-toggle");
+topicsToggle.addEventListener("click", (event) => {
+  event.stopPropagation();
+  topicsToggle.classList.toggle("open");
+});
+document.addEventListener("click", (event) => {
+  if (!topicsToggle.contains(event.target)) topicsToggle.classList.remove("open");
 });
 </script>
 </body>
