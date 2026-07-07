@@ -47,20 +47,21 @@
       opacity: 1; transform: translateY(0);
     }
     #tooltip .tip-title {
-      font-size: 12px; font-weight: bold;
-      color: #1a2e1a; letter-spacing: 0.01em;
-      margin-bottom: 7px;
+      font-size: 15px; font-weight: 700;
+      color: #1a2e1a; letter-spacing: -0.01em;
+      margin-bottom: 6px;
     }
     #tooltip .tip-desc {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px; color: var(--color-body);
+      font-family: var(--font-sans);
+      font-size: 14px; color: var(--color-body);
       line-height: 1.6;
     }
     #tooltip .tip-link {
       display: none;
-      margin-top: 10px;
-      font-size: 11px; color: var(--color-accent);
-      text-decoration: none; letter-spacing: 0.02em;
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px; color: var(--color-accent);
+      text-decoration: none; letter-spacing: var(--track-mono);
     }
     #tooltip .tip-link:hover { text-decoration: underline; }
 
@@ -79,10 +80,10 @@
     }
     #hint.fade { opacity: 0; }
     #hint span {
-      font-size: 11px; color: var(--color-body); letter-spacing: 0.04em;
+      font-size: 13px; color: var(--color-body); letter-spacing: 0;
       display: flex; align-items: center; gap: 8px;
     }
-    #hint span::before { content: "—"; opacity: 0.35; font-size: 9px; }
+    #hint span::before { content: "—"; opacity: 0.35; font-size: 11px; }
 
     /* ── Legend ── */
     .legend {
@@ -91,14 +92,15 @@
     }
     .legend-item {
       display: flex; align-items: center; gap: 9px;
-      font-size: 10px; color: var(--color-nav); letter-spacing: 0.02em;
+      font-family: var(--font-mono);
+      font-size: 12px; color: var(--color-nav); letter-spacing: var(--track-mono);
     }
     .legend-dot { border-radius: 50%; flex-shrink: 0; }
 
     .past-toggle {
       background: none; border: none; cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      font-size: 10px; color: var(--color-nav); letter-spacing: 0.02em;
+      font-family: var(--font-mono);
+      font-size: 12px; color: var(--color-nav); letter-spacing: var(--track-mono);
       padding: 0; transition: color var(--transition-fast), opacity var(--transition-fast);
     }
     .past-toggle:hover { color: var(--color-ink); }
@@ -106,13 +108,13 @@
 
     /* ── Topics widget ── */
     .topics-toggle {
-      font-size: 10px; color: var(--color-nav); letter-spacing: 0.03em;
-      cursor: default; margin-top: 6px;
+      font-size: 12px; color: var(--color-nav); letter-spacing: 0;
+      cursor: default; margin-top: 7px;
       position: relative; display: inline-block;
     }
     .topics-toggle::after {
       content: " ✦";
-      font-size: 8px; opacity: 0.6;
+      font-size: 11px; opacity: 0.6;
     }
     .topics-popover {
       position: absolute; top: calc(100% + 10px); left: 0;
@@ -128,11 +130,12 @@
       transform: translateY(0);
     }
     .topic-pill {
-      font-size: 10px; color: var(--color-accent); letter-spacing: 0.03em;
+      font-family: var(--font-mono);
+      font-size: 11px; color: var(--color-accent); letter-spacing: var(--track-mono);
       background: rgba(45,90,45,0.08);
       border: 1px solid rgba(45,90,45,0.2);
       border-radius: 20px;
-      padding: 4px 10px;
+      padding: 4px 11px;
       white-space: nowrap;
     }
   </style>
@@ -190,7 +193,7 @@
   </div>
   <div class="legend-item">
     <div class="legend-dot" style="width:8px;height:8px;background:#a0b8a0;"></div>
-    <button class="past-toggle" id="past-toggle">past</button>
+    <button class="past-toggle hidden-state" id="past-toggle">past</button>
   </div>
 </div>
 
@@ -304,6 +307,7 @@ const colorAccent = tokens.getPropertyValue("--color-accent").trim();
 const colorMeta = tokens.getPropertyValue("--color-meta").trim();
 const colorNodePast = tokens.getPropertyValue("--color-node-past").trim();
 const colorInk = tokens.getPropertyValue("--color-ink").trim();
+const colorBg = tokens.getPropertyValue("--color-bg").trim();
 const COLOR = { self: "#1a3d1a", interest: colorAccent, project: "#6a9a6a", past: colorNodePast, future: "#1a2d5a" };
 function getColor(d) {
   if (d.type === "self") return COLOR.self;
@@ -312,7 +316,7 @@ function getColor(d) {
   if (d.status === "future") return COLOR.future;
   return COLOR.project;
 }
-let showPast = true;
+let showPast = false;
 
 // Pin self to center
 const selfNode = nodes.find(n => n.id === "tanya");
@@ -332,8 +336,57 @@ const simulation = d3.forceSimulation(nodes)
   ))
   .force("center", d3.forceCenter(W / 2, H / 2).strength(0.04))
   .force("collision", d3.forceCollide().radius(d => R[d.type] + 18))
+  .force("labels", forceLabelBox())
   .alphaDecay(0.008)
   .alphaTarget(0.02);
+
+// ── Anti-overlap: treat each node's circle + label as one rectangle ──────
+// forceCollide only spaces the dots; the wide mono labels beneath them still
+// collide. This resolves overlaps of the whole footprint (circle + label).
+function labelFontSize(d) { return d.type === "self" ? 13 : d.type === "interest" ? 12 : 11; }
+function forceLabelBox() {
+  const PAD_X = 8, PAD_Y = 5;
+  let ns;
+  nodes.forEach(d => {
+    const fs = labelFontSize(d);
+    const r = R[d.type];
+    const lw = (d.label ? d.label.length : 0) * fs * 0.6; // IBM Plex Mono ≈ 0.6em advance
+    d._hw = Math.max(r, lw / 2) + PAD_X;                  // half-width
+    d._cy = (15 + fs * 0.2) / 2;                          // box centre offset below node
+    d._hh = r + d._cy + PAD_Y;                            // half-height (circle top → label bottom)
+  });
+  function force() {
+    const n = ns.length;
+    for (let i = 0; i < n; i++) {
+      const a = ns[i];
+      if (isPastHidden(a)) continue;
+      for (let j = i + 1; j < n; j++) {
+        const b = ns[j];
+        if (isPastHidden(b)) continue;
+        let dx = b.x - a.x;
+        let dy = (b.y + b._cy) - (a.y + a._cy);
+        const ox = (a._hw + b._hw) - Math.abs(dx);
+        const oy = (a._hh + b._hh) - Math.abs(dy);
+        if (ox > 0 && oy > 0) {
+          const aFixed = a.fx != null, bFixed = b.fx != null;
+          if (ox < oy) {                                  // separate along the shallower axis
+            if (dx === 0) dx = Math.random() - 0.5;
+            const shift = (ox * 0.25) * (dx < 0 ? -1 : 1);
+            if (!aFixed) a.x -= shift;
+            if (!bFixed) b.x += shift;
+          } else {
+            if (dy === 0) dy = Math.random() - 0.5;
+            const shift = (oy * 0.25) * (dy < 0 ? -1 : 1);
+            if (!aFixed) a.y -= shift;
+            if (!bFixed) b.y += shift;
+          }
+        }
+      }
+    }
+  }
+  force.initialize = _ => ns = _;
+  return force;
+}
 
 // ── Links ──────────────────────────────────────────────────────────────
 const linkSel = svg.append("g")
@@ -341,7 +394,8 @@ const linkSel = svg.append("g")
   .data(links)
   .join("line")
   .attr("stroke", "rgba(45,90,45,0.18)")
-  .attr("stroke-width", 1);
+  .attr("stroke-width", 1)
+  .attr("opacity", l => baseLinkOpacity(l) ?? 1);
 
 // ── Nodes ──────────────────────────────────────────────────────────────
 const nodeSel = svg.append("g")
@@ -354,7 +408,7 @@ const nodeSel = svg.append("g")
 nodeSel.append("circle")
   .attr("r", d => R[d.type])
   .attr("fill", d => getColor(d))
-  .attr("opacity", d => d.type !== "project" ? 0.92 : d.status === "past" ? 0.35 : 0.88)
+  .attr("opacity", d => baseNodeOpacity(d))
   .attr("filter", d => d.type !== "project" ? "url(#glow)" : null);
 
 // Inner highlight dot for interest nodes
@@ -365,14 +419,20 @@ nodeSel.filter(d => d.type === "interest")
 
 // Labels
 nodeSel.append("text")
-  .attr("dy", d => R[d.type] + 13)
+  .attr("dy", d => R[d.type] + 15)
   .attr("text-anchor", "middle")
-  .attr("font-family", "'Inter', sans-serif")
-  .attr("font-size", d => d.type === "self" ? "12px" : d.type === "interest" ? "10.5px" : "9px")
-  .attr("font-weight", d => d.type === "self" ? "bold" : d.type === "interest" ? "bold" : "normal")
+  .attr("font-family", "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace")
+  .attr("font-size", d => d.type === "self" ? "13px" : d.type === "interest" ? "12px" : "11px")
+  .attr("font-weight", d => d.type === "self" ? "600" : d.type === "interest" ? "500" : "400")
   .attr("fill", d => d.type === "project" ? colorMeta : colorInk)
-  .attr("letter-spacing", "0.04em")
+  .attr("letter-spacing", "0.01em")
   .attr("pointer-events", "none")
+  /* cream knockout so labels read cleanly over links and never merge with neighbours */
+  .attr("paint-order", "stroke")
+  .attr("stroke", colorBg)
+  .attr("stroke-width", 3.5)
+  .attr("stroke-linejoin", "round")
+  .attr("opacity", d => isPastHidden(d) ? 0 : 1)
   .text(d => d.label);
 
 // ── Tooltip ────────────────────────────────────────────────────────────
@@ -479,9 +539,10 @@ nodeSel.filter(d => d.type !== "self").call(
 // ── Tick ───────────────────────────────────────────────────────────────
 simulation.on("tick", () => {
   nodes.forEach(d => {
-    const pad = 90;
-    d.x = Math.max(pad, Math.min(W - pad, d.x));
-    d.y = Math.max(pad, Math.min(H - pad, d.y));
+    const px = Math.min(28 + (d._hw || 0), W * 0.45);
+    const py = Math.min(28 + (d._hh || 0), H * 0.45);
+    d.x = Math.max(px, Math.min(W - px, d.x));
+    d.y = Math.max(py, Math.min(H - py, d.y));
   });
   linkSel
     .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
