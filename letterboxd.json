@@ -1,11 +1,21 @@
 [
   {
+    "title": "The Odyssey",
+    "year": "2026",
+    "link": "https://letterboxd.com/tanyanair/film/the-odyssey-2026/",
+    "date": "2026-07-29",
+    "rating": 4.0,
+    "stars": "\u2605\u2605\u2605\u2605",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/1/2/5/5/3/9/4/1255394-the-odyssey-2026-0-600-0-900-crop.jpg?v=1eed046d0c",
+    "liked": true
+  },
+  {
     "title": "Girls Like Girls",
     "year": "2026",
     "link": "https://letterboxd.com/tanyanair/film/girls-like-girls/",
     "date": "2026-06-20",
-    "rating": 4.0,
-    "stars": "\u2605\u2605\u2605\u2605",
+    "rating": 3.0,
+    "stars": "\u2605\u2605\u2605",
     "poster": "https://a.ltrbxd.com/resized/film-poster/1/2/8/1/2/3/0/1281230-girls-like-girls-0-600-0-900-crop.jpg?v=81265f1a60",
     "liked": false
   },
@@ -37,16 +47,6 @@
     "rating": 5.0,
     "stars": "\u2605\u2605\u2605\u2605\u2605",
     "poster": "https://a.ltrbxd.com/resized/film-poster/1/2/3/4/4/7/2/1234472-obsession-2025-2-0-600-0-900-crop.jpg?v=cff6fc00b6",
-    "liked": true
-  },
-  {
-    "title": "Ex Machina",
-    "year": "2015",
-    "link": "https://letterboxd.com/tanyanair/film/ex-machina-2015/",
-    "date": "2026-05-27",
-    "rating": 5.0,
-    "stars": "\u2605\u2605\u2605\u2605\u2605",
-    "poster": "https://a.ltrbxd.com/resized/film-poster/1/8/7/9/8/6/187986-ex-machina-0-600-0-900-crop.jpg?v=2b4212d498",
     "liked": true
   }
 ]
