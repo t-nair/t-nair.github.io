@@ -1,5 +1,15 @@
 [
   {
+    "title": "Spider-Man: Brand New Day",
+    "year": "2026",
+    "link": "https://letterboxd.com/tanyanair/film/spider-man-brand-new-day/",
+    "date": "2026-08-04",
+    "rating": 3.5,
+    "stars": "\u2605\u2605\u2605\u00bd",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/8/7/2/8/7/1/872871-spider-man-brand-new-day-0-600-0-900-crop.jpg?v=ebe6beb4fc",
+    "liked": false
+  },
+  {
     "title": "The Odyssey",
     "year": "2026",
     "link": "https://letterboxd.com/tanyanair/film/the-odyssey-2026/",
@@ -37,16 +47,6 @@
     "rating": 5.0,
     "stars": "\u2605\u2605\u2605\u2605\u2605",
     "poster": "https://a.ltrbxd.com/resized/film-poster/3/1/6/3/1/2/316312-hidden-figures-0-600-0-900-crop.jpg?v=d40f6cc31a",
-    "liked": true
-  },
-  {
-    "title": "Obsession",
-    "year": "2025",
-    "link": "https://letterboxd.com/tanyanair/film/obsession-2025/",
-    "date": "2026-05-31",
-    "rating": 5.0,
-    "stars": "\u2605\u2605\u2605\u2605\u2605",
-    "poster": "https://a.ltrbxd.com/resized/film-poster/1/2/3/4/4/7/2/1234472-obsession-2025-2-0-600-0-900-crop.jpg?v=cff6fc00b6",
     "liked": true
   }
 ]
