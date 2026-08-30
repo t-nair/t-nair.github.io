@@ -1,5 +1,15 @@
 [
   {
+    "title": "Hot Spot",
+    "year": "2026",
+    "link": "https://letterboxd.com/tanyanair/film/hot-spot-2026/",
+    "date": "2026-08-29",
+    "rating": 0.5,
+    "stars": "\u00bd",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/7/3/0/0/7/5/730075-hot-spot-2026-0-600-0-900-crop.jpg?v=84b2cd4575",
+    "liked": false
+  },
+  {
     "title": "Spider-Man: Brand New Day",
     "year": "2026",
     "link": "https://letterboxd.com/tanyanair/film/spider-man-brand-new-day/",
@@ -37,16 +47,6 @@
     "rating": 5.0,
     "stars": "\u2605\u2605\u2605\u2605\u2605",
     "poster": "https://a.ltrbxd.com/resized/film-poster/1/4/3/7/6/2/2/1437622-leviticus-2026-0-600-0-900-crop.jpg?v=87cb79b6d2",
-    "liked": true
-  },
-  {
-    "title": "Hidden Figures",
-    "year": "2016",
-    "link": "https://letterboxd.com/tanyanair/film/hidden-figures/",
-    "date": "2026-06-18",
-    "rating": 5.0,
-    "stars": "\u2605\u2605\u2605\u2605\u2605",
-    "poster": "https://a.ltrbxd.com/resized/film-poster/3/1/6/3/1/2/316312-hidden-figures-0-600-0-900-crop.jpg?v=d40f6cc31a",
     "liked": true
   }
 ]
