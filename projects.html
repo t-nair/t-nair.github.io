@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | Tanya Nair</title>
   <meta property="og:title" content="Projects | Tanya Nair">
-  <meta property="og:description" content="Research, industry, and engineering projects — NLP, healthcare AI, rocketry, and more.">
+  <meta property="og:description" content="Research, industry, and engineering projects.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://t-nair.github.io/projects.html">
   <meta property="og:image" content="https://t-nair.github.io/images/og-image.png">
@@ -13,8 +13,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Projects | Tanya Nair">
-  <meta name="twitter:description" content="Research, industry, and engineering projects — NLP, healthcare AI, rocketry, and more.">
-  <meta name="twitter:image" content="https://t-nair.github.io/images/og-image.png">
+  <meta name="twitter:description" content="Research, industry, and engineering projects.">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" href="images/favicon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
@@ -22,6 +21,8 @@
   <style>
     html, body { min-height: 100%; }
 
+    /* Styles for project entries are kept here so refilling this page is just
+       a matter of pasting .project-item blocks back in. */
     .project-item {
       padding: 16px 0;
       border-bottom: 1px solid var(--color-divider);
@@ -43,6 +44,13 @@
     }
     .project-link:hover { text-decoration: underline; }
 
+    .empty-state {
+      font-size: var(--text-md); color: var(--color-meta); line-height: 1.7;
+      padding: var(--space-6) 0;
+    }
+    .empty-state a { color: var(--color-accent); text-decoration: none; }
+    .empty-state a:hover { text-decoration: underline; }
+
     @media (max-width: 700px) {
       .project-link { display: inline-flex; align-items: center; min-height: 44px; }
     }
@@ -60,114 +68,19 @@
 
 <nav class="nav">
   <a href="blog.html">blog</a>
-  <a href="now.html">now</a>
+  <a href="offline.html">offline</a>
   <a href="projects.html" class="active">projects</a>
-  <a href="mailto:tnair4@jh.edu">contact</a>
+  <a href="contact.html">contact</a>
 </nav>
 
 <div class="content">
   <h2 class="page-title">Projects</h2>
-  <div class="page-subtitle">Research, industry, and engineering work.</div>
+  <div class="page-subtitle">Being rewritten.</div>
 
-  <section>
-  <div class="section-label">Active</div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">Chewy — AI Technologist Co-op</div>
-      <span class="project-tag">Industry</span>
-    </div>
-    <div class="project-desc">Building agents as part of the Data & Innovation team. Summer/Fall 2026. Bellevue, WA.</div>
+  <div class="empty-state">
+    This page is getting rebuilt. In the meantime, the
+    <a href="index.html">homepage</a> has the current list of what I'm working on.
   </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">CLSP Multilingual Benchmark</div>
-      <span class="project-tag">Research</span>
-    </div>
-    <div class="project-desc">With Prof. Ziang Xiao — building a benchmark to evaluate LLM outputs across languages and cultures.</div>
-    <a class="project-link" href="https://arxiv.org/abs/2407.05502" target="_blank">→ arxiv</a>
-  </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">UW Accessibility Pipeline</div>
-      <span class="project-tag">Research</span>
-    </div>
-    <div class="project-desc">Automated pipeline to enhance .pptx accessibility for vision-impaired students. Presented at EDUCAUSE 2025.</div>
-  </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">Mars Rover Team</div>
-      <span class="project-tag">Engineering</span>
-    </div>
-    <div class="project-desc">Designing and building a Mars Rover for the international University Rover Challenge. Electrical subteam — communication and power system design.</div>
-  </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">CanSat Competition</div>
-      <span class="project-tag">Engineering</span>
-    </div>
-    <div class="project-desc">Designed and built a 1kg satellite for the international CanSat competition. Led Ground Control System, Sensor Subsystem, and Communication and Data Handling. 1 of 40 US teams to advance to launch.</div>
-  </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">HopHacks</div>
-      <span class="project-tag">Hackathon</span>
-    </div>
-    <div class="project-desc">1st Place, Data Visualization Track at HopHacks 2025. Now on the organizing team.</div>
-  </div>
-  </section>
-
-  <section>
-  <div class="section-label" style="margin-top: 40px">Past</div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">EDIT AI Mentor — Dartmouth Health</div>
-      <span class="project-tag">Research</span>
-    </div>
-    <div class="project-desc">Mentored interns across clinical ML projects at Dartmouth Health. Led preprocessing and experiment design including WSI tiling, stain normalization, class imbalance mitigation, and multimodal alignment.</div>
-  </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">Dartmouth Health — Clinical RAG</div>
-      <span class="project-tag">Research</span>
-    </div>
-    <div class="project-desc">Clinical RAG model for pathology report cross-referencing. BM25 + FAISS fusion search, Microsoft phi-2.</div>
-    <a class="project-link" href="https://t-nair.github.io/levy-lab-research-24/" target="_blank">→ writeup</a>
-  </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">Apollo App — AI Team</div>
-      <span class="project-tag">Industry</span>
-    </div>
-    <div class="project-desc">Developed and tested AI models for Apollo, a platform helping students learn and succeed in school.</div>
-  </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">NLP in Poetry — JSR Publication</div>
-      <span class="project-tag">Research</span>
-    </div>
-    <div class="project-desc">Sentiment analysis of poetry using six NLP techniques. Published in the Journal of Student Research.</div>
-    <a class="project-link" href="https://www.researchgate.net/publication/371524307_Natural_Language_Processing_used_in_sentiment_analysis_of_poetry_a_study_of_six_common_techniques" target="_blank">→ paper</a>
-  </div>
-
-  <div class="project-item">
-    <div class="project-header">
-      <div class="project-title">HackPNW — Best Use of Sponsor API</div>
-      <span class="project-tag">Hackathon</span>
-    </div>
-    <div class="project-desc">Best Use of Sponsor API (Twilio) at HackPNW.</div>
-  </div>
-  </section>
-
 </div>
 </body>
 </html>
