@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Now | Tanya Nair</title>
-  <meta property="og:title" content="Now | Tanya Nair">
-  <meta property="og:description" content="What Tanya is reading and watching right now.">
+  <title>Offline | Tanya Nair</title>
+  <meta property="og:title" content="Offline | Tanya Nair">
+  <meta property="og:description" content="What Tanya is reading and watching when she's away from the desk.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://t-nair.github.io/now.html">
+  <meta property="og:url" content="https://t-nair.github.io/offline.html">
   <meta property="og:image" content="https://t-nair.github.io/images/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Now | Tanya Nair">
-  <meta name="twitter:description" content="What Tanya is reading and watching right now.">
+  <meta name="twitter:title" content="Offline | Tanya Nair">
+  <meta name="twitter:description" content="What Tanya is reading and watching when she's away from the desk.">
   <meta name="twitter:image" content="https://t-nair.github.io/images/og-image.png">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" href="images/favicon-32.png" sizes="32x32">
@@ -80,7 +80,7 @@
       letter-spacing: var(--track-mono); margin-top: 3px;
     }
     .media-stars { font-size: var(--text-sm); color: var(--color-accent); margin-top: 2px; }
-    .media-liked { font-size: var(--text-sm); color: #c0392b; margin-top: 2px; }
+    .media-liked { font-size: var(--text-sm); color: var(--color-liked); margin-top: 2px; }
 
     @media (max-width: 700px) {
       .media-grid {
@@ -103,14 +103,14 @@
 
 <nav class="nav">
   <a href="blog.html">blog</a>
-  <a href="now.html" class="active">now</a>
+  <a href="offline.html" class="active">offline</a>
   <a href="projects.html">projects</a>
-  <a href="mailto:tnair4@jh.edu">contact</a>
+  <a href="contact.html">contact</a>
 </nav>
 
 <div class="content">
-  <h2 class="page-title">Now</h2>
-  <div class="page-subtitle">What I'm reading and watching.</div>
+  <h2 class="page-title">Offline</h2>
+  <div class="page-subtitle">What I'm reading and watching when I'm away from the desk.</div>
   <div class="data-source-note">Data pulled from <a href="https://www.goodreads.com" target="_blank" rel="noopener">Goodreads</a> and <a href="https://letterboxd.com" target="_blank" rel="noopener">Letterboxd</a> RSS feeds via a Python scraper, auto-updated every 6 hours by GitHub Actions.</div>
 
   <section>

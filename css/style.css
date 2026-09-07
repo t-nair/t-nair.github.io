@@ -40,19 +40,47 @@
    Design tokens
    ========================================================================== */
 :root {
-  /* Color */
-  --color-bg: #f0ebe0;
-  --color-ink: #1a2e1a;
-  --color-accent: #2d5a2d;
-  --color-body: #537153;   /* was #5a7a5a — darkened to meet 4.5:1 against --color-bg */
-  --color-meta: #567056;   /* was #6a8a6a — darkened to meet 4.5:1 against --color-bg */
-  --color-nav: #586f58;    /* was #7a9a7a — darkened to meet 4.5:1 against --color-bg */
-  --color-node-past: #7c897c; /* was #b8cbb8 — darkened to meet 3:1 against --color-bg */
+  /* ── Color — "Xerneas" ──────────────────────────────────────────────────
+     Shadowed forest slate, bone-white text, bioluminescent antler cyan.
+     Ratios are against --color-bg: text must clear 4.5:1, graph node fills
+     3:1. The greys carry a deliberate cyan bias toward the accent rather
+     than being neutral, so they read as chosen rather than inherited. */
+  --color-bg: #15171b;
+  /* Off-white with a slight cool cast (-12 on r−b), continuing the same bias
+     as the greys below rather than fighting it — the original bone-yellow sat
+     at +40 warm against their -16/-20 cool. Swap for #f0ebe6 if you'd rather
+     the type stayed warm to sit with the beige antlers. */
+  --color-ink: #e4edf0;          /* 15.10:1 */
+  --color-accent: #23afcc;       /*  6.90:1 — antler cyan */
+  --color-accent-2: #f4ab6f;     /*  9.32:1 — antler-tip gold; hover + 2nd tier */
+  --color-body: #8b939b;         /*  5.76:1 */
+  --color-meta: #849098;         /*  5.49:1 */
+  --color-nav: #849098;          /*  5.49:1 */
+  /* Past work reads as grey rather than as a hue, but it is still a node with a
+     label under it, so it needs real contrast and not just "dimmer than the
+     rest". The old #656761 sat at 3.13:1 and was then drawn at 0.55 opacity,
+     which put it on screen at 1.80:1. Now brighter, and drawn at full. */
+  --color-node-past: #7a7d76;    /*  4.29:1 */
+  --color-node-self: #65c7db;    /*  9.18:1 — the brightest thing on the page */
 
-  --color-border: rgba(60, 100, 60, 0.15);
-  --color-divider: rgba(60, 100, 60, 0.08);
-  --color-bg-dot: rgba(60, 100, 60, 0.12);
-  --color-accent-tint: rgba(45, 90, 45, 0.1);
+  --color-border: rgba(35, 175, 204, 0.18);
+  --color-border-strong: rgba(35, 175, 204, 0.38);
+  --color-divider: rgba(35, 175, 204, 0.10);
+  --color-bg-dot: rgba(35, 175, 204, 0.10);
+  --color-accent-tint: rgba(35, 175, 204, 0.10);
+
+  /* Raised panels (tooltip, hint, mobile legend) — opaque enough to sit over
+     the graph without the links showing through and muddying the text. */
+  --color-surface: rgba(31, 35, 41, 0.97);
+  --color-surface-border: rgba(35, 175, 204, 0.26);
+  --color-shadow: rgba(0, 0, 0, 0.55);
+  --color-liked: #e05a4d;        /*  4.90:1 — the old #c0392b fell to 3.30 here */
+
+  /* The antler beam itself is bone; only the prong tips are jewels. Carried at
+     low alpha by the graph's strand gradients — beige is far lighter than the
+     jewel hues, so it's held at 0.42 rather than the 0.55 the coloured strands
+     used, which lands it between cyan and gold in apparent weight. */
+  --color-strand: #e6dcc0;
 
   /* Type families */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

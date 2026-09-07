@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Tanya Nair</title>
+  <meta property="og:title" content="Contact | Tanya Nair">
+  <meta property="og:description" content="Get in touch — resume, calendar, email, and links.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://t-nair.github.io/contact.html">
+  <meta property="og:image" content="https://t-nair.github.io/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact | Tanya Nair">
+  <meta name="twitter:description" content="Get in touch — resume, calendar, email, and links.">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    html, body { min-height: 100%; }
+
+    /* ── Talk-about pills ── */
+    .talk-list {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: var(--space-3);
+    }
+    .talk-pill {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs); color: var(--color-accent);
+      letter-spacing: var(--track-mono);
+      background: var(--color-accent-tint);
+      border: 1px solid var(--color-border-strong);
+      border-radius: 20px;
+      padding: 4px 11px;
+      white-space: nowrap;
+    }
+
+    /* ── Primary actions (resume + calendar) ── */
+    .action-row {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-top: 4px;
+    }
+    .action {
+      display: inline-flex; align-items: center; gap: 8px;
+      min-height: 44px; padding: 0 16px;
+      font-family: var(--font-mono);
+      font-size: var(--text-base); letter-spacing: var(--track-mono);
+      text-decoration: none;
+      border-radius: var(--radius-lg);
+      transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+    }
+    .action-primary {
+      color: var(--color-bg);
+      background: var(--color-accent);
+      border: 1px solid var(--color-accent);
+    }
+    .action-primary:hover { background: var(--color-ink); border-color: var(--color-ink); }
+    .action-secondary {
+      color: var(--color-accent);
+      background: transparent;
+      border: 1px solid var(--color-border);
+    }
+    .action-secondary:hover { border-color: var(--color-accent); background: var(--color-accent-tint); }
+
+    /* ── Link rows ── */
+    .link-row {
+      display: flex; align-items: baseline; gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .link-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm); color: var(--color-meta);
+      letter-spacing: var(--track-mono-caps); text-transform: uppercase;
+      flex: 0 0 88px;
+    }
+    .link-value {
+      font-size: var(--text-md); color: var(--color-accent);
+      text-decoration: none; word-break: break-word;
+    }
+    .link-value:hover { text-decoration: underline; }
+
+    @media (max-width: 700px) {
+      .link-row { flex-direction: column; gap: 2px; padding: 10px 0; }
+      .link-label { flex: none; }
+      .link-value { display: inline-flex; align-items: center; min-height: 44px; }
+      .action { flex: 1 1 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1><a href="index.html"><picture>
+      <source type="image/webp" srcset="images/logo-64.webp 1x, images/logo-128.webp 2x">
+      <img src="images/logo-64.png" srcset="images/logo-64.png 1x, images/logo-128.png 2x" alt="" width="26" height="26">
+    </picture>Tanya Nair</a></h1>
+  <div class="sub">ECE @ Johns Hopkins</div>
+</div>
+
+<nav class="nav">
+  <a href="blog.html">blog</a>
+  <a href="offline.html">offline</a>
+  <a href="projects.html">projects</a>
+  <a href="contact.html" class="active">contact</a>
+</nav>
+
+<div class="content">
+  <h2 class="page-title">Contact</h2>
+  <div class="page-subtitle">
+    I like talking to people who are building things. If any of the below overlaps with
+    what you're working on, reach out — I'd rather have a short conversation than a long
+    email thread.
+  </div>
+
+  <section>
+    <div class="section-label">What I'd love to chat about</div>
+    <p style="font-size: var(--text-md); color: var(--color-body); line-height: 1.7;">
+      Early-stage startups and how technical founders find their first users. AI for
+      medicine and accessibility — especially where the research actually reaches patients.
+      Multilingual NLP and who gets left out of language models. Sustainability and the
+      unglamorous infrastructure problems underneath it. And venture — how scouts and
+      early-stage investors actually source.
+    </p>
+    <div class="talk-list">
+      <span class="talk-pill">startups</span>
+      <span class="talk-pill">sustainability</span>
+      <span class="talk-pill">ai</span>
+      <span class="talk-pill">nlp</span>
+      <span class="talk-pill">healthcare</span>
+      <span class="talk-pill">venture</span>
+    </div>
+  </section>
+
+  <section style="margin-top: var(--space-8)">
+    <div class="section-label">Start here</div>
+    <!-- PLACEHOLDER: drop your PDF at the repo root as resume.pdf, or change the href below. -->
+    <!-- PLACEHOLDER: replace the Calendly href with your real scheduling URL. -->
+    <div class="action-row">
+      <a class="action action-primary" href="resume.pdf" download>↓ download resume</a>
+      <a class="action action-secondary" href="https://calendly.com/YOUR-CALENDLY-HANDLE" target="_blank" rel="noopener">book a time</a>
+    </div>
+  </section>
+
+  <section style="margin-top: var(--space-8)">
+    <div class="section-label">Elsewhere</div>
+
+    <div class="link-row">
+      <div class="link-label">Email</div>
+      <a class="link-value" href="mailto:tnair4@jh.edu">tnair4@jh.edu</a>
+    </div>
+
+    <!-- PLACEHOLDER: replace YOUR-LINKEDIN-HANDLE with your LinkedIn vanity URL. -->
+    <div class="link-row">
+      <div class="link-label">LinkedIn</div>
+      <a class="link-value" href="https://www.linkedin.com/in/YOUR-LINKEDIN-HANDLE" target="_blank" rel="noopener">linkedin.com/in/YOUR-LINKEDIN-HANDLE</a>
+    </div>
+
+    <div class="link-row">
+      <div class="link-label">GitHub</div>
+      <a class="link-value" href="https://github.com/t-nair" target="_blank" rel="noopener">github.com/t-nair</a>
+    </div>
+
+    <div class="link-row">
+      <div class="link-label">Substack</div>
+      <a class="link-value" href="https://substack.com/@tanyagents" target="_blank" rel="noopener">@tanyagents</a>
+    </div>
+
+    <!-- PLACEHOLDER: replace YOUR-YOUTUBE-HANDLE with your YouTube channel handle. -->
+    <div class="link-row">
+      <div class="link-label">YouTube</div>
+      <a class="link-value" href="https://www.youtube.com/@YOUR-YOUTUBE-HANDLE" target="_blank" rel="noopener">youtube.com/@YOUR-YOUTUBE-HANDLE</a>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
