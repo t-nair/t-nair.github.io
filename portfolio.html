@@ -8,79 +8,69 @@
   <link rel="icon" type="image/png" href="images/favicon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <style>
-    @font-face {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 100 900;
-      font-display: swap;
-      src: url('fonts/inter-latin-var.woff2') format('woff2');
-      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
     @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('fonts/ibm-plex-mono-400.woff2') format('woff2'); }
     @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('fonts/ibm-plex-mono-500.woff2') format('woff2'); }
     @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 600; font-display: swap; src: url('fonts/ibm-plex-mono-600.woff2') format('woff2'); }
     :root {
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      /* One face, matching the rest of the site. */
+      --font-sans: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background-color: #f0ebe0; background-image: radial-gradient(circle, rgba(60,100,60,0.12) 1px, transparent 1px); background-size: 26px 26px; font-family: var(--font-sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background-color: #F3EEE4; background-image: radial-gradient(circle, rgba(31, 61, 46, 0.09) 1px, transparent 1px); background-size: 26px 26px; font-family: var(--font-sans); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
     .header { position: fixed; top: 28px; left: 36px; z-index: 100; }
-    .header h1 { font-size: 20px; font-weight: 700; color: #1a2e1a; letter-spacing: -0.01em; }
+    .header h1 { font-size: 20px; font-weight: 600; color: #1F3D2E; letter-spacing: -0.01em; }
     .header h1 a { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 9px; }
     .header h1 img { width: 26px; height: 26px; display: block; }
-    .header .sub { font-size: 12px; color: #6a8a6a; margin-top: 5px; letter-spacing: 0; }
+    .header .sub { font-size: 12px; color: #5A695F; margin-top: 5px; letter-spacing: 0; }
 
     .nav { position: fixed; top: 32px; right: 36px; z-index: 100; display: flex; gap: 20px; }
-    .nav a { font-family: var(--font-mono); font-size: 13px; color: #7a9a7a; text-decoration: none; letter-spacing: 0; transition: color 180ms; }
-    .nav a:hover { color: #1a2e1a; }
-    .nav a.active { color: #1a2e1a; font-weight: 500; }
+    .nav a { font-family: var(--font-mono); font-size: 13px; color: #5A695F; text-decoration: none; letter-spacing: 0; transition: color 180ms; }
+    .nav a:hover { color: #1F3D2E; }
+    .nav a.active { color: #1F3D2E; font-weight: 500; }
 
     #map { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
 
     #tooltip {
       position: fixed; bottom: 36px; left: 36px; max-width: 300px;
-      background: rgba(244,239,228,0.96); border: 1px solid rgba(60,100,60,0.2);
+      background: rgba(251, 248, 242, 0.97); border: 1px solid rgba(31, 61, 46, 0.20);
       border-radius: 3px; padding: 14px 16px; z-index: 200;
       opacity: 0; transform: translateY(6px);
       transition: opacity 200ms ease, transform 200ms ease; pointer-events: none;
     }
     #tooltip.visible { opacity: 1; transform: translateY(0); }
-    .tip-title { font-size: 15px; font-weight: 700; color: #1a2e1a; letter-spacing: -0.01em; margin-bottom: 4px; }
-    .tip-city { font-family: var(--font-mono); font-size: 12px; color: #7a9a7a; letter-spacing: 0; margin-bottom: 10px; }
-    .tip-project { font-size: 13px; color: #5a7a5a; line-height: 1.7; padding-left: 12px; position: relative; }
+    .tip-title { font-size: 15px; font-weight: 600; color: #1F3D2E; letter-spacing: -0.01em; margin-bottom: 4px; }
+    .tip-city { font-family: var(--font-mono); font-size: 12px; color: #5A695F; letter-spacing: 0; margin-bottom: 10px; }
+    .tip-project { font-size: 13px; color: #3F6B4A; line-height: 1.7; padding-left: 12px; position: relative; }
     .tip-project::before { content: "—"; position: absolute; left: 0; opacity: 0.4; font-size: 11px; }
-    .tip-project.future { color: #4a6a9a; }
+    .tip-project.future { color: #574BA0; }
 
     .legend { position: fixed; bottom: 36px; right: 36px; z-index: 100; display: flex; flex-direction: column; gap: 9px; }
-    .legend-item { display: flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 12px; color: #7a9a7a; letter-spacing: 0; }
+    .legend-item { display: flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 12px; color: #5A695F; letter-spacing: 0; }
     .legend-dot { border-radius: 50%; flex-shrink: 0; }
 
-    .view-toggle { background: none; border: none; cursor: pointer; font-family: var(--font-mono); font-size: 13px; color: #7a9a7a; letter-spacing: 0; padding: 0; transition: color 180ms; }
-    .view-toggle:hover { color: #1a2e1a; }
+    .view-toggle { background: none; border: none; cursor: pointer; font-family: var(--font-mono); font-size: 13px; color: #5A695F; letter-spacing: 0; padding: 0; transition: color 180ms; }
+    .view-toggle:hover { color: #1F3D2E; }
 
     #list-view { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; padding: 90px 36px 60px; }
     #list-view.active { display: block; }
     .list-content { max-width: 640px; margin: 0 auto; }
-    .page-title { font-size: 30px; font-weight: 600; color: #1a2e1a; letter-spacing: -0.015em; line-height: 1.15; margin-bottom: 12px; }
-    .page-subtitle { font-size: 16px; color: #5a7a5a; line-height: 1.6; margin-bottom: 48px; }
-    .section-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: #6a8a6a; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(60,100,60,0.15); }
-    .project-item { padding: 16px 0; border-bottom: 1px solid rgba(60,100,60,0.08); }
-    .project-title { font-size: 16px; font-weight: 600; color: #1a2e1a; letter-spacing: -0.01em; }
+    .page-title { font-size: 30px; font-weight: 600; color: #1F3D2E; letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 12px; }
+    .page-subtitle { font-size: 16px; color: #3F6B4A; line-height: 1.6; margin-bottom: 48px; }
+    .section-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: #5A695F; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(31, 61, 46, 0.16); }
+    .project-item { padding: 16px 0; border-bottom: 1px solid rgba(31, 61, 46, 0.10); }
+    .project-title { font-size: 16px; font-weight: 600; color: #1F3D2E; letter-spacing: -0.01em; }
     .project-title a { color: inherit; text-decoration: none; }
     .project-title a:hover { text-decoration: underline; }
-    .project-desc { font-size: 15px; color: #5a7a5a; line-height: 1.6; margin-top: 6px; }
+    .project-desc { font-size: 15px; color: #3F6B4A; line-height: 1.6; margin-top: 6px; }
   </style>
 </head>
 <body>
 
 <div class="header">
-  <h1><a href="index.html"><picture>
-      <source type="image/webp" srcset="images/logo-64.webp 1x, images/logo-128.webp 2x">
-      <img src="images/logo-64.png" srcset="images/logo-64.png 1x, images/logo-128.png 2x" alt="" width="26" height="26">
-    </picture>Tanya Nair</a></h1>
-  <div class="sub">ECE @ Johns Hopkins</div>
+  <h1><a href="index.html">Tanya Nair</a></h1>
+  <div class="sub">ECE undergrad @ Johns Hopkins</div>
 </div>
 
 <div class="nav">
@@ -110,9 +100,9 @@
 </div>
 
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="width:9px;height:9px;background:#2d5a2d;"></div>present</div>
-  <div class="legend-item"><div class="legend-dot" style="width:9px;height:9px;background:#a0b8a0;"></div>past</div>
-  <div class="legend-item"><div class="legend-dot" style="width:9px;height:9px;background:#1a2d5a;"></div>future</div>
+  <div class="legend-item"><div class="legend-dot" style="width:9px;height:9px;background:#266246;"></div>present</div>
+  <div class="legend-item"><div class="legend-dot" style="width:9px;height:9px;background:#6E6B64;"></div>past</div>
+  <div class="legend-item"><div class="legend-dot" style="width:9px;height:9px;background:#574BA0;"></div>future</div>
 </div>
 
 <div id="list-view">
@@ -191,7 +181,7 @@
 const locations = [
   {
     name: "Johns Hopkins University", city: "Baltimore, MD",
-    x: 318, y: 141, color: "#2d5a2d",
+    x: 318, y: 141, color: "#266246",
     projects: [
       { label: "ISLE Lab — Multilingual RAG Evaluation", future: false },
       { label: "HopHacks — 1st Place, Data Visualization", future: false },
@@ -200,7 +190,7 @@ const locations = [
   },
   {
     name: "Dartmouth Health", city: "Lebanon, NH",
-    x: 330, y: 129, color: "#a0b8a0",
+    x: 330, y: 129, color: "#6E6B64",
     projects: [
       { label: "Clinical RAG for Pathology", future: false },
       { label: "EDIT AI Mentor — Clinical ML", future: false }
@@ -208,28 +198,28 @@ const locations = [
   },
   {
     name: "University of Washington", city: "Seattle, WA",
-    x: 222, y: 118, color: "#2d5a2d",
+    x: 222, y: 118, color: "#266246",
     projects: [
       { label: "Accessibility Pipeline for Engineering Education", future: false }
     ]
   },
   {
     name: "Chewy", city: "Bellevue, WA",
-    x: 234, y: 128, color: "#1a2d5a",
+    x: 234, y: 128, color: "#574BA0",
     projects: [
       { label: "AI Technologist Co-op — Summer/Fall 2026", future: true }
     ]
   },
   {
     name: "CanSat Competition", city: "Monterey, VA",
-    x: 306, y: 150, color: "#a0b8a0",
+    x: 306, y: 150, color: "#6E6B64",
     projects: [
       { label: "CanSat — 1 of 40 US teams to launch", future: false }
     ]
   },
   {
     name: "iLink Digital", city: "Chennai, India",
-    x: 665, y: 215, color: "#2d5a2d",
+    x: 665, y: 215, color: "#266246",
     projects: [
       { label: "iLink Digital", future: false }
     ]
@@ -254,7 +244,7 @@ locations.forEach(loc => {
   g.style.cursor = "default";
   g.appendChild(mkEl("circle", { cx: loc.x, cy: loc.y, r: 14, fill: "none", stroke: loc.color, "stroke-width": 1, opacity: 0.2 }));
   g.appendChild(mkEl("circle", { cx: loc.x, cy: loc.y, r: 5, fill: loc.color, opacity: 0.88, filter: "url(#glow)" }));
-  const lbl = mkEl("text", { x: loc.x, y: loc.y + 17, "text-anchor": "middle", "font-family": "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace", "font-size": 10, fill: "#5a7a5a", "letter-spacing": "0.01em", "pointer-events": "none", opacity: 0 });
+  const lbl = mkEl("text", { x: loc.x, y: loc.y + 17, "text-anchor": "middle", "font-family": "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace", "font-size": 10, fill: "#3F6B4A", "letter-spacing": "0.01em", "pointer-events": "none", opacity: 0 });
   lbl.textContent = loc.name;
   g.appendChild(lbl);
   g.appendChild(mkEl("circle", { cx: loc.x, cy: loc.y, r: 18, fill: "transparent" }));
