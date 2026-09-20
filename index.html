@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tanya Nair</title>
+  <meta name="description" content="ECE undergrad at Johns Hopkins working on NLP, AI for medicine, and accessible technology.">
   <meta property="og:title" content="Tanya Nair">
-  <meta property="og:description" content="ECE student at Johns Hopkins working on NLP, AI, and healthcare technology.">
+  <meta property="og:description" content="ECE undergrad at Johns Hopkins working on NLP, AI for medicine, and accessible technology.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://t-nair.github.io">
   <meta property="og:image" content="https://t-nair.github.io/images/og-image.png">
@@ -13,1150 +14,372 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Tanya Nair">
-  <meta name="twitter:description" content="ECE student at Johns Hopkins working on NLP, AI, and healthcare technology.">
+  <meta name="twitter:description" content="ECE undergrad at Johns Hopkins working on NLP, AI for medicine, and accessible technology.">
   <meta name="twitter:image" content="https://t-nair.github.io/images/og-image.png">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" href="images/favicon-32.png" sizes="32x32">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="preload" as="font" type="font/woff2" href="fonts/ibm-plex-mono-400.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="fonts/ibm-plex-mono-600.woff2" crossorigin>
   <style>
     /* ==========================================================================
-       Two views of the same data
+       Landing page — deliberately standalone
        --------------------------------------------------------------------------
-       List is the default and the only thing that renders on load. The graph is
-       opt-in: D3 and the simulation are not fetched or built until the toggle is
-       pressed. That laziness is also a requirement, not just an optimisation —
-       the graph measures its own bounding rect, so building it while hidden
-       would size it to zero.
+       This page does NOT load css/style.css. It has no header, no nav and no
+       shared components — it is a single column of type — so pulling in the
+       whole shared sheet to use six tokens from it would cost more than the
+       duplication below. The values here and the ones in style.css are the
+       same palette; change one, change the other.
        ========================================================================== */
-    html { height: 100%; }
-    body { min-height: 100%; }
-    body.view-graph { height: 100%; overflow: hidden; }
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('fonts/ibm-plex-mono-400.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('fonts/ibm-plex-mono-500.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'IBM Plex Mono';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('fonts/ibm-plex-mono-600.woff2') format('woff2');
+    }
 
-    body.view-list #graph-stage,
-    body.view-list #tooltip,
-    body.view-list #hint,
-    body.view-list .legend,
-    body.view-list .tagline { display: none; }
+    /* ── Tokens ───────────────────────────────────────────────────────────
+       The ground is paper, not blush: the source beige sat 27 points warmer on
+       red than on blue, which read pink. Pulled back to 15, which keeps it warm
+       without the cast.
 
-    body.view-graph #list-view { display: none; }
+       Every ratio below is measured against --bg (#F3EEE4). Text has to clear
+       4.5:1, so two of the source swatches cannot carry type at all:
 
-    /* ── View toggle (header — replaces the old "let's talk" popover) ──
-       A two-segment switch: one control, one hit target, a thumb that slides
-       between "list" and "graph". Both segments are forced to equal width so
-       the thumb can be a flat 50% and land exactly on either one. */
-    .view-toggle {
-      position: relative;
-      display: inline-flex; align-items: stretch;
-      margin-top: var(--space-2);
-      padding: 2px;
-      background: var(--color-accent-tint);
-      border: 1px solid var(--color-border);
-      border-radius: 999px;
-      cursor: pointer;
+         #8FBB99 (mid green)  1.87:1 — decoration only, never text
+         #D98CAE (pink)       2.18:1 — never used on this page
+
+       The rose therefore appears only as --pink: the same hue (333.5°) and
+       saturation (0.50) taken down to 42% lightness so it can be read. */
+    :root {
+      --bg:          #F3EEE4;  /*  paper — the page           */
+      --ink:         #1F3D2E;  /* 10.29:1 — body + headings   */
+      --green-hover: #3F6B4A;  /*  5.32:1 — hover + secondary */
+      --green-soft:  #8FBB99;  /*  1.87:1 — rules only        */
+      --pink:        #A13565;  /*  5.65:1 — contact + offline */
+      --border:      rgba(31, 61, 46, 0.16);
+
+      /* One face for the page. The bracket links set the voice, so the name,
+         the pitch and the list speak in it too rather than sitting a sans
+         next to a mono and letting the two argue. */
+      --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+      color-scheme: light;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+      color: var(--ink);
       font-family: var(--font-mono);
-      font-size: var(--text-sm); font-weight: 400;
-      letter-spacing: var(--track-mono);
-      -webkit-tap-highlight-color: transparent;
-    }
-    .view-toggle:hover { border-color: var(--color-border-strong); }
-    .view-toggle:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 2px;
-    }
-    .vt-thumb {
-      position: absolute; top: 2px; bottom: 2px; left: 2px;
-      width: calc(50% - 2px);
-      background: var(--color-accent);
-      border-radius: 999px;
-      transition: transform var(--transition-med) ease;
-    }
-    .view-toggle[aria-checked="true"] .vt-thumb { transform: translateX(100%); }
-    .vt-label {
-      position: relative; z-index: 1;
-      /* Width comes from min-width alone — no horizontal padding — so both
-         segments are identical and the thumb can be a flat 50%/translateX(100%).
-         Sized in ch so it still holds if the mono font falls back to a wider
-         one; flex items default to min-width:auto, which would otherwise floor
-         "graph" at its own text width and leave the two halves uneven. */
-      flex: 0 0 auto;
-      min-width: calc(5ch + 20px);
-      padding: 3px 0;
-      text-align: center; white-space: nowrap;
-      color: var(--color-nav);
-      transition: color var(--transition-fast);
-      user-select: none; -webkit-user-select: none;
-    }
-    /* Whichever segment the thumb is under flips to the cream knockout. */
-    .view-toggle[aria-checked="false"] .vt-label-list,
-    .view-toggle[aria-checked="true"]  .vt-label-graph { color: var(--color-bg); }
-
-    @media (prefers-reduced-motion: reduce) {
-      .vt-thumb { transition: none; }
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
-    /* ── List view ──
-       Sized a step down from the shared .content scale. This page is a dense
-       index — ~14 entries across five groups — so it reads at arm's length on
-       a 125%-scaled display, where the standard 15/16px body renders noticeably
-       larger than it measures. Nudge these five values together to rescale. */
-    #list-view {
-      max-width: 640px; margin: 0 auto;
-      /* The tall top padding is only there to duck under the fixed header and
-         nav on narrower screens, where they sit over the column. */
-      padding: var(--space-10) var(--space-7) var(--space-8);
-    }
-    /* Measured: the 640px centred column clears the header at ~986px and the
-       nav at ~1238px. Past that, nothing overlaps it, so the column can start
-       up at the same line as the header instead of a screen-third below it. */
-    @media (min-width: 1240px) {
-      #list-view { padding-top: var(--space-6); }
-    }
-    /* One step down from the shared 30px .page-title, to sit with the tightened
-       scale below it without giving the top of the page back to whitespace. */
-    #list-view .page-title {
-      font-size: 24px;
-      margin-bottom: var(--space-1);
-    }
-    #list-view .page-subtitle {
-      font-size: var(--text-md);
-      margin-bottom: var(--space-6);
+    ::selection { background: rgba(161, 53, 101, 0.18); color: var(--ink); }
+
+    /* One focus treatment for the whole page. Keyboard users get a ring in the
+       darkest ink (10.29:1 on the page, well past the 3:1 that 1.4.11 asks of
+       a focus indicator); pointer users never see it. */
+    a:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 4px;
+      border-radius: 2px;
     }
 
-    .list-group { margin-bottom: var(--space-6); }
-    .list-group-desc {
-      font-size: var(--text-sm); color: var(--color-meta);
-      line-height: 1.55; margin-bottom: var(--space-1);
+    .page {
+      width: 100%;
+      max-width: 34rem;
+      margin: 0 auto;
+      padding: 72px 32px 80px;
     }
 
-    .list-item { padding: 9px 0; border-bottom: 1px solid var(--color-divider); }
-    .list-item-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-    .list-item-title {
-      font-size: var(--text-md); font-weight: 600;
-      color: var(--color-ink); letter-spacing: -0.01em;
-    }
-    .list-tag {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs); font-weight: 500;
-      letter-spacing: var(--track-mono-caps); text-transform: uppercase;
-      color: var(--color-meta);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm); padding: 1px 6px;
-      position: relative; top: -1px;
-    }
-    .list-item-desc { font-size: var(--text-base); color: var(--color-body); line-height: 1.55; margin-top: 3px; }
-    .list-item-link {
-      display: inline-block; margin-top: 5px;
-      font-family: var(--font-mono);
-      font-size: var(--text-sm); color: var(--color-accent);
-      text-decoration: none; letter-spacing: var(--track-mono);
-    }
-    .list-item-link:hover { text-decoration: underline; }
-
-    /* ── SVG ── */
-    #graph {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
+    /* ── Name + pitch ─────────────────────────────────────────────────── */
+    .name {
+      font-size: clamp(1.75rem, 6vw, 2.25rem);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
     }
 
-    .graph-error {
-      position: fixed; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      max-width: 80vw; text-align: center;
-      font-size: var(--text-md); color: var(--color-meta);
+    .pitch {
+      margin-top: 12px;
+      color: var(--green-hover);
+      font-size: 0.9375rem;
+      line-height: 1.5;
     }
 
-    /* ── Tooltip ── */
-    #tooltip {
-      position: fixed; bottom: 36px; left: 36px;
-      max-width: 300px;
-      background: var(--color-surface);
-      border: 1px solid var(--color-surface-border);
+    /* ── Now ──────────────────────────────────────────────────────────────
+       The one time-sensitive thing on the page, so it gets the only box. It
+       sits above the interests because it expires and they don't — when there
+       is nothing upcoming, delete the <section> and the page closes over it
+       without a gap. */
+    .now {
+      margin-top: 36px;
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--pink);
       border-radius: 3px;
       padding: 14px 16px;
-      z-index: 200;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 200ms ease, transform 200ms ease;
-      pointer-events: none;
     }
-    #tooltip.visible {
-      opacity: 1; transform: translateY(0);
+
+    .now-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--pink);
     }
-    #tooltip .tip-title {
-      font-size: 15px; font-weight: 700;
-      color: var(--color-ink); letter-spacing: -0.01em;
-      margin-bottom: 6px;
+
+    .now-item {
+      margin-top: 8px;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      text-wrap: pretty;
     }
-    #tooltip .tip-desc {
-      font-family: var(--font-sans);
-      font-size: 14px; color: var(--color-body);
+
+    .now-when {
+      display: block;
+      color: var(--green-hover);
+      font-size: 0.8125rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Areas of interest ────────────────────────────────────────────── */
+    .interests { margin-top: 40px; }
+
+    .interests-label {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--green-hover);
+    }
+
+    /* The rule is the one place --green-soft is allowed: it carries no
+       information, so its 1.87:1 is a texture decision, not a contrast one. */
+    .interests-label::after {
+      content: "";
+      display: block;
+      height: 1px;
+      margin-top: 10px;
+      background: var(--green-soft);
+    }
+
+    .interests ul {
+      list-style: none;
+      margin-top: 16px;
+    }
+
+    .interests li {
+      position: relative;
+      padding-left: 24px;
+      margin-top: 8px;
       line-height: 1.6;
     }
-    #tooltip .tip-link {
-      display: none;
-      margin-top: 12px;
-      font-family: var(--font-mono);
-      font-size: 12px; color: var(--color-accent);
-      text-decoration: none; letter-spacing: var(--track-mono);
-    }
-    #tooltip .tip-link:hover { text-decoration: underline; }
-    #tip-close { display: none; }
 
-    /* ── Hint ── */
-    #hint {
-      position: fixed; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 300;
-      display: flex; flex-direction: column; gap: 10px; align-items: center;
-      background: var(--color-surface);
-      border: 1px solid var(--color-surface-border);
-      border-radius: 4px;
-      padding: 22px 32px;
-      pointer-events: none;
-      opacity: 1; transition: opacity 1.2s ease;
+    .interests li::before {
+      content: "·";
+      position: absolute;
+      left: 4px;
+      top: -0.05em;
+      color: var(--green-hover);
+      font-size: 1.1em;
     }
-    #hint.fade { opacity: 0; }
-    #hint span {
-      font-size: 13px; color: var(--color-body); letter-spacing: 0;
-      display: flex; align-items: center; gap: 8px;
-    }
-    #hint span::before { content: "—"; opacity: 0.35; font-size: 11px; }
-    #hint .hint-mobile { display: none; }
 
-    /* ── Legend ── */
-    .legend {
-      position: fixed; bottom: 36px; right: 36px; z-index: 100;
-      display: flex; flex-direction: column; gap: 9px;
+    /* ── Bracket links ────────────────────────────────────────────────────
+       The brackets are the affordance — they say "this is pressable" without a
+       button ever being drawn. They sit in the HTML inside aria-hidden spans
+       rather than in ::before/::after so the accessible name stays
+       "view projects" and not "left bracket view projects right bracket". */
+    .links {
+      margin-top: 52px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 28px;
     }
-    .legend-item {
-      display: flex; align-items: center; gap: 9px;
-      font-family: var(--font-mono);
-      font-size: 12px; color: var(--color-nav); letter-spacing: var(--track-mono);
-    }
-    .legend-dot { border-radius: 50%; flex-shrink: 0; }
-    .legend-dot-past { width: 8px; height: 8px; background: var(--color-node-past); }
 
-    /* The five prongs, drawn from the same PRONGS table the graph uses. */
-    .prong-swatch { display: inline-flex; gap: 4px; }
-    .prong-swatch i { width: 8px; height: 8px; border-radius: 50%; display: block; }
+    .link {
+      font-size: 0.9375rem;
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 160ms ease;
+    }
 
-    /* ── Bioluminescence ──
-       Only the halo animates, and only its transform. Its opacity is written
-       by the highlight logic as an attribute, and a CSS animation on opacity
-       would outrank that and fight it every frame. */
-    @keyframes antler-breathe {
-      0%, 100% { transform: scale(1); }
-      50%      { transform: scale(1.16); }
+    .link .bracket {
+      display: inline-block;
+      color: var(--green-hover);
+      transition: transform 160ms ease, color 160ms ease;
     }
-    .halo {
-      transform-box: fill-box;
-      transform-origin: center;
-      animation: antler-breathe 5.6s ease-in-out infinite;
+
+    /* Brackets step outward on hover. The label itself stays put, so nothing
+       on the line reflows and the row never shifts under the cursor. */
+    .link:hover .bracket-open,
+    .link:focus-visible .bracket-open { transform: translateX(-3px); }
+    .link:hover .bracket-close,
+    .link:focus-visible .bracket-close { transform: translateX(3px); }
+
+    .link:hover,
+    .link:hover .bracket { color: var(--green-hover); }
+
+    /* offline is the one bracket link that goes pink instead of green */
+    .link--offline:hover,
+    .link--offline:hover .bracket { color: var(--pink); }
+
+    /* ── Contact ──────────────────────────────────────────────────────────
+       A <details>, not a link: the address is on this page rather than behind
+       a navigation, and it is written out rather than linked so there is no
+       mailto: for a harvester to lift. Native disclosure means the open/close
+       state, the keyboard handling and aria-expanded all come for free — no
+       script on the page at all. */
+    .contact-row { margin-top: 28px; }
+
+    .contact summary {
+      display: inline-block;
+      font-size: 0.9375rem;
+      color: var(--pink);
+      white-space: nowrap;
+      cursor: pointer;
+      list-style: none;
+      transition: color 160ms ease;
     }
-    .halo-tip { animation-duration: 4.3s; }
+    /* Both spellings: the standard one and the WebKit pseudo-element that
+       ignores it. Without these the row gets a disclosure triangle in front
+       of the opening parenthesis. */
+    .contact summary::-webkit-details-marker { display: none; }
+    .contact summary::marker { content: ""; }
+
+    .contact summary:hover { color: var(--ink); }
+
+    .contact summary:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    .contact-note {
+      margin-top: 10px;
+      font-size: 0.9375rem;
+      color: var(--ink);
+      user-select: all;
+    }
+
+    .contact-hint {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.75rem;
+      color: var(--green-hover);
+    }
+
+    /* ── Entrance ─────────────────────────────────────────────────────────
+       Opt-in only. The default state is fully visible, so a reduced-motion
+       preference — or a browser that skips the animation — still gets content
+       rather than an empty beige page. */
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes rise {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: none; }
+      }
+      .page > * {
+        animation: rise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+      .pitch       { animation-delay: 60ms; }
+      .now         { animation-delay: 120ms; }
+      .interests   { animation-delay: 180ms; }
+      .links       { animation-delay: 240ms; }
+      .contact-row { animation-delay: 300ms; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .halo { animation: none; }
+      .link, .link .bracket, .contact summary { transition: none; }
+      .link:hover .bracket-open,
+      .link:hover .bracket-close,
+      .link:focus-visible .bracket-open,
+      .link:focus-visible .bracket-close { transform: none; }
     }
 
-    .past-toggle {
-      background: none; border: none; cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 12px; color: var(--color-nav); letter-spacing: var(--track-mono);
-      padding: 0; transition: color var(--transition-fast), opacity var(--transition-fast);
+    /* ── Small screens ────────────────────────────────────────────────────
+       Links become 44px-tall targets, which is also why the rows pick up their
+       own vertical gap — the boxes are taller than the text they hold. */
+    @media (max-width: 640px) {
+      .page { padding: 56px 24px 64px; }
+      .interests { margin-top: 40px; }
+      .links { margin-top: 40px; gap: 0 24px; }
+      .link, .contact summary {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+      }
+      .contact-row { margin-top: 12px; }
     }
-    .past-toggle:hover { color: var(--color-ink); }
-    /* The off state was carried by opacity: 0.45, which took this button's label
-       to 2.11:1. The strike-through already says "off" on its own, so the state
-       is spelled with that plus a colour shift instead of by fading real text. */
-    .past-toggle.hidden-state { color: var(--color-meta); text-decoration: line-through; }
-    .past-toggle:not(.hidden-state) { color: var(--color-accent); }
 
-    /* ==========================================================================
-       Mobile mode (<=700px)
-       Desktop is a full-viewport, hover-driven, drag-to-rearrange graph. That
-       doesn't work on touch, so mobile gets its own deliberate mode: the page
-       scrolls normally, the graph lives in a contained box up top, hover
-       becomes tap-to-select, and details show in a bottom sheet.
-       ========================================================================== */
-    @media (max-width: 700px) {
-      body.view-graph { height: auto; overflow: visible; }
-
-      #graph-stage {
-        position: relative; width: 100%;
-        height: 60vh; min-height: 340px; max-height: 560px;
-        overflow: hidden;
-        margin-top: var(--space-2);
-        border-top: 1px solid var(--color-border);
-        border-bottom: 1px solid var(--color-border);
-      }
-      #graph { position: absolute; inset: 0; width: 100%; height: 100%; }
-
-      #list-view { padding: var(--space-3) var(--space-4) var(--space-8); }
-      /* The desktop step-down above is for wide screens read at arm's length.
-         A phone is held close and the column is already narrow, so body copy
-         goes back to the 15px the type scale sets as its floor. */
-      #list-view .list-item-desc { font-size: var(--text-md); }
-      #list-view .list-group-desc { font-size: var(--text-base); }
-      #list-view .list-item-link { font-size: var(--text-base); }
-
-      .tagline { display: none; }
-
-      /* Pad the segments rather than the shell, so the 44px touch target is
-         the switch itself and the thumb still fills its half exactly. */
-      .vt-label { padding: 12px 0; min-width: calc(5ch + 34px); }
-
-      /* Tooltip becomes a slide-up bottom sheet instead of a corner card */
-      #tooltip {
-        left: 0; right: 0; bottom: 0; top: auto;
-        max-width: none; width: 100%;
-        border-radius: 16px 16px 0 0;
-        padding: 20px 44px 20px 20px;
-        padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-        transform: translateY(100%);
-        box-shadow: 0 -8px 28px var(--color-shadow);
-      }
-      #tooltip.visible { transform: translateY(0); }
-      #tip-close {
-        display: flex; align-items: center; justify-content: center;
-        position: absolute; top: 8px; right: 8px;
-        width: 44px; height: 44px;
-        background: none; border: none;
-        font-size: 22px; line-height: 1; color: var(--color-meta);
-        cursor: pointer;
-      }
-
-      .legend {
-        bottom: 14px; right: 14px;
-        background: var(--color-surface);
-        padding: 8px 10px; border-radius: 8px;
-      }
-      .past-toggle {
-        display: inline-flex; align-items: center;
-        min-height: 44px; padding: 10px 0;
-      }
-
-      #hint { max-width: 82vw; padding: 18px 22px; }
-      #hint .hint-desktop { display: none; }
-      #hint .hint-mobile { display: flex; }
+    @media (forced-colors: active) {
+      .interests-label::after { background: CanvasText; }
+      .now { border-color: CanvasText; }
     }
   </style>
 </head>
-<body class="view-list">
+<body>
 
-<div class="header">
-  <h1><picture>
-      <source type="image/webp" srcset="images/logo-64.webp 1x, images/logo-128.webp 2x">
-      <img src="images/logo-64.png" srcset="images/logo-64.png 1x, images/logo-128.png 2x" alt="" width="26" height="26">
-    </picture>Tanya Nair</h1>
-  <div class="sub">ECE @ Johns Hopkins</div>
-  <button type="button" class="view-toggle" id="view-toggle"
-          role="switch" aria-checked="false" aria-label="Show graph view">
-    <span class="vt-thumb" aria-hidden="true"></span>
-    <span class="vt-label vt-label-list">list</span>
-    <span class="vt-label vt-label-graph">graph</span>
-  </button>
-</div>
+<main class="page">
+  <h1 class="name">Tanya Nair</h1>
 
-<div class="tagline">exploring my different interests and (somehow) trying to connect them</div>
+  <p class="pitch">ECE undergrad @ Johns Hopkins</p>
 
-<nav class="nav">
-  <a href="blog.html">blog</a>
-  <a href="offline.html">offline</a>
-  <a href="projects.html">projects</a>
-  <a href="contact.html">contact</a>
-</nav>
+  <section class="now" aria-labelledby="now-label">
+    <h2 class="now-label" id="now-label">now</h2>
+    <p class="now-item">
+      <span class="now-when"><time datetime="2026-09-29">Sep 29</time>&ndash;<time datetime="2026-10-01">Oct 1</time></span>
+      Attending <strong>EDUCAUSE</strong> in Denver. Happy to connect and chat!
+    </p>
+  </section>
 
-<main id="list-view">
-  <h2 class="page-title">Tanya Nair</h2>
-  <div class="page-subtitle">exploring my different interests and (somehow) trying to connect them</div>
-  <div id="list-groups"></div>
+  <section class="interests" aria-labelledby="interests-label">
+    <h2 class="interests-label" id="interests-label">areas of interest</h2>
+    <ul>
+      <li>AI/ML — NLP, agents, multilingual evaluation, applied research</li>
+      <li>Accessible and sustainable systems</li>
+      <li>Spaceflight</li>
+    </ul>
+  </section>
+
+  <nav class="links" aria-label="Sections">
+    <a class="link" href="projects.html"><span class="bracket bracket-open" aria-hidden="true">[</span>view projects<span class="bracket bracket-close" aria-hidden="true">]</span></a>
+    <a class="link" href="graph.html"><span class="bracket bracket-open" aria-hidden="true">[</span>graphify<span class="bracket bracket-close" aria-hidden="true">]</span></a>
+    <a class="link link--offline" href="offline.html"><span class="bracket bracket-open" aria-hidden="true">[</span>offline<span class="bracket bracket-close" aria-hidden="true">]</span></a>
+  </nav>
+
+  <div class="contact-row">
+    <details class="contact">
+      <summary><span aria-hidden="true">(</span>reach out<span aria-hidden="true">)</span></summary>
+      <p class="contact-note">tnair4[AT]jh[DOT]edu
+        <span class="contact-hint">swap the brackets for @ and .</span>
+      </p>
+    </details>
+  </div>
 </main>
 
-<div id="graph-stage">
-  <svg id="graph"></svg>
-</div>
-
-<div id="tooltip">
-  <button id="tip-close" aria-label="Close details">&times;</button>
-  <div class="tip-title" id="tip-title"></div>
-  <div class="tip-desc" id="tip-desc"></div>
-  <a class="tip-link" id="tip-link" href="#" target="_blank"></a>
-</div>
-
-
-<div id="hint">
-  <span class="hint-desktop">hover nodes to explore</span>
-  <span class="hint-desktop">click to pin</span>
-  <span class="hint-desktop">drag to rearrange</span>
-  <span class="hint-mobile">tap a node to explore</span>
-  <span class="hint-mobile">tap again to close</span>
-  <span>toggle past experiences in the legend</span>
-</div>
-
-<div class="legend">
-  <div class="legend-item">
-    <span class="prong-swatch" id="prong-swatch" aria-hidden="true"></span>
-    branches
-  </div>
-  <div class="legend-item">
-    <div class="legend-dot legend-dot-past"></div>
-    <button class="past-toggle hidden-state" id="past-toggle">past</button>
-  </div>
-</div>
-
-<script>
-// ── Data — the single source for both the list and the graph ────────────
-const nodes = [
-  // Self
-  { id: "tanya", label: "Tanya Nair", type: "self",
-    desc: "Undergraduate at Johns Hopkins, majoring in Electrical/Computer Engineering. Passionate about AI for medicine, accessibility, and society." },
-
-  // Interests
-  { id: "nlp",          label: "NLP & Language Models",   type: "interest", desc: "Cross-lingual systems, multilingual benchmarks, and understanding how language shapes knowledge." },
-  { id: "healthcare & accessibility",   label: "Healthcare and Accessibility Tech", short: "Healthcare & A11y",          type: "interest", desc: "Applying ML to clinical and surgical settings — from pathology reports to resource allocation, and using AI to make information and tools genuinely accessible to people with disabilities." },
-  { id: "ethics",       label: "Ethical & Efficient Tech/Systems", short: "Ethics & Efficiency",     type: "interest", desc: "Building AI that is both ethical and efficient." },
-  { id: "space",          label: "Spaceflight and UAVs",             type: "interest", desc: "Building systems for space exploration and unmanned aerial vehicles. Inspired by my love for <i>The Martian</i>." },
-  { id: "entrepreneurship", label: "Hacking/Entrepreneurship", short: "Entrepreneurship",       type: "interest", desc: "Side ventures and entrepreneurial endeavors. Exploring venture capital and building side projects." },
-
-  // Projects / Experience
-  { id: "clsp",     label: "CLSP Multilingual Benchmark", short: "CLSP Benchmark", type: "project", status: "present",
-    desc: "With Prof. Ziang Xiao — building a benchmark to evaluate LLM outputs across languages and cultures.",
-    link: "https://arxiv.org/abs/2407.05502" },
-  { id: "dartmouth",label: "Dartmouth Health AI",         short: "Dartmouth Health", type: "project", status: "past",
-    desc: "Clinical RAG model for pathology report cross-referencing — BM25 + FAISS fusion search, Microsoft phi-2. Also served as an EDIT AI Mentor, guiding interns across clinical ML projects and leading preprocessing and experiment design including WSI tiling, stain normalization, class imbalance mitigation, and multimodal alignment.",
-    link: "https://t-nair.github.io/levy-lab-research-24/" },
-  { id: "uw",       label: "UW Accessibility Pipeline", short: "UW A11y Pipeline",    type: "project", status: "present",
-    desc: "Automated pipeline to enhance .pptx accessibility for vision-impaired students. Presented at EDUCAUSE 2025." },
-  { id: "poetry",   label: "Published: NLP in Poetry", short: "NLP in Poetry",     type: "project", status: "past",
-    desc: "Published in JSR — sentiment analysis of poetry using six NLP techniques.",
-    link: "https://www.researchgate.net/publication/371524307_Natural_Language_Processing_used_in_sentiment_analysis_of_poetry_a_study_of_six_common_techniques" },
-  { id: "hophacks", label: "HopHacks",         type: "project", status: "present",
-    desc: "1st Place, Data Visualization Track at HopHacks 2025. Now on organizing team." },
-  { id: "daybreak", label: "Scout for Daybreak Ventures", short: "Daybreak Scout",  type: "project", status: "present",
-    desc: "Scouting early-stage startups for Daybreak Ventures." },
-  { id: "blog",     label: "Blog & YouTube",               type: "project", status: "present",
-    desc: "Writing and talking about AI & linguistics — monthly (in an ideal world).",
-    link: "blog.html" },
-  { id: "cansat",   label: "CanSat Competition",           type: "project", status: "past",
-    desc: "Designed and built a 1kg satellite for the international CanSat competition. In charge of Ground Control System, Sensor Subsystem, and Communication and Data Handling sections. 1/40 teams in the US to advance to launch." },
-  { id: "mrt",      label: "Mars Rover Team",              type: "project", status: "present",
-    desc: "Designed and built a Mars Rover for the international University Rover Challenge. Active part of electrical subteam, working on communication and power system design." },
-  { id: "chewy",    label: "Chewy AI Co-op",               type: "project", status: "present",
-    desc: "AI Technologist Co-op at Chewy, Summer/Fall 2026. Building agents as part of the Data & Innovation team. Bellevue, WA." },
-  { id: "idle", label: "Baltimore MSW Case Study", short: "Baltimore MSW", type: "project", status: "present",
-    desc: "Case study on Baltimore Municipal Solid Waste Management System." },
-];
-
-const links = [
-  // Self → interests
-  { source: "tanya", target: "nlp" },
-  { source: "tanya", target: "healthcare & accessibility" },
-  { source: "tanya", target: "ethics" },
-  { source: "tanya", target: "space" },
-  { source: "tanya", target: "entrepreneurship" },
-
-  // NLP cluster
-  { source: "nlp", target: "clsp" },
-  { source: "nlp", target: "poetry" },
-  { source: "nlp", target: "blog" },
-  { source: "nlp", target: "chewy" },
-
-  // Healthcare / accessibility cluster
-  { source: "healthcare & accessibility", target: "dartmouth" },
-  { source: "healthcare & accessibility", target: "uw" },
-
-  // Entrepreneurship cluster
-  { source: "entrepreneurship", target: "daybreak" },
-  { source: "entrepreneurship", target: "hophacks" },
-
-  // Ethics cluster
-  { source: "ethics", target: "clsp" },
-  { source: "ethics", target: "blog" },
-  { source: "ethics", target: "idle" },
-  { source: "ethics", target: "dartmouth" },
-
-  // Space cluster
-  { source: "space", target: "cansat" },
-  { source: "space", target: "mrt" },
-];
-
-// ── Antler prongs ──────────────────────────────────────────────────────
-// Xerneas's antlers branch from the skull and each prong ends in its own
-// coloured jewel. The five interests are the prongs.
-//   order — where the prong sits across the fan, -1 (far left) to +1 (far right);
-//           multiplied by a spread angle at layout time so the fan can narrow
-//           on mobile without rewriting the geometry.
-//   len   — how far along its prong the jewel sits, as a fraction of full reach.
-//           Alternating long/short is what real antlers do, and it also stops
-//           neighbouring jewels landing on one arc where their labels collide:
-//           at mobile's 50° spread there is only ~52px of arc between adjacent
-//           prongs, and these labels are twice that wide.
-//   jewel — the interest node, its label, and the strands running out to it.
-//   tip   — dimmer shade for the projects hanging off that branch.
-// Every jewel clears 4.5:1 on --color-bg and every tip clears 3:1.
-// Ratios below are against --color-bg (#15171b). Jewels carry interest nodes,
-// tips carry the projects growing off them. Both are rendered at full opacity,
-// so the number in the comment is the number on screen — the tips used to be
-// ~3.0:1 swatches drawn at 0.78 opacity, which landed them at 2.35:1. They are
-// the same hue and saturation as before, lifted in value until they clear 4.5:1.
-const PRONGS = {
-  "nlp":                        { order: -1.0, len: 1.00, jewel: "#23afcc", tip: "#1c8ca3" }, /* 6.90 / 4.56 */
-  "healthcare & accessibility": { order: -0.5, len: 0.76, jewel: "#e86a9a", tip: "#ca5c86" }, /* 5.95 / 4.61 */
-  "ethics":                     { order:  0.0, len: 1.00, jewel: "#f4ab6f", tip: "#a8764d" }, /* 9.32 / 4.59 */
-  "space":                      { order:  0.5, len: 0.76, jewel: "#9b7fd4", tip: "#8d74c1" }, /* 5.45 / 4.60 */
-  "entrepreneurship":           { order:  1.0, len: 1.00, jewel: "#6fd49b", tip: "#4a8e68" }, /* 9.88 / 4.58 */
-};
-
-// Which prong each project hangs from. A project bridging two interests (CLSP,
-// the blog, Dartmouth) is drawn on the first one it links to — it still shows
-// under both headings in the list view, where there's room to say so.
-const BRANCH = {};
-links.forEach(l => {
-  if (PRONGS[l.source] && !BRANCH[l.target]) BRANCH[l.target] = l.source;
-});
-function prongOf(id) { return PRONGS[id] || PRONGS[BRANCH[id]] || null; }
-
-// Legend swatch is built from the same table, so it can't drift out of sync
-// with the graph. Runs at load, not on graph init — the legend is only hidden
-// in list view, not absent.
-document.getElementById("prong-swatch").innerHTML =
-  Object.values(PRONGS).map(p => '<i style="background:' + p.jewel + '"></i>').join("");
-
-// ── List view ──────────────────────────────────────────────────────────
-// The plain-language rendering of the same graph: one section per interest,
-// listing everything linked to it. A project that bridges two interests shows
-// up under both — that overlap is the whole point of the graph, so flattening
-// it away would drop the one thing worth carrying over.
-function renderList() {
-  const byId = new Map(nodes.map(n => [n.id, n]));
-
-  document.getElementById("list-groups").innerHTML =
-    nodes.filter(n => n.type === "interest").map(interest => {
-      const items = links
-        .filter(l => l.source === interest.id || l.target === interest.id)
-        .map(l => byId.get(l.source === interest.id ? l.target : l.source))
-        .filter(n => n && n.type === "project")
-        // active work first; order within a status follows the data
-        .sort((a, b) => (a.status === "past") - (b.status === "past"))
-        .map(p => `
-          <div class="list-item">
-            <div class="list-item-head">
-              <span class="list-item-title">${p.label}</span>
-              ${p.status === "past" ? '<span class="list-tag">past</span>' : ''}
-            </div>
-            <div class="list-item-desc">${p.desc || ''}</div>
-            ${p.link ? `<a class="list-item-link" href="${p.link}"${/^https?:/.test(p.link) ? ' target="_blank" rel="noopener"' : ''}>→ open</a>` : ''}
-          </div>`).join('');
-
-      return `
-        <section class="list-group">
-          <div class="section-label">${interest.label}</div>
-          <p class="list-group-desc">${interest.desc || ''}</p>
-          ${items}
-        </section>`;
-    }).join('');
-}
-renderList();
-
-// ── View switching ─────────────────────────────────────────────────────
-const toggleEl = document.getElementById("view-toggle");
-let graph = null;      // built lazily, once
-let d3Promise = null;
-
-function loadD3() {
-  if (window.d3) return Promise.resolve();
-  if (!d3Promise) {
-    d3Promise = new Promise((resolve, reject) => {
-      const s = document.createElement("script");
-      s.src = "https://d3js.org/d3.v7.min.js";
-      s.onload = resolve;
-      s.onerror = () => reject(new Error("d3 failed to load"));
-      document.head.appendChild(s);
-    }).catch(err => { d3Promise = null; throw err; });  // let a later toggle retry
-  }
-  return d3Promise;
-}
-
-function setView(view) {
-  const graphView = view === "graph";
-  document.body.classList.toggle("view-graph", graphView);
-  document.body.classList.toggle("view-list", !graphView);
-  // aria-checked drives the thumb position and label knockout in CSS.
-  toggleEl.setAttribute("aria-checked", String(graphView));
-  toggleEl.setAttribute("aria-label", graphView ? "Show list view" : "Show graph view");
-
-  if (!graphView) return;
-  // The stage is visible as of the class change above, so it finally has a
-  // measurable size — safe to build or re-measure the simulation now.
-  loadD3().then(() => {
-    if (!graph) graph = initGraph();
-    else graph.resize();
-  }).catch(() => {
-    document.getElementById("graph-stage").innerHTML =
-      '<div class="graph-error">Couldn\'t load the graph — the list view has the same information.</div>';
-  });
-}
-
-// One control, so a click just flips whichever state it's in. Enter/Space come
-// free with <button>, which role="switch" needs to stay keyboard-operable.
-toggleEl.addEventListener("click", () => {
-  setView(toggleEl.getAttribute("aria-checked") === "true" ? "list" : "graph");
-});
-
-// ── Graph ──────────────────────────────────────────────────────────────
-function initGraph() {
-const svg = d3.select("#graph");
-
-function isMobileMode() { return window.matchMedia("(max-width: 700px)").matches; }
-let MOBILE = isMobileMode();
-
-// #graph is fixed full-viewport on desktop and absolute-fill of #graph-stage
-// on mobile — either way its own bounding rect is the right thing to measure.
-function measure() {
-  const r = svg.node().getBoundingClientRect();
-  return [Math.max(1, r.width), Math.max(1, r.height)];
-}
-let [W, H] = measure();
-svg.attr("viewBox", [0, 0, W, H]);
-
-// Read before the defs below, which build gradients out of these.
-const tokens = getComputedStyle(document.documentElement);
-const colorAccent   = tokens.getPropertyValue("--color-accent").trim();
-const colorMeta     = tokens.getPropertyValue("--color-meta").trim();
-const colorNodePast = tokens.getPropertyValue("--color-node-past").trim();
-const colorNodeSelf = tokens.getPropertyValue("--color-node-self").trim();
-const colorStrand   = tokens.getPropertyValue("--color-strand").trim();
-const colorInk      = tokens.getPropertyValue("--color-ink").trim();
-const colorBg       = tokens.getPropertyValue("--color-bg").trim();
-
-const defs = svg.append("defs");
-
-// Bioluminescence, in two parts.
-//
-// 1. A blur-and-merge filter on the node itself, so the fill bleeds slightly
-//    past its edge the way a lit thing does. Two strengths: the skull and the
-//    jewels burn brighter than the tips.
-[["glow-strong", 5], ["glow-soft", 2.2]].forEach(([id, sd]) => {
-  const f = defs.append("filter").attr("id", id)
-    .attr("x", "-80%").attr("y", "-80%").attr("width", "260%").attr("height", "260%");
-  f.append("feGaussianBlur").attr("in", "SourceGraphic").attr("stdDeviation", sd).attr("result", "b");
-  const m = f.append("feMerge");
-  m.append("feMergeNode").attr("in", "b");
-  m.append("feMergeNode").attr("in", "SourceGraphic");
-});
-
-// 2. A halo behind each node, filled with a radial gradient that fades to
-//    nothing. Cheaper than blurring a second circle per node, and it's the
-//    halo (not the node) that pulses — so the pulse can't fight the opacity
-//    the highlight logic writes onto the node itself.
-const HALO_COLORS = {};
-Object.entries(PRONGS).forEach(([id, p]) => { HALO_COLORS["p-" + id.replace(/\W/g, "")] = p.jewel; });
-HALO_COLORS["self"] = colorNodeSelf;
-HALO_COLORS["past"] = colorNodePast;
-Object.entries(HALO_COLORS).forEach(([key, col]) => {
-  const g = defs.append("radialGradient").attr("id", "halo-" + key);
-  g.append("stop").attr("offset", "0%").attr("stop-color", col).attr("stop-opacity", 0.45);
-  g.append("stop").attr("offset", "55%").attr("stop-color", col).attr("stop-opacity", 0.13);
-  g.append("stop").attr("offset", "100%").attr("stop-color", col).attr("stop-opacity", 0);
-});
-function haloId(d) {
-  if (d.type === "self") return "halo-self";
-  if (d.type === "project" && d.status === "past") return "halo-past";
-  const key = d.type === "interest" ? d.id : BRANCH[d.id];
-  return key ? "halo-p-" + key.replace(/\W/g, "") : "halo-self";
-}
-
-// The beam is bone all the way out — on Xerneas only the prong tips are
-// jewels, and the antler itself is a single pale colour. So every strand is
-// the same beige regardless of which branch it belongs to; branch identity is
-// carried entirely by the nodes and their labels.
-//
-// Each strand still runs dim at the skull and bright at the tip, so the branch
-// reads as growing outward. Gradients are in user space, so their endpoints
-// are repositioned every tick alongside the line itself.
-const linkGrad = defs.selectAll("linearGradient.strand")
-  .data(links).join("linearGradient")
-  .attr("class", "strand")
-  .attr("id", (d, i) => "strand-" + i)
-  .attr("gradientUnits", "userSpaceOnUse");
-// The taper is the point, but it used to start at 0.06 — 1.14:1, which is not
-// dim, it is absent. Floor raised to where the strand is still visibly the
-// faint end of a gradient (3.12:1) and the tip end to 5.71:1, so the links
-// actually read as the structure they carry.
-linkGrad.append("stop").attr("offset", "0%")
-  .attr("stop-color", colorStrand).attr("stop-opacity", 0.40);
-linkGrad.append("stop").attr("offset", "100%")
-  .attr("stop-color", colorStrand).attr("stop-opacity", 0.62);
-
-const R_DESKTOP = { self: 20, interest: 12, project: 6 };
-const R_MOBILE  = { self: 15, interest: 9,  project: 5 };
-function nodeRadius(d) { return (MOBILE ? R_MOBILE : R_DESKTOP)[d.type]; }
-
-// Force tuning differs sharply by mode: mobile packs ~20 nodes into a box a
-// fraction of desktop's area, so links/charge/collision all pull in tighter.
-const FORCE = {
-  desktop: { linkSelf: 170, linkOther: 110, linkStrength: 0.55, chargeSelf: -800, chargeInterest: -320, chargeProject: -160, collidePad: 18, padX: 8, padY: 5 },
-  mobile:  { linkSelf: 95,  linkOther: 56,  linkStrength: 0.9,  chargeSelf: -260, chargeInterest: -110, chargeProject: -50,  collidePad: 10, padX: 6, padY: 3 },
-};
-function cfg() { return MOBILE ? FORCE.mobile : FORCE.desktop; }
-
-// Colour is carried by the prong, not by node type: an interest wears its
-// jewel, and the projects growing off it wear the dimmer tip of the same hue.
-// Past work drops out of its branch colour entirely and goes grey — that
-// distinction has to survive being toggled, so it can't also be a hue.
-function getColor(d) {
-  if (d.type === "self") return colorNodeSelf;
-  if (d.type === "project" && d.status === "past") return colorNodePast;
-  const p = prongOf(d.id);
-  if (!p) return colorAccent;
-  return d.type === "interest" ? p.jewel : p.tip;
-}
-function labelColor(d) {
-  if (d.type === "self") return colorInk;
-  if (d.type === "interest") { const p = prongOf(d.id); return p ? p.jewel : colorInk; }
-  return colorMeta;
-}
-// How far the unfocused parts of the graph recede on hover. Deliberately much
-// higher than the 0.15/0.12 this used to use — see applyHighlight().
-//
-// These can't be pushed all the way to compliance and still be a de-emphasis:
-// unfocused labels are --color-meta, which is 5.49:1 at full strength, so any
-// opacity low enough to read as "receded" is also below 4.5:1. Rather than pick
-// one side, ask: a reader on prefers-contrast: more gets no dimming at all —
-// hovering then only *brightens* the focused branch — and everyone else gets
-// the effect at a level where nothing vanishes. The graph is also the opt-in
-// view; the list is the default and carries the same content as plain text.
-const HIGH_CONTRAST = window.matchMedia("(prefers-contrast: more)");
-let DIM_NODE, DIM_TEXT, DIM_LINK;
-function setDimLevels() {
-  const hc = HIGH_CONTRAST.matches;
-  DIM_NODE = hc ? 1    : 0.5;   /* 0.5: a 4.5:1 tip lands at ~2.3:1 */
-  DIM_TEXT = hc ? 1    : 0.6;   /* 0.6: --color-meta lands at 2.79:1 */
-  DIM_LINK = hc ? 0.85 : 0.35;
-}
-setDimLevels();
-// Re-apply live if the OS setting flips while the page is open.
-HIGH_CONTRAST.addEventListener("change", () => {
-  setDimLevels();
-  if (lockedNode) applyHighlight(lockedNode); else clearHighlight();
-});
-
-let showPast = false;
-
-// ── Antler geometry ────────────────────────────────────────────────────
-// The skull sits low and the prongs sweep up and outward. These are *targets*
-// for forceX/forceY rather than fixed positions, which is the whole trick:
-// the silhouette reads as antlers, but the simulation still resolves overlap
-// and nodes can still be dragged and will settle back.
-const selfNode = nodes.find(n => n.id === "tanya");
-
-function antler() {
-  // Narrower fan on mobile. A 68° spread across a 375px-wide stage would put
-  // the outer tips off-canvas; trading spread for height keeps the shape.
-  const spread = MOBILE ? 50 : 68;
-  const cx = W / 2, cy = H * 0.82;
-  // Reach is bounded twice: by how far up the centre prong can go before it
-  // runs out of canvas, and by how far the outermost prong can swing sideways.
-  const reach = Math.min(H * 0.66, (W * (MOBILE ? 0.42 : 0.46)) / Math.sin(spread * Math.PI / 180));
-  return { cx, cy, spread, tip: reach, jewel: reach * 0.58,
-           fan: MOBILE ? 12 : 15 };
-}
-
-function retarget() {
-  const A = antler();
-  selfNode.fx = A.cx; selfNode.fy = A.cy;
-  selfNode._tx = A.cx; selfNode._ty = A.cy;
-
-  // Projects are laid out per branch so siblings fan around their parent
-  // prong instead of stacking on it.
-  const kids = {};
-  nodes.forEach(n => {
-    if (n.type !== "project") return;
-    const b = BRANCH[n.id];
-    if (b) (kids[b] = kids[b] || []).push(n);
-  });
-
-  nodes.forEach(n => {
-    if (n.type === "self") return;
-    const p = prongOf(n.id);
-    if (!p) { n._tx = A.cx; n._ty = A.cy - A.jewel; return; }
-
-    if (n.type === "interest") {
-      const a = p.order * A.spread * Math.PI / 180;
-      n._tx = A.cx + Math.sin(a) * A.jewel * p.len;
-      n._ty = A.cy - Math.cos(a) * A.jewel * p.len;
-    } else {
-      const sibs = kids[BRANCH[n.id]] || [n];
-      const k = sibs.indexOf(n);
-      const off = (k - (sibs.length - 1) / 2) * A.fan;
-      const a = (p.order * A.spread + off) * Math.PI / 180;
-      // Slight alternating reach so the tips don't land on a clean arc.
-      const r = A.tip * (k % 2 ? 0.90 : 1.0);
-      n._tx = A.cx + Math.sin(a) * r;
-      n._ty = A.cy - Math.cos(a) * r;
-    }
-  });
-}
-retarget();
-
-const simulation = d3.forceSimulation(nodes)
-  // Links stay in play but weakly — the positional forces below own the shape,
-  // and a strong link force would pull the fan back into a blob.
-  .force("link", d3.forceLink(links).id(d => d.id).distance(60).strength(0.12))
-  .force("charge", d3.forceManyBody().strength(d => d.type === "project" ? -40 : -90))
-  .force("ax", d3.forceX(d => d._tx).strength(d => d.type === "interest" ? 0.55 : 0.40))
-  .force("ay", d3.forceY(d => d._ty).strength(d => d.type === "interest" ? 0.55 : 0.40))
-  .force("collision", d3.forceCollide().radius(d => nodeRadius(d) + cfg().collidePad))
-  .force("labels", forceLabelBox())
-  .alphaDecay(0.02)
-  .alphaTarget(0.005);
-
-// ── Anti-overlap: treat each node's circle + label as one rectangle ──────
-// forceCollide only spaces the dots; the wide mono labels beneath them still
-// collide. This resolves overlaps of the whole footprint (circle + label).
-// Recomputed every tick (not just once) since it depends on MOBILE, which
-// can flip mid-session on resize/orientation change.
-function labelFontSize(d) {
-  const base = d.type === "self" ? 13 : d.type === "interest" ? 12 : 11;
-  return MOBILE ? base - 1 : base;
-}
-// Mobile substitutes shorter labels for the long descriptive ones (set via
-// `short` on the node) — full labels simply don't fit at 390px alongside 20 nodes.
-function labelText(d) {
-  return (MOBILE && d.short) ? d.short : d.label;
-}
-function forceLabelBox() {
-  let ns;
-  function recompute(d) {
-    const fs = labelFontSize(d);
-    const r = nodeRadius(d);
-    const { padX, padY } = cfg();
-    const text = labelText(d);
-    const lw = (text ? text.length : 0) * fs * 0.6; // IBM Plex Mono ≈ 0.6em advance
-    d._hw = Math.max(r, lw / 2) + padX;                    // half-width
-    d._cy = (15 + fs * 0.2) / 2;                           // box centre offset below node
-    d._hh = r + d._cy + padY;                              // half-height (circle top → label bottom)
-  }
-  function force() {
-    const n = ns.length;
-    for (let i = 0; i < n; i++) {
-      const a = ns[i];
-      recompute(a);
-      if (isPastHidden(a)) continue;
-      for (let j = i + 1; j < n; j++) {
-        const b = ns[j];
-        recompute(b);
-        if (isPastHidden(b)) continue;
-        let dx = b.x - a.x;
-        let dy = (b.y + b._cy) - (a.y + a._cy);
-        const ox = (a._hw + b._hw) - Math.abs(dx);
-        const oy = (a._hh + b._hh) - Math.abs(dy);
-        if (ox > 0 && oy > 0) {
-          const aFixed = a.fx != null, bFixed = b.fx != null;
-          if (ox < oy) {                                  // separate along the shallower axis
-            if (dx === 0) dx = Math.random() - 0.5;
-            const shift = (ox * 0.25) * (dx < 0 ? -1 : 1);
-            if (!aFixed) a.x -= shift;
-            if (!bFixed) b.x += shift;
-          } else {
-            if (dy === 0) dy = Math.random() - 0.5;
-            const shift = (oy * 0.25) * (dy < 0 ? -1 : 1);
-            if (!aFixed) a.y -= shift;
-            if (!bFixed) b.y += shift;
-          }
-        }
-      }
-    }
-  }
-  force.initialize = _ => ns = _;
-  return force;
-}
-
-// ── Links ──────────────────────────────────────────────────────────────
-// Strands taper: thicker where they leave the skull, finer out at the tips,
-// the way an antler beam narrows into its prongs.
-const linkSel = svg.append("g")
-  .selectAll("line")
-  .data(links)
-  .join("line")
-  .attr("stroke", (d, i) => "url(#strand-" + i + ")")
-  .attr("stroke-width", d => {
-    const src = typeof d.source === "object" ? d.source.id : d.source;
-    return src === "tanya" ? 2.4 : 1.3;
-  })
-  .attr("stroke-linecap", "round")
-  .attr("opacity", l => baseLinkOpacity(l) ?? 1);
-
-// ── Nodes ──────────────────────────────────────────────────────────────
-const nodeSel = svg.append("g")
-  .selectAll("g")
-  .data(nodes)
-  .join("g")
-  .style("cursor", "default");
-
-// Invisible touch hit area — larger than the visible dot so small project
-// nodes stay tappable on mobile; harmless on desktop where the mouse is precise.
-nodeSel.append("circle")
-  .attr("class", "hit-area")
-  .attr("r", d => MOBILE ? Math.max(16, nodeRadius(d) + 6) : nodeRadius(d))
-  .attr("fill", "transparent")
-  .attr("pointer-events", "all");
-
-// Halo first, so it sits behind the node it belongs to.
-nodeSel.append("circle")
-  .attr("class", d => "halo" + (d.type === "project" ? " halo-tip" : ""))
-  .attr("r", d => nodeRadius(d) * (d.type === "self" ? 3.4 : d.type === "interest" ? 3.0 : 3.6))
-  .attr("fill", d => "url(#" + haloId(d) + ")")
-  // Every other element gets its resting opacity at creation; the halo used to
-  // be the exception, so a hidden past node rendered as a bare glow with no dot
-  // and no label under it — three unexplained lights floating in the dark.
-  // clearHighlight() would have fixed it, but nothing calls that on load.
-  .attr("opacity", d => isPastHidden(d) ? 0 : 1)
-  .attr("pointer-events", "none")
-  // Stagger so the jewels breathe out of sync rather than blinking in unison.
-  .style("animation-delay", (d, i) => (i * 0.37).toFixed(2) + "s");
-
-nodeSel.append("circle")
-  .attr("class", "node-circle")
-  .attr("r", d => nodeRadius(d))
-  .attr("fill", d => getColor(d))
-  .attr("opacity", d => baseNodeOpacity(d))
-  .attr("filter", d => d.type === "project" ? "url(#glow-soft)" : "url(#glow-strong)")
-  .attr("pointer-events", "none");
-
-// Bright core in the jewels and the skull — the lit centre of a gem.
-nodeSel.filter(d => d.type !== "project")
-  .append("circle")
-  .attr("class", "node-core")
-  .attr("r", d => d.type === "self" ? 5 : 3.5)
-  .attr("fill", "rgba(255,255,255,0.55)")
-  .attr("opacity", d => isPastHidden(d) ? 0 : 1)
-  .attr("pointer-events", "none");
-
-// Labels
-nodeSel.append("text")
-  .attr("dy", d => nodeRadius(d) + 15)
-  .attr("text-anchor", "middle")
-  .attr("font-family", "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace")
-  .attr("font-size", d => labelFontSize(d) + "px")
-  .attr("font-weight", d => d.type === "self" ? "600" : d.type === "interest" ? "500" : "400")
-  .attr("fill", d => labelColor(d))
-  .attr("letter-spacing", "0.01em")
-  .attr("pointer-events", "none")
-  /* cream knockout so labels read cleanly over links and never merge with neighbours */
-  .attr("paint-order", "stroke")
-  .attr("stroke", colorBg)
-  .attr("stroke-width", 3.5)
-  .attr("stroke-linejoin", "round")
-  .attr("opacity", d => isPastHidden(d) ? 0 : 1)
-  .text(d => labelText(d));
-
-// ── Tooltip ────────────────────────────────────────────────────────────
-const tooltip  = document.getElementById("tooltip");
-const tipTitle = document.getElementById("tip-title");
-const tipDesc  = document.getElementById("tip-desc");
-const tipLink  = document.getElementById("tip-link");
-
-let lockedNode = null;
-
-function applyHighlight(d) {
-  const connectedIds = new Set([d.id]);
-  links.forEach(l => {
-    if (l.source.id === d.id) connectedIds.add(l.target.id);
-    if (l.target.id === d.id) connectedIds.add(l.source.id);
-  });
-  // Hovering one node should recede the rest, not erase them. The old 0.15 put
-  // every other label at 1.23:1 — for the length of the hover the graph lost
-  // its context entirely, which is worst for exactly the readers who most need
-  // the surrounding structure to stay put. DIM keeps them legible; the focused
-  // node still separates clearly because it goes to full strength and keeps its
-  // halo while the others lose most of theirs.
-  nodeSel.selectAll("circle.node-circle")
-    .attr("opacity", n => isPastHidden(n) ? 0 : connectedIds.has(n.id) ? 1 : DIM_NODE);
-  nodeSel.selectAll("circle.node-core")
-    .attr("opacity", n => isPastHidden(n) ? 0 : connectedIds.has(n.id) ? 1 : DIM_NODE);
-  nodeSel.selectAll("circle.halo")
-    .attr("opacity", n => isPastHidden(n) ? 0 : connectedIds.has(n.id) ? 1 : 0.22);
-  nodeSel.selectAll("text")
-    .attr("opacity", n => isPastHidden(n) ? 0 : connectedIds.has(n.id) ? 1 : DIM_TEXT);
-  // Dim the whole strand rather than recolouring it — the gradient already
-  // carries the branch hue, and swapping stroke would throw that away.
-  linkSel
-    .attr("opacity", l => baseLinkOpacity(l) === 0 ? 0
-      : (l.source.id === d.id || l.target.id === d.id) ? 1 : DIM_LINK);
-  tipTitle.textContent = d.label;
-  tipDesc.innerHTML    = d.desc || "";
-  if (d.link) {
-    tipLink.href = d.link;
-    tipLink.textContent = "→ open";
-    tipLink.style.display = "inline-block";
-  } else {
-    tipLink.style.display = "none";
-  }
-  tooltip.classList.add("visible");
-}
-
-function isPastHidden(n) {
-  return !showPast && n.type === "project" && n.status === "past";
-}
-// Status used to be encoded as opacity, which quietly undid the palette: a tip
-// picked at 3.07:1 and drawn at 0.78 arrives at 2.35:1, and a past node at 0.55
-// arrives at 1.80:1. Colour now carries status (tips and --color-node-past are
-// each chosen to clear the bar on their own) and only "future" is still held
-// back a little — 0.82 on a 4.56:1 tip lands at 3.46:1, above the 3:1 that
-// WCAG 1.4.11 asks of a graphical object.
-function baseNodeOpacity(n) {
-  if (isPastHidden(n)) return 0;
-  if (n.type !== "project") return 1;
-  if (n.status === "future") return 0.82;
-  return 1;
-}
-function baseLinkOpacity(l) {
-  const srcId = typeof l.source === "object" ? l.source.id : l.source;
-  const tgtId = typeof l.target === "object" ? l.target.id : l.target;
-  const src = nodes.find(n => n.id === srcId);
-  const tgt = nodes.find(n => n.id === tgtId);
-  if (!showPast && ((src?.status === "past" && src?.type === "project") || (tgt?.status === "past" && tgt?.type === "project"))) return 0;
-  return null;
-}
-
-function clearHighlight() {
-  nodeSel.selectAll("circle.node-circle").attr("opacity", n => baseNodeOpacity(n));
-  nodeSel.selectAll("circle.node-core").attr("opacity", n => isPastHidden(n) ? 0 : 1);
-  nodeSel.selectAll("circle.halo").attr("opacity", n => isPastHidden(n) ? 0 : 1);
-  nodeSel.selectAll("text").attr("opacity", n => isPastHidden(n) ? 0 : 1);
-  linkSel.attr("opacity", l => baseLinkOpacity(l) ?? 1);
-  tooltip.classList.remove("visible");
-}
-
-nodeSel
-  .on("click", (event, d) => {
-    event.stopPropagation();
-    if (lockedNode && lockedNode.id === d.id) {
-      lockedNode = null;
-      tooltip.style.pointerEvents = "none";
-      clearHighlight();
-    } else {
-      lockedNode = d;
-      tooltip.style.pointerEvents = "auto";
-      applyHighlight(d);
-    }
-  })
-  .on("mouseenter", (event, d) => {
-    if (MOBILE || lockedNode) return;
-    applyHighlight(d);
-  })
-  .on("mouseleave", () => {
-    if (MOBILE || lockedNode) return;
-    clearHighlight();
-  });
-
-// Click background to unlock
-svg.on("click", () => {
-  if (lockedNode) {
-    lockedNode = null;
-    tooltip.style.pointerEvents = "none";
-    clearHighlight();
-  }
-});
-
-// Bottom-sheet close button (mobile)
-document.getElementById("tip-close").addEventListener("click", () => {
-  lockedNode = null;
-  tooltip.style.pointerEvents = "none";
-  clearHighlight();
-});
-
-// ── Drag ───────────────────────────────────────────────────────────────
-// Disabled on mobile — a touch-drag on a node would fight page scroll.
-// The filter is checked per-gesture, so it also reacts to MOBILE flipping
-// on resize/orientation change without re-binding anything.
-nodeSel.filter(d => d.type !== "self").call(
-  d3.drag()
-    .filter(() => !MOBILE)
-    .on("start", (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-    .on("drag",  (e, d) => { d.fx = e.x; d.fy = e.y; })
-    .on("end",   (e, d) => { if (!e.active) simulation.alphaTarget(0.02); d.fx = null; d.fy = null; })
-);
-
-// ── Tick ───────────────────────────────────────────────────────────────
-simulation.on("tick", () => {
-  nodes.forEach(d => {
-    // Desktop reserves each node's full label footprint as edge margin so
-    // labels never clip. On mobile that would reserve most of a 390px-wide
-    // stage (long labels are wider than the viewport) and crush every node
-    // into a sliver in the middle — so mobile uses a small fixed margin and
-    // lets the label-box force (not this clamp) do the real spacing work,
-    // with any rare overflow caught by the stage's overflow:hidden.
-    const px = MOBILE ? Math.min(14 + (d._hw || 0) * 0.75, W * 0.4) : Math.min(28 + (d._hw || 0), W * 0.45);
-    const py = MOBILE ? Math.min(20 + (d._hh || 0) * 0.4, H * 0.3) : Math.min(28 + (d._hh || 0), H * 0.45);
-    d.x = Math.max(px, Math.min(W - px, d.x));
-    d.y = Math.max(py, Math.min(H - py, d.y));
-  });
-  linkSel
-    .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-    .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
-  // Strand gradients are gradientUnits="userSpaceOnUse", so their endpoints
-  // are absolute and have to follow the line every tick or the dim-to-bright
-  // ramp detaches from the strand it belongs to.
-  linkGrad
-    .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-    .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
-  nodeSel.attr("transform", d => `translate(${d.x},${d.y})`);
-});
-
-// ── Resize ─────────────────────────────────────────────────────────────
-// Also called on returning to the graph view: the window may have changed
-// size while the stage was hidden, and a hidden stage can't be measured.
-function relayout() {
-  // A display:none stage measures 0×0, which would clamp every node into a
-  // 1×1 box and pile the whole graph on one point. Resizes that land while
-  // the list view is up are therefore ignored — setView calls relayout again
-  // on the way back into the graph, so the new size is never actually lost.
-  const rect = svg.node().getBoundingClientRect();
-  if (!rect.width || !rect.height) return;
-
-  MOBILE = isMobileMode();
-  [W, H] = [rect.width, rect.height];
-  svg.attr("viewBox", [0, 0, W, H]);
-  // Recompute the antler before restarting: reach, spread and the skull's
-  // position are all derived from W/H, and MOBILE may have just flipped.
-  retarget();
-  nodeSel.select("circle.hit-area")
-    .attr("r", d => MOBILE ? Math.max(16, nodeRadius(d) + 6) : nodeRadius(d));
-  nodeSel.select("circle.node-circle").attr("r", d => nodeRadius(d));
-  nodeSel.selectAll("circle.halo")
-    .attr("r", d => nodeRadius(d) * (d.type === "self" ? 3.4 : d.type === "interest" ? 3.0 : 3.6));
-  nodeSel.select("text")
-    .attr("dy", d => nodeRadius(d) + 15)
-    .attr("font-size", d => labelFontSize(d) + "px")
-    .text(d => labelText(d));
-  simulation.alpha(0.5).restart();
-}
-window.addEventListener("resize", relayout);
-
-const hintEl = document.getElementById("hint");
-function dismissHint() { hintEl.classList.add("fade"); }
-setTimeout(dismissHint, 5000);
-svg.on("click.hint", dismissHint);
-nodeSel.on("mouseenter.hint", dismissHint);
-
-const pastToggleBtn = document.getElementById("past-toggle");
-pastToggleBtn.addEventListener("click", () => {
-  showPast = !showPast;
-  pastToggleBtn.classList.toggle("hidden-state", !showPast);
-  if (lockedNode) {
-    applyHighlight(lockedNode);
-  } else {
-    clearHighlight();
-  }
-});
-
-// `simulation` is handed back so the layout can be stepped deterministically
-// without waiting on requestAnimationFrame.
-return { resize: relayout, simulation };
-}
-</script>
 </body>
 </html>
