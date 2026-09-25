@@ -121,11 +121,120 @@
     .project-card--placeholder .project-desc { color: var(--color-node-past); }
     .project-card--placeholder:hover { transform: none; border-color: var(--color-border); }
 
-    .gallery-note {
-      font-size: var(--text-sm); color: var(--color-meta);
-      line-height: 1.7; margin-top: var(--space-5);
+    /* Card that opens a dialog. The whole card is the target, so it gets the
+       cursor and a focus ring; Enter/Space work via the handler at the bottom
+       of the file. */
+    .project-card--open { cursor: pointer; }
+    .project-card--open:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+    /* Schematics are wide and white -- contain, do not crop. */
+    .project-thumb--fit img { object-fit: contain; background: #fff; padding: 6px; }
+
+    /* -- Dialog ---------------------------------------------------------- */
+    .dlg {
+      /* The global `* { margin: 0 }` reset kills the UA's `dialog:modal
+         { margin: auto }`, which is what centers a modal. Put it back. */
+      margin: auto;
+      max-width: 680px; width: calc(100% - var(--space-4) * 2);
+      max-height: 85vh; overflow-y: auto;
+      padding: var(--space-6);
+      border: var(--border-width) solid var(--color-surface-border);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface);
+      color: var(--color-body);
+      box-shadow: 0 8px 40px var(--color-shadow);
     }
-    .gallery-note code { font-family: var(--font-mono); font-size: var(--text-xs); }
+    .dlg::backdrop { background: rgba(31, 61, 46, 0.4); }
+    .dlg-close {
+      float: right; margin: -6px -6px 0 0;
+      border: 0; background: none; cursor: pointer;
+      font-size: 22px; line-height: 1; color: var(--color-meta);
+      min-width: 44px; min-height: 44px;
+    }
+    .dlg-close:hover { color: var(--color-ink); }
+    .dlg-title {
+      font-size: var(--text-xl); font-weight: 600; color: var(--color-ink);
+      letter-spacing: var(--track-title); line-height: 1.2; margin-top: var(--space-2);
+    }
+    .dlg-meta { font-size: var(--text-sm); color: var(--color-meta); margin-top: var(--space-1); }
+    .dlg-body { font-size: var(--text-md); line-height: 1.65; margin-top: var(--space-3); }
+    .dlg-h {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs); font-weight: 500; letter-spacing: var(--track-mono-caps);
+      text-transform: uppercase; color: var(--color-meta);
+      margin-top: var(--space-6); padding-bottom: var(--space-2);
+      border-bottom: var(--border-width) solid var(--color-divider);
+    }
+
+    /* Photo strip -- same auto-fill trick as the card grid, so it reflows to one
+       column on a phone without a breakpoint. Drop a <figure> in to add a shot. */
+    .dlg-shots {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: var(--space-3); margin-top: var(--space-3);
+    }
+    .dlg-shot {
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-md); overflow: hidden; background: #fff;
+    }
+    .dlg-shot img { width: 100%; aspect-ratio: 16 / 10; object-fit: contain; display: block; padding: 4px; }
+    .dlg-shot figcaption {
+      font-size: var(--text-xs); color: var(--color-meta);
+      padding: 6px var(--space-2);
+      border-top: var(--border-width) solid var(--color-divider);
+      background: var(--color-surface);
+    }
+    .dlg-shot--empty {
+      display: grid; place-items: center; aspect-ratio: 16 / 10;
+      font-size: var(--text-xs); color: var(--color-node-past);
+      background-color: var(--color-accent-tint);
+      background-image: repeating-linear-gradient(135deg, var(--color-bg-dot) 0 1px, transparent 1px 11px);
+    }
+
+    /* Iteration log -- a rail with a dot per entry. Add an <li> per revision; the
+       last one carries .dlg-log--next while it is still unbuilt. */
+    .dlg-log { list-style: none; margin-top: var(--space-3); padding-left: var(--space-2); }
+    .dlg-log li {
+      position: relative; padding: 0 0 var(--space-4) var(--space-4);
+      border-left: var(--border-width) solid var(--color-divider);
+    }
+    .dlg-log li:last-child { border-left-color: transparent; padding-bottom: 0; }
+    .dlg-log li::before {
+      content: ""; position: absolute; left: -4px; top: 5px;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--color-accent);
+    }
+    .dlg-log li.dlg-log--next::before { background: var(--color-bg); border: var(--border-width) solid var(--color-node-past); }
+    .dlg-date {
+      display: block; font-family: var(--font-mono);
+      font-size: var(--text-xs); letter-spacing: var(--track-mono-caps);
+      text-transform: uppercase; color: var(--color-meta);
+    }
+    .dlg-log strong { font-size: var(--text-subtitle); font-weight: 600; color: var(--color-ink); }
+    .dlg-log p { font-size: var(--text-md); line-height: 1.6; margin-top: 4px; }
+    .dlg-log--next strong, .dlg-log--next p { color: var(--color-node-past); }
+
+    /* -- Filter chips ----------------------------------------------------
+       Rose rectangles with a diagonal hatch. A card lists its categories in
+       data-tags (space-separated); a chip's data-filter matches one of them. */
+    .filters { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+    .filter {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs); font-weight: 500; letter-spacing: var(--track-mono-caps);
+      text-transform: uppercase; color: var(--color-accent);
+      padding: 6px 12px; min-height: 32px; cursor: pointer;
+      border: var(--border-width) solid var(--color-accent);
+      border-radius: var(--radius-sm);
+      background-color: #fbeef4;
+      background-image:
+        repeating-linear-gradient(135deg, rgba(161,53,101,.22) 0 1px, transparent 1px 6px);
+    }
+    .filter:hover { background-color: #f6dbe7; }
+    .filter[aria-pressed="true"] {
+      color: #fff; background-color: var(--color-accent);
+      background-image:
+        repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 1px, transparent 1px 6px);
+    }
+    .filter:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+    .project-card[hidden] { display: none; }
 
     @media (max-width: 700px) {
       .project-desc { font-size: var(--text-md); }
@@ -148,79 +257,407 @@
   <a href="blog.html">blog</a>
   <a href="offline.html">offline</a>
   <a href="projects.html" class="active">projects</a>
-  <a href="graph.html">graph</a>
   <a href="contact.html">contact</a>
 </nav>
 
 <div class="content content--gallery">
   <h2 class="page-title">Projects</h2>
   <div class="page-subtitle">
-    Research, industry, and engineering work. Being filled in — the
-    <a href="graph.html">graph view</a> has the current list in the meantime.
+    Research, industry, and engineering work.
+  </div>
+
+  <div class="filters" role="group" aria-label="Filter projects">
+    <button class="filter" data-filter="all" aria-pressed="true">All</button>
+    <button class="filter" data-filter="ongoing" aria-pressed="false">Ongoing</button>
+    <button class="filter" data-filter="electrical" aria-pressed="false">Electrical</button>
+    <button class="filter" data-filter="ai-ml" aria-pressed="false">AI/ML</button>
+    <button class="filter" data-filter="research" aria-pressed="false">Research</button>
+    <button class="filter" data-filter="web" aria-pressed="false">Web</button>
+    <button class="filter" data-filter="accessibility" aria-pressed="false">Accessibility</button>
   </div>
 
   <div class="project-grid">
 
-    <article class="project-card project-card--placeholder">
-      <div class="project-thumb" aria-hidden="true"><span class="project-thumb-index">01</span></div>
-      <div class="project-card-body">
-        <span class="project-tag">Research</span>
-        <h3 class="project-title">Project placeholder</h3>
-        <p class="project-desc">A sentence or two on what the project is, what got built, and what came out of it.</p>
+    <article data-tags="accessibility ongoing ai-ml" class="project-card project-card--open" onclick="document.getElementById('dlg-a11y').showModal()">
+      <div class="project-thumb">
+        <img src="images/a11y-workflow-thumb.webp" alt="Workflow diagram: a Python script reads each slide and reorders it so the title comes first.">
       </div>
-    </article>
-
-    <article class="project-card project-card--placeholder">
-      <div class="project-thumb" aria-hidden="true"><span class="project-thumb-index">02</span></div>
-      <div class="project-card-body">
-        <span class="project-tag">Research</span>
-        <h3 class="project-title">Project placeholder</h3>
-        <p class="project-desc">A sentence or two on what the project is, what got built, and what came out of it.</p>
-      </div>
-    </article>
-
-    <article class="project-card project-card--placeholder">
-      <div class="project-thumb" aria-hidden="true"><span class="project-thumb-index">03</span></div>
-      <div class="project-card-body">
-        <span class="project-tag">Industry</span>
-        <h3 class="project-title">Project placeholder</h3>
-        <p class="project-desc">A sentence or two on what the project is, what got built, and what came out of it.</p>
-      </div>
-    </article>
-
-    <article class="project-card project-card--placeholder">
-      <div class="project-thumb" aria-hidden="true"><span class="project-thumb-index">04</span></div>
-      <div class="project-card-body">
-        <span class="project-tag">Hardware</span>
-        <h3 class="project-title">Project placeholder</h3>
-        <p class="project-desc">A sentence or two on what the project is, what got built, and what came out of it.</p>
-      </div>
-    </article>
-
-    <article class="project-card project-card--placeholder">
-      <div class="project-thumb" aria-hidden="true"><span class="project-thumb-index">05</span></div>
       <div class="project-card-body">
         <span class="project-tag">Accessibility</span>
-        <h3 class="project-title">Project placeholder</h3>
-        <p class="project-desc">A sentence or two on what the project is, what got built, and what came out of it.</p>
+        <h3 class="project-title">Automated Accessibility Enhancer</h3>
+        <p class="project-desc">Open-source tool that fixes PowerPoint reading order and writes missing alt text. UW, presented at EDUCAUSE 2025.</p>
+        <span class="project-card-link">Open &rarr;</span>
       </div>
     </article>
 
-    <article class="project-card project-card--placeholder">
-      <div class="project-thumb" aria-hidden="true"><span class="project-thumb-index">06</span></div>
+    <article data-tags="research ai-ml" class="project-card project-card--open" onclick="document.getElementById('dlg-rag').showModal()">
+      <div class="project-thumb">
+        <img src="images/levy-rag-poster.webp" alt="Top of the research poster: Retrieval Augmented Generation for Pathology Reports, Dartmouth Health.">
+      </div>
       <div class="project-card-body">
-        <span class="project-tag">Side project</span>
-        <h3 class="project-title">Project placeholder</h3>
-        <p class="project-desc">A sentence or two on what the project is, what got built, and what came out of it.</p>
+        <span class="project-tag">Research &middot; 2024</span>
+        <h3 class="project-title">RAG for Pathology Reports</h3>
+        <p class="project-desc">Levy Lab, Dartmouth Health. A lightweight retrieval-augmented tool that summarizes relevant cancer cases from a pathology report database, and runs offline on modest hardware.</p>
+        <span class="project-card-link">Open &rarr;</span>
+      </div>
+    </article>
+
+    <article data-tags="ai-ml web" class="project-card project-card--open" onclick="document.getElementById('dlg-sine').showModal()">
+      <div class="project-thumb">
+        <img src="images/sine-thumb.webp" alt="sine analytics dashboard with a sentiment pie chart and goal progress bars.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Hackathon &middot; Winner</span>
+        <h3 class="project-title">sine</h3>
+        <p class="project-desc">AI reflection journal from text, voice, or video check-ins, with mood and stress trends over time. Best Data Visualization at HopHacks Fall 2025.</p>
+        <span class="project-card-link">Open &rarr;</span>
+      </div>
+    </article>
+
+    <article data-tags="ongoing electrical" class="project-card project-card--open" onclick="document.getElementById('dlg-hat').showModal()">
+      <div class="project-thumb project-thumb--fit">
+        <img src="images/motor-driver-hat.webp" alt="KiCad schematic of the motor driver Pi hat.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Hardware</span>
+        <h3 class="project-title">Motor Driver Pi Hat</h3>
+        <p class="project-desc">Stepper driver HAT for the Hopkins Mars Rover arm. KiCad, ongoing.</p>
+        <span class="project-card-link">Open &rarr;</span>
+      </div>
+    </article>
+
+    <article data-tags="web" class="project-card">
+      <div class="project-thumb">
+        <img src="images/recolor.webp" alt="Before and after: a blue T-shirt recolored to rust red, with the white print left untouched.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Web &middot; 2026</span>
+        <h3 class="project-title"><a href="https://t-nair.github.io/recolor-tool/">Recolor</a></h3>
+        <p class="project-desc">Recolors each region of a garment photo with classical computer vision (Lab color space, clustering, masking). No model, no backend; images never leave the browser.</p>
+        <a class="project-card-link" href="https://t-nair.github.io/recolor-tool/">Try it &rarr;</a>
+        <a class="project-card-link" href="https://github.com/t-nair/recolor-tool">Code &rarr;</a>
+      </div>
+    </article>
+
+    <article data-tags="web" class="project-card">
+      <div class="project-thumb">
+        <img src="images/pokedex.webp" alt="SQL Pokédex dashboard: generation filter, biggest, heaviest, and fastest Pokémon, and a type distribution chart.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Data &middot; 2026</span>
+        <h3 class="project-title"><a href="https://tanyas-sql-pokedex.streamlit.app/">SQL Pokédex</a></h3>
+        <p class="project-desc">A Streamlit dashboard over a normalized SQLite schema built from PokeAPI. Filter by generation; joins and aggregations surface type spread and stat leaders.</p>
+        <a class="project-card-link" href="https://tanyas-sql-pokedex.streamlit.app/">Try it &rarr;</a>
+        <a class="project-card-link" href="https://github.com/t-nair/pokedex-sql">Code &rarr;</a>
+      </div>
+    </article>
+
+    <article data-tags="research ongoing" class="project-card">
+      <div class="project-thumb project-thumb--fit">
+        <img src="images/msw-concern-matrix.webp" alt="Idle waste concern matrix: heatmaps of concern level by production stage and waste-management stage for organic, clothing, and construction waste.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Case study &middot; ongoing</span>
+        <h3 class="project-title">Baltimore MSW Case Study</h3>
+        <p class="project-desc">Interviews with waste professionals, community groups, and residents through JHU's Kindling pre-accelerator. Defines &ldquo;idle resources&rdquo;: materials that still have value but sit unused before disposal, invisible to recycling and diversion metrics.</p>
+        <a class="project-card-link" href="images/msw-idle-resources.pdf">Download the paper (PDF) &rarr;</a>
+      </div>
+    </article>
+
+    <article data-tags="research ai-ml ongoing" class="project-card">
+      <div class="project-thumb project-thumb--fit">
+        <img src="images/clsp-wordclouds.webp" alt="Word clouds of language used when China is portrayed positively versus negatively in South China Sea news coverage.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Research &middot; ongoing</span>
+        <h3 class="project-title">CLSP Multilingual Benchmark</h3>
+        <p class="project-desc">With Prof. Ziang Xiao at JHU CLSP. South China Sea coverage in six languages, analyzed for stance, topics, and framing, then used to test how Claude, GPT-4o, and DeepSeek summarize the same news differently.</p>
+        <a class="project-card-link" href="https://arxiv.org/abs/2407.05502">Related: Faux Polyglot &rarr;</a>
+      </div>
+    </article>
+
+    <article data-tags="research ai-ml" class="project-card">
+      <div class="project-thumb project-thumb--fit">
+        <img src="images/poetry-frequency.webp" alt="Word frequency plot from the poetry corpus: frequency per document against frequency rank, with common words labeled.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Published &middot; 2023</span>
+        <h3 class="project-title"><a href="https://www.jsr.org/hs/index.php/path/article/view/4418">NLP in Poetry</a></h3>
+        <p class="project-desc">Journal of Student Research. Compared six NLP techniques for reading emotion in English poetry; bigram and word-embedding models were most accurate at about 62%.</p>
+        <a class="project-card-link" href="https://www.jsr.org/hs/index.php/path/article/view/4418">Paper &rarr;</a>
+      </div>
+    </article>
+
+    <article data-tags="electrical" class="project-card project-card--open" onclick="document.getElementById('dlg-cansat').showModal()">
+      <div class="project-thumb">
+        <img src="images/cansat-thumb.webp" alt="Close-up of the CanSat flight board layout around the IMU and USB connectors.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Hardware</span>
+        <h3 class="project-title">CanSat Competition</h3>
+        <p class="project-desc">Designed and built a 1 kg satellite for the international CanSat competition. Led ground control, sensors, and communication &amp; data handling; one of 40 US teams to advance to launch.</p>
+        <span class="project-card-link">Open &rarr;</span>
       </div>
     </article>
 
   </div>
 
-  <p class="gallery-note">
-    Six slots held open. Each card takes a thumbnail, a tag, a title, and a short
-    description — the <code>&lt;style&gt;</code> block above says how to swap one in.
-  </p>
+  <!-- Project dialog. Native <dialog>: Esc, the focus trap, and the backdrop
+       come from the browser. To add another project, copy this block, give it a
+       new id, and point a card's onclick at that id. Photos go in .dlg-shots,
+       revisions in .dlg-log. -->
+  <dialog id="dlg-cansat" class="dlg" onclick="if (event.target === this) this.close()">
+    <button class="dlg-close" onclick="this.closest('dialog').close()" aria-label="Close">&times;</button>
+
+    <span class="project-tag">Hardware</span>
+    <h3 class="dlg-title">CanSat Competition</h3>
+    <p class="dlg-meta">International CanSat Competition &mdash; one of 40 US teams to advance to launch</p>
+
+    <p class="dlg-body">
+      A 1 kg satellite, designed and built by the team. I was in charge of the ground control
+      system, the sensor subsystem, and communication and data handling. The flight board runs two
+      ESP32s with a LoRa radio, GPS, an SD card, and a BMI088 IMU, BMP390 barometer, and ADXL375
+      accelerometer, with 5 V and 8 V buck converters, two pyro channels, and servo and solenoid outputs.
+    </p>
+
+    <h4 class="dlg-h">Photos</h4>
+    <div class="dlg-shots">
+      <figure class="dlg-shot">
+        <img src="images/cansat-pcb.webp" alt="PCB layout with all layers shown: two ESP32 modules, sensors, buck converters, and connectors.">
+        <figcaption>Board layout</figcaption>
+      </figure>
+      <figure class="dlg-shot">
+        <img src="images/cansat-pcb-pour.webp" alt="PCB layout showing the copper ground pour.">
+        <figcaption>Ground pour</figcaption>
+      </figure>
+      <figure class="dlg-shot">
+        <img src="images/cansat-schematic.webp" alt="Schematic: buck converters, pyro channels, IMU, barometer, accelerometer, two ESP32s, USB-C, SD card, LoRa, GPS, and servo/solenoid headers.">
+        <figcaption>Schematic</figcaption>
+      </figure>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-hat" class="dlg" onclick="if (event.target === this) this.close()">
+    <button class="dlg-close" onclick="this.closest('dialog').close()" aria-label="Close">&times;</button>
+
+    <span class="project-tag">Hardware &middot; ongoing</span>
+    <h3 class="dlg-title">Motor Driver Pi Hat</h3>
+    <p class="dlg-meta">Johns Hopkins Mars Rover Team &mdash; Electrical Subteam, also on communication and power system design for the University Rover Challenge</p>
+
+    <p class="dlg-body">
+      A Raspberry Pi 4 HAT that gives the rover its own motor control board for the science mission.
+      The Pi header breaks out to two Pololu DRV8825 stepper drivers and one
+      external microstep driver, with JST connectors for each joint. Designed in
+      KiCad; still iterating ahead of the University Rover Challenge.
+    </p>
+
+    <h4 class="dlg-h">Photos</h4>
+    <div class="dlg-shots">
+      <figure class="dlg-shot">
+        <img src="images/motor-driver-hat.webp" alt="KiCad schematic: Raspberry Pi 4 header driving two DRV8825 stepper drivers and an external microstep driver.">
+        <figcaption>Rev A schematic &mdash; KiCad 9.0.6</figcaption>
+      </figure>
+      <div class="dlg-shot dlg-shot--empty">Board layout</div>
+      <div class="dlg-shot dlg-shot--empty">Assembled board</div>
+    </div>
+
+    <h4 class="dlg-h">Iterations</h4>
+    <ol class="dlg-log">
+      <li>
+        <span class="dlg-date">Sep 2026</span>
+        <strong>Rev A schematic</strong>
+        <p>Pin budget settled: two DRV8825s on GPIO, the microstep driver on its
+           own ENA/DIR/PUL trio. Six JST breakouts for the joints.</p>
+      </li>
+      <li class="dlg-log--next">
+        <span class="dlg-date">Next</span>
+        <strong>Board layout &amp; fab</strong>
+        <p>Route the two-layer HAT, check motor-supply clearances, send Rev A out.</p>
+      </li>
+    </ol>
+  </dialog>
+
+  <dialog id="dlg-rag" class="dlg" onclick="if (event.target === this) this.close()">
+    <button class="dlg-close" onclick="this.closest('dialog').close()" aria-label="Close">&times;</button>
+
+    <span class="project-tag">Research &middot; 2024</span>
+    <h3 class="dlg-title">Retrieval-Augmented Generation for Pathology Reports</h3>
+    <p class="dlg-meta">Dartmouth Health, Levy Lab &mdash; Summer 2024 internship; returned in 2025 as an EDIT AI Mentor</p>
+
+    <p class="dlg-body">
+      Built with a team of three other high school interns, bringing a shared interest in
+      computational linguistics to the Levy Lab's healthcare work. The tool helps clinicians
+      understand a patient's cancer case by summarizing key details of similar cases pulled
+      from a large database of pathology reports. It runs on an efficient model, so it
+      needs no heavy compute or internet access.
+    </p>
+    <p class="dlg-body">
+      Retrieval fuses BM25 and FAISS search; generation runs on Microsoft phi-2. As an EDIT AI
+      Mentor the next year, I guided interns across clinical ML projects and led preprocessing and
+      experiment design: WSI tiling, stain normalization, class-imbalance mitigation, and
+      multimodal alignment.
+    </p>
+
+    <h4 class="dlg-h">Poster</h4>
+    <p class="dlg-body"><a href="images/levy-rag-poster.pdf" style="color: var(--color-accent)">Download the research poster (PDF) &rarr;</a></p>
+
+    <h4 class="dlg-h">Talk</h4>
+    <div style="aspect-ratio: 16 / 9; margin-top: var(--space-3);">
+      <iframe src="https://www.youtube-nocookie.com/embed/8hP_RWS22fQ" title="Research presentation video" loading="lazy"
+              style="width: 100%; height: 100%; border: 0; border-radius: var(--radius-md);"
+              allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <p class="dlg-meta"><a href="https://www.youtube.com/watch?v=8hP_RWS22fQ" style="color: var(--color-accent)">Watch on YouTube &rarr;</a></p>
+  </dialog>
+
+  <dialog id="dlg-a11y" class="dlg" onclick="if (event.target === this) this.close()">
+    <button class="dlg-close" onclick="this.closest('dialog').close()" aria-label="Close">&times;</button>
+
+    <span class="project-tag">Accessibility &middot; ongoing</span>
+    <h3 class="dlg-title">Automated Accessibility Enhancer</h3>
+    <p class="dlg-meta">University of Washington &mdash; Advancing Accessibility for Engineering Education, with Prof. Anant and Dr. Lalitha Subramanian</p>
+
+    <p class="dlg-body">
+      An open-source tool that fixes common accessibility problems in PowerPoint files. Screen
+      readers read shapes in the order they were added, not top to bottom, so the tool moves slide
+      titles to the front of the reading order, writes descriptions for images that have no alt
+      text, and produces a slide-by-slide report of every change.
+    </p>
+
+    <h4 class="dlg-h">How it works</h4>
+    <p class="dlg-body">
+      Written in Python on python-pptx. Decks come in through a Flask upload page, a folder script,
+      or an S3 bucket on AWS Lambda (deployed with Terraform), and all go through one pipeline:
+      older <code>.ppt</code> files are converted with LibreOffice, shapes named &ldquo;Title&rdquo;
+      are moved first, and each image without alt text is described by Claude on Amazon Bedrock.
+      Out come a fixed <code>.pptx</code> and a report. 123 tests.
+    </p>
+    <figure class="dlg-shot" style="margin-top: var(--space-3);">
+      <img src="images/a11y-workflow.webp" alt="Workflow: decks from an input folder go through a Python script that moves each slide's title to the front of the reading order, then land in an output folder as updated files." style="aspect-ratio: auto;">
+      <figcaption>Original folder workflow &mdash; before the web and Lambda front ends</figcaption>
+    </figure>
+
+    <h4 class="dlg-h">Iterations</h4>
+    <ol class="dlg-log">
+      <li>
+        <span class="dlg-date">Nov 2025</span>
+        <strong>EDUCAUSE 2025 Online poster</strong>
+        <p>Presented <a href="https://events.educause.edu/annual-conference/2025-online/agenda/building-institutional-community-of-practice-around-it-accessibility" style="color: var(--color-accent)">Building Institutional Community of Practice around IT Accessibility</a> with Lalitha Subramanian.</p>
+      </li>
+      <li>
+        <span class="dlg-date">Aug 2026</span>
+        <strong>Web version</strong>
+        <p>Upload files in the browser, track progress, read each report, download the fixed deck.</p>
+      </li>
+      <li>
+        <span class="dlg-date">Sep 2026</span>
+        <strong>Bedrock alt text, AWS deployment, bug fixes</strong>
+        <p>Descriptions moved from a local model to Claude on Bedrock, so no GPU is needed. The
+           pipeline runs on Lambda from S3. Four bugs fixed, including human-written alt text being
+           overwritten when it matched the shape name.</p>
+      </li>
+      <li class="dlg-log--next">
+        <span class="dlg-date">Next</span>
+        <strong>EDUCAUSE 2026, Denver</strong>
+        <p>Attending in person as an EDUCAUSE Pipeline scholar. Then: title detection by position
+           and formatting, PDF support, university sign-in, and moving the web app to AWS.</p>
+      </li>
+    </ol>
+
+    <h4 class="dlg-h">Limitations</h4>
+    <p class="dlg-body">
+      Titles are found by shape name only. Generated alt text needs human review, and technical
+      diagrams are still hard to describe well. There are no user accounts yet, and files are
+      processed one at a time.
+    </p>
+
+    <p class="dlg-body"><a href="https://t-nair.github.io/automated-accessibility-enhancer-site/" style="color: var(--color-accent)">Project site &rarr;</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://github.com/t-nair/automated-accessibility-enhancer" style="color: var(--color-accent)">Source code on GitHub &rarr;</a></p>
+  </dialog>
+
+  <dialog id="dlg-sine" class="dlg" onclick="if (event.target === this) this.close()">
+    <button class="dlg-close" onclick="this.closest('dialog').close()" aria-label="Close">&times;</button>
+
+    <span class="project-tag">Hackathon &middot; 2025</span>
+    <h3 class="dlg-title">sine</h3>
+    <p class="dlg-meta">HopHacks Fall 2025 &mdash; Winner, Data Driven Track: Best Data Visualization by Marshall Wace. With Kinnera Tirumala, Ujjwal Kaur, and Naavya Jain. Now on the HopHacks organizing team.</p>
+
+    <p class="dlg-body">
+      A personal reflection engine for students who don't have time to journal. One check-in by
+      text, voice, or video becomes a short summary, advice, and prompts from an LLM, and sine
+      charts positivity, stress, goals, and mindset over time. Built in 36 hours with a team that
+      had mostly met that week.
+    </p>
+
+    <h4 class="dlg-h">How it works</h4>
+    <p class="dlg-body">
+      Voice and video entries are transcribed with whisper.cpp, tuned to pick out the closest
+      speaker so it works on a subway or in a crowded room. The transcript goes to Gemini, which
+      returns mood and stress scores plus goals and tasks it finds in the entry. Flask backend,
+      HTML/CSS/JavaScript front end.
+    </p>
+
+    <h4 class="dlg-h">Screenshots</h4>
+    <div class="dlg-shots">
+      <figure class="dlg-shot">
+        <a href="images/sine-dashboard.webp" target="_blank"><img src="images/sine-dashboard.webp" alt="Analytics dashboard: sentiment distribution pie chart, goal progress bars, and a monthly mood heatmap."></a>
+        <figcaption>Analytics dashboard</figcaption>
+      </figure>
+      <figure class="dlg-shot">
+        <a href="images/sine-trends.webp" target="_blank"><img src="images/sine-trends.webp" alt="Line chart of mood trends over a week, with daily insight cards showing primary emotion and sentiment score."></a>
+        <figcaption>Mood trends &amp; daily insights</figcaption>
+      </figure>
+      <figure class="dlg-shot">
+        <a href="images/sine-reflection.webp" target="_blank"><img src="images/sine-reflection.webp" alt="Gemini reflection on a journal entry: a summary, three pieces of advice, and motivational words."></a>
+        <figcaption>Gemini reflection on an entry</figcaption>
+      </figure>
+    </div>
+
+    <h4 class="dlg-h">Demo</h4>
+    <div style="aspect-ratio: 16 / 9; margin-top: var(--space-3);">
+      <iframe src="https://www.youtube-nocookie.com/embed/LHiZnb56LXI" title="sine demo video" loading="lazy"
+              style="width: 100%; height: 100%; border: 0; border-radius: var(--radius-md);"
+              allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <p class="dlg-body">
+      <a href="https://devpost.com/software/syne-di1q5h" style="color: var(--color-accent)">Devpost &rarr;</a>
+      &nbsp;&middot;&nbsp;
+      <a href="https://github.com/t-nair/hophacks-25" style="color: var(--color-accent)">Source code on GitHub &rarr;</a></p>
+  </dialog>
 </div>
+
+<script>
+  // Filter chips: one active at a time; "all" shows everything.
+  var chips = document.querySelectorAll('.filter');
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var f = chip.dataset.filter;
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip); });
+      document.querySelectorAll('.project-card').forEach(function (card) {
+        card.hidden = f !== 'all' && card.dataset.tags.split(' ').indexOf(f) < 0;
+      });
+    });
+  });
+
+  // Keyboard parity for the clickable cards: the click handler sits on the
+  // <article>, so give it a tab stop and fire it on Enter/Space too.
+  // Closing a dialog stops any video in it: reloading the iframe is the
+  // only way to pause a YouTube embed without its JS API.
+  document.querySelectorAll('dialog').forEach(function (d) {
+    d.addEventListener('close', function () {
+      d.querySelectorAll('iframe').forEach(function (f) { f.src = f.src; });
+    });
+  });
+
+  document.querySelectorAll('.project-card--open').forEach(function (card) {
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    });
+  });
+</script>
 </body>
 </html>
