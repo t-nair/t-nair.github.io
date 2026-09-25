@@ -142,7 +142,7 @@ html, body {
 /* ==========================================================================
    Header
    ========================================================================== */
-.header { position: fixed; top: var(--space-5); left: var(--space-7); z-index: 100; }
+.header { position: absolute; top: var(--space-5); left: var(--space-7); z-index: 100; }
 .header h1 {
   font-size: var(--text-lg); font-weight: 600;
   color: var(--color-ink); letter-spacing: -0.01em; line-height: 1.1;
@@ -160,7 +160,7 @@ html, body {
    Nav — mono (signature)
    ========================================================================== */
 .nav {
-  position: fixed; top: var(--space-6); right: var(--space-7); z-index: 100;
+  position: absolute; top: var(--space-6); right: var(--space-7); z-index: 100;
   display: flex; gap: var(--space-4);
 }
 .nav a {
@@ -175,7 +175,7 @@ html, body {
 /* ==========================================================================
    Content column
    ========================================================================== */
-.content { max-width: 640px; margin: 0 auto; padding: var(--space-10) var(--space-7) var(--space-9); }
+.content { max-width: 640px; margin: 0 auto; padding: calc(var(--space-10) + var(--space-7)) var(--space-7) var(--space-9); }
 
 .page-title {
   font-size: var(--text-xl); font-weight: 600;
@@ -216,7 +216,7 @@ html, body {
 
 /* ==========================================================================
    Mobile (<=700px)
-   Header/nav are fixed+absolutely positioned for desktop; on small screens
+   Header/nav are absolutely positioned for desktop; on small screens
    that collides, so they drop into normal flow and stack instead.
    ========================================================================== */
 @media (max-width: 700px) {
