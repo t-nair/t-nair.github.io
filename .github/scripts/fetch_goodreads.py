@@ -51,13 +51,7 @@ def parse_shelf(xml_bytes, limit=None):
 
 
 currently_reading = parse_shelf(fetch_shelf("currently-reading"), limit=1)
-recently_read = parse_shelf(fetch_shelf("read"), limit=3)
-
-data = {
-    "currently_reading": currently_reading,
-    "recently_read": recently_read,
-}
 
 with open(OUTPUT, "w") as f:
-    json.dump(data, f, indent=2)
-print(f"Currently reading: {len(currently_reading)}, Recently read: {len(recently_read)}")
+    json.dump({"currently_reading": currently_reading}, f, indent=2)
+print(f"Currently reading: {len(currently_reading)}")
