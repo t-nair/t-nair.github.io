@@ -21,22 +21,6 @@
   <style>
     html, body { min-height: 100%; }
 
-    /* ── Talk-about pills ── */
-    .talk-list {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      margin-top: var(--space-3);
-    }
-    .talk-pill {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs); color: var(--color-accent);
-      letter-spacing: var(--track-mono);
-      background: var(--color-accent-tint);
-      border: 1px solid var(--color-border-strong);
-      border-radius: 20px;
-      padding: 4px 11px;
-      white-space: nowrap;
-    }
-
     /* ── Primary actions (resume + calendar) ── */
     .action-row {
       display: flex; flex-wrap: wrap; gap: 10px;
@@ -106,33 +90,7 @@
 
 <div class="content">
   <h2 class="page-title">Contact</h2>
-  <div class="page-subtitle">
-    I like talking to people who are building things. If any of the below overlaps with
-    what you're working on, reach out — I'd rather have a short conversation than a long
-    email thread.
-  </div>
-
   <section>
-    <div class="section-label">What I'd love to chat about</div>
-    <p style="font-size: var(--text-md); color: var(--color-body); line-height: 1.7;">
-      Early-stage startups and how technical founders find their first users. AI for
-      medicine and accessibility — especially where the research actually reaches patients.
-      Multilingual NLP and who gets left out of language models. Sustainability and the
-      unglamorous infrastructure problems underneath it. And venture — how scouts and
-      early-stage investors actually source.
-    </p>
-    <div class="talk-list">
-      <span class="talk-pill">startups</span>
-      <span class="talk-pill">sustainability</span>
-      <span class="talk-pill">ai</span>
-      <span class="talk-pill">nlp</span>
-      <span class="talk-pill">healthcare</span>
-      <span class="talk-pill">venture</span>
-    </div>
-  </section>
-
-  <section style="margin-top: var(--space-8)">
-    <div class="section-label">Start here</div>
     <div class="action-row">
       <a class="action action-primary" href="resume.pdf" download>↓ download resume</a>
       <a class="action action-secondary" href="https://calendly.com/tanyanair" target="_blank" rel="noopener">book a time</a>
