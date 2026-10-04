@@ -132,41 +132,6 @@
       line-height: 1.5;
     }
 
-    /* ── Now ──────────────────────────────────────────────────────────────
-       The one time-sensitive thing on the page, so it gets the only box. It
-       sits above the interests because it expires and they don't — when there
-       is nothing upcoming, delete the <section> and the page closes over it
-       without a gap. */
-    .now {
-      margin-top: 36px;
-      border: 1px solid var(--border);
-      border-left: 2px solid var(--pink);
-      border-radius: 3px;
-      padding: 14px 16px;
-    }
-
-    .now-label {
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--pink);
-    }
-
-    .now-item {
-      margin-top: 8px;
-      font-size: 0.9375rem;
-      line-height: 1.6;
-      text-wrap: pretty;
-    }
-
-    .now-when {
-      display: block;
-      color: var(--green-hover);
-      font-size: 0.8125rem;
-      letter-spacing: 0.02em;
-    }
-
     /* ── Areas of interest ────────────────────────────────────────────── */
     .interests { margin-top: 40px; }
 
@@ -254,7 +219,15 @@
        mailto: for a harvester to lift. Native disclosure means the open/close
        state, the keyboard handling and aria-expanded all come for free — no
        script on the page at all. */
-    .contact-row { margin-top: 28px; }
+    .contact-row {
+      margin-top: 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px 28px;
+    }
+    /* never wrap: opening past must not drop it under reach out */
+    .contact-row .contact { min-width: 0; }
+    .contact-row .contact:last-child { flex: 1; }
 
     .contact summary {
       display: inline-block;
@@ -286,6 +259,20 @@
       user-select: all;
     }
 
+    .feed {
+      margin-top: 10px;
+      list-style: none;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+    .feed li { margin-top: 6px; }
+    .feed time {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--green-hover);
+    }
+    .feed a { color: inherit; }
+
     .contact-hint {
       display: block;
       margin-top: 4px;
@@ -306,7 +293,6 @@
         animation: rise 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
       }
       .pitch       { animation-delay: 60ms; }
-      .now         { animation-delay: 120ms; }
       .interests   { animation-delay: 180ms; }
       .links       { animation-delay: 240ms; }
       .contact-row { animation-delay: 300ms; }
@@ -337,7 +323,6 @@
 
     @media (forced-colors: active) {
       .interests-label::after { background: CanvasText; }
-      .now { border-color: CanvasText; }
     }
   </style>
 </head>
@@ -347,14 +332,6 @@
   <h1 class="name">Tanya Nair</h1>
 
   <p class="pitch">ECE undergrad @ Johns Hopkins</p>
-
-  <section class="now" aria-labelledby="now-label">
-    <h2 class="now-label" id="now-label">now</h2>
-    <p class="now-item">
-      <span class="now-when"><time datetime="2026-09-29">Sep 29</time>&ndash;<time datetime="2026-10-02">Oct 2</time></span>
-      Attending <strong>EDUCAUSE</strong> in Denver. Happy to connect and chat!
-    </p>
-  </section>
 
   <section class="interests" aria-labelledby="interests-label">
     <h2 class="interests-label" id="interests-label">areas of interest</h2>
@@ -376,6 +353,13 @@
       <p class="contact-note">tnair4[AT]jh[DOT]edu
         <span class="contact-hint">swap the brackets for @ and .</span>
       </p>
+    </details>
+    <details class="contact">
+      <summary><span aria-hidden="true">[</span>past<span aria-hidden="true">]</span></summary>
+      <ul class="feed">
+        <li><time datetime="2026-10">Oct 2026</time> Attended EDUCAUSE 2026 in Denver as a Pipeline scholar</li>
+        <li><time datetime="2025-11">Nov 2025</time> Presented <a href="https://events.educause.edu/annual-conference/2025-online/agenda/building-institutional-community-of-practice-around-it-accessibility">an IT accessibility poster</a> at EDUCAUSE 2025 Online</li>
+      </ul>
     </details>
   </div>
 </main>
