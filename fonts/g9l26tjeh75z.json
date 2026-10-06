@@ -1,7 +1,25 @@
 {
   "repo": "SimplifyJobs/Summer2027-Internships",
-  "updated": "2026-10-06T23:25:39+00:00",
+  "updated": "2026-10-06T23:55:38+00:00",
   "postings": [
+    {
+      "commit": "4d9453e6004dd48c1d59643197db4e5d0bbbd0e4",
+      "added": "2026-10-06T23:55:38+00:00",
+      "text": "↳ | Software Engineer Intern | Largo, FL | 0d",
+      "links": [
+        "https://globalhr.wd5.myworkdayjobs.com/fr-CA/Private_Posting_No_TMP/job/US-FL-LARGO-382SR--7887-Bryan-Dairy-Rd--BLDG-600/Software-Engineering-Intern--Summer-2027-_01874951-1?utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/89c95261-7ed7-445d-9298-4131cf049e2a?utm_source=GHList"
+      ]
+    },
+    {
+      "commit": "4d9453e6004dd48c1d59643197db4e5d0bbbd0e4",
+      "added": "2026-10-06T23:55:38+00:00",
+      "text": "↳ | FPGA Engineer Intern | McKinney, TX | 0d",
+      "links": [
+        "https://globalhr.wd5.myworkdayjobs.com/rec_rtx_ext_gateway/job/US-TX-MCKINNEY-513WD--2501-W-University-Dr--WING-D-BLDG/FPGA-Engineering-Intern--Summer-2027--Onsite-_01880037?utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/9f1c1a85-4cae-4368-9581-1d11c5fa2ed0?utm_source=GHList"
+      ]
+    },
     {
       "commit": "1b2ef8979c0ab42f2442c2c3f5865f176c16255a",
       "added": "2026-10-06T23:25:39+00:00",
@@ -1882,24 +1900,6 @@
       "links": [
         "https://higher.gs.com/roles/171566?type=students&utm_source=Simplify&ref=Simplify",
         "https://simplify.jobs/p/629fac72-4880-42e9-b648-cdfa036a00ac?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "ac47bbdc70d31e0027e7cfc1af6e491cdd100d1c",
-      "added": "2026-10-04T11:55:38+00:00",
-      "text": "↳ | Summer Analyst Intern - Americas - Investment Banking Quantitative Strats | NYC | 1mo",
-      "links": [
-        "https://higher.gs.com/roles/171547?type=students&utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/260ebea6-b3a6-4e5e-8824-71490c13d10f?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "ac47bbdc70d31e0027e7cfc1af6e491cdd100d1c",
-      "added": "2026-10-04T11:55:38+00:00",
-      "text": "↳ | Quantitative Strategist Intern - Americas - The Core Quantitative Strats | NYC | 1mo",
-      "links": [
-        "https://higher.gs.com/roles/171533?type=students&utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/765bb91e-34d7-4746-8e11-8598e700e845?utm_source=GHList"
       ]
     }
   ]
