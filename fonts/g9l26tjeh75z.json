@@ -1,7 +1,36 @@
 {
   "repo": "SimplifyJobs/Summer2027-Internships",
-  "updated": "2026-10-07T14:12:22+00:00",
+  "updated": "2026-10-07T20:03:43+00:00",
   "postings": [
+    {
+      "commit": "090f3881f8c4bff7cebf014cff8afec0ae4fe004",
+      "added": "2026-10-07T20:03:43+00:00",
+      "text": "Scout Clean Energy | Operations Engineering Intern | Boulder, CO | 4d",
+      "links": [
+        "https://simplify.jobs/c/Scout-Clean-Energy?utm_source=GHList&utm_medium=company",
+        "https://apply.workable.com/scout-clean-energy/j/7BF0CEDF9F/apply?utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/258b1734-67f6-4bc5-8017-6bd816a41b1e?utm_source=GHList"
+      ]
+    },
+    {
+      "commit": "090f3881f8c4bff7cebf014cff8afec0ae4fe004",
+      "added": "2026-10-07T20:03:43+00:00",
+      "text": "First Citizens BancShares | Summer Intern - Sales Performance & Analytics Strategy | Raleigh, NC | 4d",
+      "links": [
+        "https://simplify.jobs/c/First-Citizens-BancShares?utm_source=GHList&utm_medium=company",
+        "https://firstcitizens.jibeapply.com/jobs/35826?icims=1&utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/820b14cc-f1d1-4c26-9a48-d04cc309866f?utm_source=GHList"
+      ]
+    },
+    {
+      "commit": "090f3881f8c4bff7cebf014cff8afec0ae4fe004",
+      "added": "2026-10-07T20:03:43+00:00",
+      "text": "↳ | Research Intern - AI Research 🎓 | Toronto, ON, Canada | 0d",
+      "links": [
+        "https://autodesk.wd1.myworkdayjobs.com/uni/job/Toronto-ON-CAN/PhD-Researcher--AI-Research_26WD101373?utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/c9d78b85-421a-47ce-87a0-06184243c324?utm_source=GHList"
+      ]
+    },
     {
       "commit": "7113672278fc482ce0fe77a6e2542c4be2306974",
       "added": "2026-10-07T14:12:22+00:00",
@@ -1864,36 +1893,6 @@
         "https://simplify.jobs/c/Electronic-Arts?utm_source=GHList&utm_medium=company",
         "https://jobs.ea.com/en_US/careers/JobDetail/Rendering-Engineer-Intern/216222?utm_source=Simplify&ref=Simplify",
         "https://simplify.jobs/p/e452e67d-358a-4687-ab4a-6d68876b312d?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "43cefba43d3b2095b1c098334924960d5fe09270",
-      "added": "2026-10-04T13:55:41+00:00",
-      "text": "🔥 Waymo | Software Engineer Intern - Simulation Evaluation ML Model 🎓 | Mountain View, CA | 12d",
-      "links": [
-        "https://simplify.jobs/c/Waymo?utm_source=GHList&utm_medium=company",
-        "https://careers.withwaymo.com/jobs?gh_jid=8221795&utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/e88effb2-7748-41ae-9be2-407af5870c56?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "43cefba43d3b2095b1c098334924960d5fe09270",
-      "added": "2026-10-04T13:55:41+00:00",
-      "text": "🔥 TikTok | Product Marketing Management Intern - Systems Strategy & Operations 🎓 | NYC | 10d",
-      "links": [
-        "https://simplify.jobs/c/TikTok?utm_source=GHList&utm_medium=company",
-        "https://lifeattiktok.com/search/7683679497136179509?utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/0ea4c6d9-c64c-48a4-af5c-f9cb2fbb082e?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "43cefba43d3b2095b1c098334924960d5fe09270",
-      "added": "2026-10-04T13:55:41+00:00",
-      "text": "Guardian Life | Summer Intern - Group Benefits Product Management | Boston, MA | 16d",
-      "links": [
-        "https://simplify.jobs/c/Guardian-Life?utm_source=GHList&utm_medium=company",
-        "https://guardianlife.wd5.myworkdayjobs.com/guardian-life-careers/job/Boston/XMLNAME-2027-Guardian-Summer-Intern--Group-Benefits-Product-Management_R000110299?utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/e2dab9b3-410e-452f-8887-b5fe754550ad?utm_source=GHList"
       ]
     }
   ]
