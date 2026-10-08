@@ -1,7 +1,27 @@
 {
   "repo": "SimplifyJobs/Summer2027-Internships",
-  "updated": "2026-10-08T00:18:39+00:00",
+  "updated": "2026-10-08T01:17:59+00:00",
   "postings": [
+    {
+      "commit": "65fcc27e47995fab93afd547ed236c9481cd814c",
+      "added": "2026-10-08T01:17:59+00:00",
+      "text": "Corning | Engineering Data Analyst Intern | Keller, TX | 2d",
+      "links": [
+        "https://simplify.jobs/c/Corning?utm_source=GHList&utm_medium=company",
+        "https://corningjobs.corning.com/job/Keller-Engineering-Data-Analyst-Intern-Summer-2027-TX-76248/1437049900/?ats=successfactors&utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/44534005-1a4b-4053-b1f5-4569f5b355ce?utm_source=GHList"
+      ]
+    },
+    {
+      "commit": "65fcc27e47995fab93afd547ed236c9481cd814c",
+      "added": "2026-10-08T01:17:59+00:00",
+      "text": "Vertiv | Technical Innovation Intern | Westerville, OH | 2d",
+      "links": [
+        "https://simplify.jobs/c/Vertiv?utm_source=GHList&utm_medium=company",
+        "https://egup.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX/job/20279287?utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/63846de2-96d4-45e9-85c5-3a0475373681?utm_source=GHList"
+      ]
+    },
     {
       "commit": "192657a68e6ed82d8534716a8daba85b32381202",
       "added": "2026-10-08T00:18:39+00:00",
@@ -1869,26 +1889,6 @@
         "https://simplify.jobs/c/CACI?utm_source=GHList&utm_medium=company",
         "https://caci.wd1.myworkdayjobs.com/external/job/Omaha-NE-US/Software-Engineer-Intern---Summer-2027_332776?utm_source=Simplify&ref=Simplify",
         "https://simplify.jobs/p/02f8a929-c160-48c2-818b-cebd23779a18?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "89180f485ff68c593914a7848512459cd7de5e06",
-      "added": "2026-10-04T14:25:38+00:00",
-      "text": "The Aerospace Corporation | Software Engineering Intern - Software Tools and Assurance 🎓 | El Segundo, CA | 6d",
-      "links": [
-        "https://simplify.jobs/c/The-Aerospace-Corporation?utm_source=GHList&utm_medium=company",
-        "https://aero.wd5.myworkdayjobs.com/external/job/El-Segundo-CA/XMLNAME-2027-Software-Tools-and-Assurance-Engineering-Grad-Intern_R016753?utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/57bebd99-f029-4628-b0dc-3532c4f03181?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "89180f485ff68c593914a7848512459cd7de5e06",
-      "added": "2026-10-04T14:25:38+00:00",
-      "text": "🔥 Waymo | Software Engineer Intern - Driver Refinement Foundations | Mountain View, CA | 8d",
-      "links": [
-        "https://simplify.jobs/c/Waymo?utm_source=GHList&utm_medium=company",
-        "https://careers.withwaymo.com/jobs?gh_jid=8224900&utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/44631389-4603-4cbc-bb24-596433854282?utm_source=GHList"
       ]
     }
   ]
