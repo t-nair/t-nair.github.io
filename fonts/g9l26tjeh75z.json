@@ -1,7 +1,37 @@
 {
   "repo": "SimplifyJobs/Summer2027-Internships",
-  "updated": "2026-10-09T00:08:21+00:00",
+  "updated": "2026-10-09T06:28:41+00:00",
   "postings": [
+    {
+      "commit": "8248d6499146f4a9a79c4f600c052d1fc6edf453",
+      "added": "2026-10-09T06:28:41+00:00",
+      "text": "Macy's | Analytics Intern - Multiple Teams | NYC | 2d",
+      "links": [
+        "https://simplify.jobs/c/Macys?utm_source=GHList&utm_medium=company",
+        "https://ebwh.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/93389?utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/f0290968-f103-48af-89e4-6c57d1500413?utm_source=GHList"
+      ]
+    },
+    {
+      "commit": "8248d6499146f4a9a79c4f600c052d1fc6edf453",
+      "added": "2026-10-09T06:28:41+00:00",
+      "text": "KKR | Summer Analyst Intern - Insurance Risk - Data Science 🎓 | NYC | 2d",
+      "links": [
+        "https://simplify.jobs/c/KKR?utm_source=GHList&utm_medium=company",
+        "https://www.kkr.com/careers/student-careers/student-career-opportunities/post?gh_jid=6200944004&utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/50597a72-b855-4e2f-a7fe-130439c9ff69?utm_source=GHList"
+      ]
+    },
+    {
+      "commit": "8248d6499146f4a9a79c4f600c052d1fc6edf453",
+      "added": "2026-10-09T06:28:41+00:00",
+      "text": "Atoms | Machine Learning Engineer Intern | SF | 2d",
+      "links": [
+        "https://simplify.jobs/c/Atoms?utm_source=GHList&utm_medium=company",
+        "https://job-boards.greenhouse.io/atoms/jobs/8869105002?utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/a6830740-e492-4a48-bc09-9e1cb04273be?utm_source=GHList"
+      ]
+    },
     {
       "commit": "5f935fba20872cc85f92a6306e5438e8696e9ad1",
       "added": "2026-10-09T00:08:21+00:00",
@@ -1858,35 +1888,6 @@
       "links": [
         "https://higher.gs.com/roles/171551?type=students&utm_source=Simplify&ref=Simplify",
         "https://simplify.jobs/p/f3fffaac-34e8-4f3e-aa74-fb1928331995?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "7fb8d3236d929af8536a3d4f4fcfac185ee57c9b",
-      "added": "2026-10-06T01:55:37+00:00",
-      "text": "↳ | Quantitative Strategist Intern - Asset and Wealth Management - Quantitative Strats | Salt Lake City, UT | 1mo",
-      "links": [
-        "https://higher.gs.com/roles/171549?type=students&utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/0f4448c3-2086-46c1-b64b-2ecdf04a0881?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "797068fa2cfa50218d96e2b0d97e952f62fa185e",
-      "added": "2026-10-06T00:35:34+00:00",
-      "text": "IDEMIA | Software Engineer Intern | Reston, VA | 0d",
-      "links": [
-        "https://simplify.jobs/c/Idemia?utm_source=GHList&utm_medium=company",
-        "https://uscareers-idemia.icims.com/jobs/8650/job?mobile=true&needsRedirect=false&utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/60ab7a67-de85-40c1-889d-104e6d6019cd?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "797068fa2cfa50218d96e2b0d97e952f62fa185e",
-      "added": "2026-10-06T00:35:34+00:00",
-      "text": "Electronic Arts | Software Engineer Intern | Orlando, FL | 0d",
-      "links": [
-        "https://simplify.jobs/c/Electronic-Arts?utm_source=GHList&utm_medium=company",
-        "https://jobs.ea.com/en_US/careers/JobDetail/Software-Engineer-Intern/216251?utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/ec223388-d88d-4b7b-ad95-bc08ce04bd3c?utm_source=GHList"
       ]
     }
   ]
