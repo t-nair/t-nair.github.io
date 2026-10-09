@@ -1,7 +1,17 @@
 {
   "repo": "SimplifyJobs/Summer2027-Internships",
-  "updated": "2026-10-09T19:15:20+00:00",
+  "updated": "2026-10-09T19:55:37+00:00",
   "postings": [
+    {
+      "commit": "4077e96d9fe0a6823110c528c73b8f7ddf2be5bf",
+      "added": "2026-10-09T19:55:37+00:00",
+      "text": "Highmark Health | Market Analytics Graduate Intern | Pittsburgh, PA | 3d",
+      "links": [
+        "https://simplify.jobs/c/Highmark-Health?utm_source=GHList&utm_medium=company",
+        "https://highmarkhealth.wd1.myworkdayjobs.com/highmark/job/Pittsburgh-PA-15222-FAP-5th-Avenue-Place/Summer-2027-Market-Analytics-Graduate-Intern_J285906?utm_source=Simplify&ref=Simplify",
+        "https://simplify.jobs/p/f837be5e-a836-41f8-ae75-18dafffcf33a?utm_source=GHList"
+      ]
+    },
     {
       "commit": "ec38f46526d3c8a08a72fb0ceedd0bc4e241dc69",
       "added": "2026-10-09T19:15:20+00:00",
@@ -1880,16 +1890,6 @@
       "links": [
         "https://higher.gs.com/roles/171551?type=students&utm_source=Simplify&ref=Simplify",
         "https://simplify.jobs/p/f3fffaac-34e8-4f3e-aa74-fb1928331995?utm_source=GHList"
-      ]
-    },
-    {
-      "commit": "c1016aaf2683937bb24d07915e315e9ada4d0591",
-      "added": "2026-10-06T11:25:43+00:00",
-      "text": "Primient | Digital Data & Analytics Intern | Schaumburg, IL | 5d",
-      "links": [
-        "https://simplify.jobs/c/Primient?utm_source=GHList&utm_medium=company",
-        "https://primient.wd1.myworkdayjobs.com/External_Careers/job/Schaumburg-IL/Digital-Data---Analytics-Intern---Summer-2027_JREQ7011?utm_source=Simplify&ref=Simplify",
-        "https://simplify.jobs/p/9ee6f0e7-2c86-445d-a369-22c5227b938f?utm_source=GHList"
       ]
     }
   ]
