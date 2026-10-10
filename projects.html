@@ -236,6 +236,20 @@
     .filter:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
     .project-card[hidden] { display: none; }
 
+    /* -- Recognition list ------------------------------------------------ */
+    .awards { list-style: none; margin-top: var(--space-3); }
+    .awards li {
+      display: flex; gap: var(--space-3); padding: var(--space-2) 0;
+      border-bottom: var(--border-width) solid var(--color-divider);
+      font-size: var(--text-md); color: var(--color-body);
+    }
+    .awards time {
+      flex: 0 0 96px; font-family: var(--font-mono);
+      font-size: var(--text-sm); color: var(--color-meta);
+    }
+    .awards a { color: var(--color-accent); }
+    @media (max-width: 700px) { .awards li { flex-direction: column; gap: 2px; } .awards time { flex: none; } }
+
     @media (max-width: 700px) {
       .project-desc { font-size: var(--text-md); }
       .project-card-link { display: inline-flex; align-items: center; min-height: 44px; }
@@ -401,6 +415,18 @@
     </article>
 
   </div>
+
+  <section style="margin-top: var(--space-8)">
+    <h2 class="section-label">Recognition</h2>
+    <ul class="awards">
+      <li><time datetime="2026-10">Oct 2026</time><span>Attended EDUCAUSE 2026 in Denver as a Pipeline scholar</span></li>
+      <li><time datetime="2026">2026</time><span>1st place, Chewy company-wide AI Challenge (20 teams)</span></li>
+      <li><time datetime="2025-11">Nov 2025</time><span>Presented <a href="https://events.educause.edu/annual-conference/2025-online/agenda/building-institutional-community-of-practice-around-it-accessibility">an IT accessibility poster</a> at EDUCAUSE 2025 Online</span></li>
+      <li><time datetime="2025-11">Fall 2025</time><span>Winner, Best Data Visualization (Marshall Wace), HopHacks, for sine</span></li>
+      <li><time datetime="2025">2025</time><span>CanSat Competition: top 20 in the US, top 40 worldwide</span></li>
+      <li><time datetime="2023">2023</time><span>Published in the <a href="https://www.jsr.org/hs/index.php/path/article/view/4418">Journal of Student Research</a></span></li>
+    </ul>
+  </section>
 
   <!-- Project dialog. Native <dialog>: Esc, the focus trap, and the backdrop
        come from the browser. To add another project, copy this block, give it a
