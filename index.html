@@ -164,6 +164,8 @@
       line-height: 1.6;
     }
 
+    .interests li a { color: inherit; }
+
     .interests li .detail {
       display: block;
       font-size: 0.8125rem;
@@ -186,7 +188,7 @@
        rather than in ::before/::after so the accessible name stays
        "view projects" and not "left bracket view projects right bracket". */
     .links {
-      margin-top: 52px;
+      margin-top: 28px;
       display: flex;
       flex-wrap: wrap;
       gap: 8px 28px;
@@ -326,6 +328,13 @@
 
   <p class="pitch">CE + EE undergrad @ Johns Hopkins · expected May 2028<br>AI co-op @ Chewy · NLP researcher @ JHU CLSP</p>
 
+  <nav class="links" aria-label="Sections">
+    <a class="link" href="projects.html"><span class="bracket bracket-open" aria-hidden="true">[</span>view projects<span class="bracket bracket-close" aria-hidden="true">]</span></a>
+    <a class="link" href="resume.pdf" download="Tanya_Nair_Resume.pdf"><span class="bracket bracket-open" aria-hidden="true">[</span>resume<span class="bracket bracket-close" aria-hidden="true">]</span></a>
+    <a class="link" href="https://www.linkedin.com/in/tanya-nair-617473287/" rel="noopener"><span class="bracket bracket-open" aria-hidden="true">[</span>linkedin<span class="bracket bracket-close" aria-hidden="true">]</span></a>
+    <a class="link" href="https://github.com/t-nair" rel="noopener"><span class="bracket bracket-open" aria-hidden="true">[</span>github<span class="bracket bracket-close" aria-hidden="true">]</span></a>
+  </nav>
+
   <section class="interests" aria-labelledby="experience-label">
     <h2 class="interests-label" id="experience-label">experience</h2>
     <ul>
@@ -338,6 +347,17 @@
     </ul>
   </section>
 
+  <section class="interests" aria-labelledby="recognition-label">
+    <h2 class="interests-label" id="recognition-label">recognition</h2>
+    <ul>
+      <li><strong>1st place</strong> · Chewy company-wide AI Challenge, 20 teams</li>
+      <li><strong>Winner</strong> · Best Data Visualization, HopHacks Fall 2025</li>
+      <li><strong>Top 20 in the US</strong> · CanSat Competition, top 40 worldwide</li>
+      <li><strong>EDUCAUSE</strong> · <a href="https://events.educause.edu/annual-conference/2025-online/agenda/building-institutional-community-of-practice-around-it-accessibility">poster</a> 2025, Pipeline scholar 2026</li>
+      <li><strong>Published</strong> · <a href="https://www.jsr.org/hs/index.php/path/article/view/4418">Journal of Student Research</a>, 2023</li>
+    </ul>
+  </section>
+
   <section class="interests" aria-labelledby="interests-label">
     <h2 class="interests-label" id="interests-label">areas of interest</h2>
     <ul>
@@ -347,15 +367,9 @@
     </ul>
   </section>
 
-  <nav class="links" aria-label="Sections">
-    <a class="link" href="projects.html"><span class="bracket bracket-open" aria-hidden="true">[</span>view projects<span class="bracket bracket-close" aria-hidden="true">]</span></a>
-    <a class="link" href="resume.pdf" download="Tanya_Nair_Resume.pdf"><span class="bracket bracket-open" aria-hidden="true">[</span>resume<span class="bracket bracket-close" aria-hidden="true">]</span></a>
-    <a class="link" href="https://www.linkedin.com/in/tanya-nair-617473287/" rel="noopener"><span class="bracket bracket-open" aria-hidden="true">[</span>linkedin<span class="bracket bracket-close" aria-hidden="true">]</span></a>
-    <a class="link" href="https://github.com/t-nair" rel="noopener"><span class="bracket bracket-open" aria-hidden="true">[</span>github<span class="bracket bracket-close" aria-hidden="true">]</span></a>
-    <a class="link link--offline" href="offline.html"><span class="bracket bracket-open" aria-hidden="true">[</span>offline<span class="bracket bracket-close" aria-hidden="true">]</span></a>
-  </nav>
 
   <div class="contact-row">
+    <a class="link link--offline" href="offline.html"><span class="bracket bracket-open" aria-hidden="true">[</span>offline<span class="bracket bracket-close" aria-hidden="true">]</span></a>
     <details class="contact">
       <summary><span aria-hidden="true">(</span>reach out<span aria-hidden="true">)</span></summary>
       <p class="contact-note">tnair4[AT]jh[DOT]edu
