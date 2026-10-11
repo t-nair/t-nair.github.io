@@ -39,41 +39,41 @@
      fills clear 3:1.
 
      Two swatches from the source palette cannot carry type on this ground and
-     are never used for it: #8FBB99 (1.87:1) rules and decoration only, and
-     #D98CAE (2.18:1) fills only, and only under --color-ink. Where the page
+     are never used for it: #DDD7CB (1.87:1) rules and decoration only, and
+     #DDD7CB (2.18:1) fills only, and only under --color-ink. Where the page
      wants the rose as *text*, it uses --color-accent, which is the same hue
      (333.5°) and saturation dropped in value until it reads. */
-  --color-bg: #F3EEE4;
-  --color-ink: #1F3D2E;          /* 10.29:1 */
-  --color-accent: #A13565;       /*  5.65:1 — rose; links, the one accent */
-  --color-accent-2: #266246;     /*  6.22:1 — forest; second tier */
-  --color-body: #3F6B4A;         /*  5.32:1 */
-  --color-meta: #5A695F;         /*  5.02:1 */
-  --color-nav: #5A695F;          /*  5.02:1 */
+  --color-bg: #F8F6F0;
+  --color-ink: #1C1A17;          /* 10.29:1 */
+  --color-accent: #1C1A17;       /*  5.65:1 — rose; links, the one accent */
+  --color-accent-2: #1C1A17;     /*  6.22:1 — forest; second tier */
+  --color-body: #68645C;         /*  5.32:1 */
+  --color-meta: #68645C;         /*  5.02:1 */
+  --color-nav: #68645C;          /*  5.02:1 */
   /* Past work reads as grey rather than as a hue — it is still a node with a
      label under it, so it is a real contrast, not just "dimmer". */
-  --color-node-past: #6E6B64;    /*  4.60:1 */
+  --color-node-past: #68645C;    /*  4.60:1 */
   /* On paper the most prominent thing is the darkest, not the brightest. */
-  --color-node-self: #1F3D2E;    /* 10.29:1 */
+  --color-node-self: #1C1A17;    /* 10.29:1 */
 
-  --color-border: rgba(31, 61, 46, 0.16);
-  --color-border-strong: rgba(31, 61, 46, 0.34);
-  --color-divider: rgba(31, 61, 46, 0.10);
-  --color-bg-dot: rgba(31, 61, 46, 0.09);
-  --color-accent-tint: rgba(161, 53, 101, 0.09);
+  --color-border: rgba(28, 26, 23, 0.16);
+  --color-border-strong: rgba(28, 26, 23, 0.34);
+  --color-divider: rgba(28, 26, 23, 0.10);
+  --color-bg-dot: rgba(28, 26, 23, 0.09);
+  --color-accent-tint: rgba(200, 138, 36, 0.14);
 
   /* Raised panels (tooltip, hint, mobile legend). On a dark ground these were
      lighter than the page by being less black; here they are lighter by being
      closer to white, and opaque enough that the graph can't show through. */
-  --color-surface: rgba(251, 248, 242, 0.97);
-  --color-surface-border: rgba(31, 61, 46, 0.20);
-  --color-shadow: rgba(31, 61, 46, 0.16);
-  --color-liked: #A13565;        /*  5.65:1 */
+  --color-surface: rgba(248, 246, 240, 0.97);
+  --color-surface-border: rgba(28, 26, 23, 0.20);
+  --color-shadow: rgba(28, 26, 23, 0.16);
+  --color-liked: #1C1A17;        /*  5.65:1 */
 
   /* Strand colour for the graph's links. Carried at 0.55–0.85 alpha by the
      gradients, which lands the bright end at 3.91:1 and the faint end at the
      taper. On the dark theme this was bone; on paper it is the body green. */
-  --color-strand: #3F6B4A;
+  --color-strand: #68645C;
 
   /* Type families — the same stack twice on purpose; see the fonts note. */
   --font-sans: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -186,7 +186,7 @@ html, body {
   font-size: var(--text-subtitle); color: var(--color-body);
   line-height: 1.6; margin-bottom: var(--space-8); max-width: 54ch;
 }
-.page-subtitle a { color: var(--color-accent); text-decoration: none; }
+.page-subtitle a { color: var(--color-accent); text-decoration: underline; text-decoration-color: #C88A24; text-underline-offset: 3px; }
 .page-subtitle a:hover { text-decoration: underline; }
 
 /* Section labels — mono (signature) */
@@ -243,3 +243,28 @@ html, body {
 
   .footer { padding: var(--space-6) var(--space-3); }
 }
+
+/* Night palette — set by theme.js (system preference or the toggle). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #121210;
+  --color-ink: #ECE8DE;
+  --color-accent: #ECE8DE;
+  --color-accent-2: #ECE8DE;
+  --color-body: #8A877E;
+  --color-meta: #8A877E;
+  --color-nav: #8A877E;
+  --color-node-past: #8A877E;
+  --color-node-self: #ECE8DE;
+  --color-border: rgba(236, 232, 222, 0.16);
+  --color-border-strong: rgba(236, 232, 222, 0.34);
+  --color-divider: rgba(236, 232, 222, 0.10);
+  --color-bg-dot: rgba(236, 232, 222, 0.07);
+  --color-accent-tint: rgba(224, 159, 62, 0.16);
+  --color-surface: rgba(28, 27, 23, 0.97);
+  --color-surface-border: #2D2B24;
+  --color-shadow: rgba(0, 0, 0, 0.5);
+  --color-liked: #ECE8DE;
+  --color-strand: #8A877E;
+}
+:root[data-theme="dark"] .page-subtitle a { text-decoration-color: #E09F3E; }

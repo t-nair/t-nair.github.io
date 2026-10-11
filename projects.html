@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script src="theme.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | Tanya Nair</title>
   <meta property="og:title" content="Projects | Tanya Nair">
@@ -144,7 +145,7 @@
       color: var(--color-body);
       box-shadow: 0 8px 40px var(--color-shadow);
     }
-    .dlg::backdrop { background: rgba(31, 61, 46, 0.4); }
+    .dlg::backdrop { background: rgba(28, 26, 23, 0.4); }
     .dlg-close {
       float: right; margin: -6px -6px 0 0;
       border: 0; background: none; cursor: pointer;
@@ -223,15 +224,16 @@
       padding: 6px 12px; min-height: 32px; cursor: pointer;
       border: var(--border-width) solid var(--color-accent);
       border-radius: var(--radius-sm);
-      background-color: #fbeef4;
+      background-color: var(--filter-bg, #EFECE3);
       background-image:
-        repeating-linear-gradient(135deg, rgba(161,53,101,.22) 0 1px, transparent 1px 6px);
+        repeating-linear-gradient(135deg, rgba(200,138,36,.28) 0 1px, transparent 1px 6px);
     }
-    .filter:hover { background-color: #f6dbe7; }
+    .filter:hover { background-color: var(--filter-hover, #DDD7CB); }
+    :root[data-theme="dark"] { --filter-bg: #1C1B17; --filter-hover: #2D2B24; }
     .filter[aria-pressed="true"] {
-      color: #fff; background-color: var(--color-accent);
+      color: var(--color-bg); background-color: var(--color-accent);
       background-image:
-        repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 1px, transparent 1px 6px);
+        repeating-linear-gradient(135deg, rgba(200,138,36,.35) 0 1px, transparent 1px 6px);
     }
     .filter:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
     .project-card[hidden] { display: none; }
