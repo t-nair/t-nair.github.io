@@ -24,6 +24,16 @@
 
     .data-source-note { font-size: var(--text-sm); color: var(--color-meta); line-height: 1.6; margin-bottom: 36px; }
     .data-source-note a { color: inherit; text-decoration: underline; }
+    .sidequest {
+      padding: 16px 20px; margin-bottom: 40px;
+      background: var(--color-accent-tint);
+      border: 1px solid var(--color-border); border-left: 3px solid #C88A24;
+      border-radius: var(--radius-md);
+    }
+    .sidequest-label {
+      font-size: var(--text-sm); font-weight: 500; letter-spacing: var(--track-mono-caps);
+      text-transform: uppercase; color: var(--color-meta); margin-bottom: 6px;
+    }
 
     /* ── Currently reading ── */
     .current-book {
@@ -108,8 +118,13 @@
   <div class="page-subtitle">What I'm doing when I'm AFK.</div>
   <div class="data-source-note">Data pulled from <a href="https://www.goodreads.com" target="_blank" rel="noopener">Goodreads</a> and <a href="https://letterboxd.com" target="_blank" rel="noopener">Letterboxd</a> RSS feeds via a Python scraper, auto-updated every 6 hours by GitHub Actions.</div>
 
+  <aside class="sidequest">
+    <div class="sidequest-label">Current sidequest</div>
+    <div class="current-book-title">Optimizing my mechanical keyboard</div>
+  </aside>
+
   <section>
-  <div class="section-label">Reading</div>
+  <div class="section-label" style="margin-top: 48px">Reading</div>
   <div id="currently-reading"></div>
   </section>
 

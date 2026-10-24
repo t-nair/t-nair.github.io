@@ -170,7 +170,7 @@
     .interests li {
       position: relative;
       padding-left: 24px;
-      margin-top: 14px;
+      margin-top: 18px;
       line-height: 1.6;
     }
 
@@ -190,6 +190,7 @@
 
     .interests li .detail {
       display: block;
+      margin: 8px 0 6px;
       font-size: 0.8125rem;
       line-height: 1.5;
       color: var(--green-hover);
@@ -341,9 +342,62 @@
     @media (forced-colors: active) {
       .interests-label::after { background: CanvasText; }
     }
+
+    /* ── Ocean ────────────────────────────────────────────────────────────
+       The same ASCII sea as the GitHub README: the leaf sheep on its ledge,
+       a few fish crossing the margins. Decoration only — aria-hidden, no
+       pointer events, and faint enough that text crossing it stays legible. */
+    .page { position: relative; z-index: 1; }
+    .ocean {
+      position: fixed; inset: 0; z-index: 0;
+      overflow: hidden; pointer-events: none;
+      color: var(--ink);
+    }
+    .ocean pre { position: absolute; margin: 0; font: 13px/1.2 var(--font-mono); white-space: pre; }
+    .ocean .sheep, .ocean .ledge { opacity: 0.5; }
+    .ocean .sheep { top: 64px; right: 64px; }
+    .ocean .ledge { top: 112px; right: -1ch; }
+    .ocean .bub { top: 72px; right: 48px; opacity: 0.4; }
+
+    /* Fish stay in the side margins: swim out, turn, swim back, turn. The two
+       glyphs overlap and swap halfway; each fish has its own odd cycle (--d)
+       so the turns never line up. */
+    .ocean .fish { opacity: 0.3; }
+    .ocean .fish span { position: absolute; }
+    .ocean .fish .l { opacity: 0; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .ocean .fish { animation: swim var(--d) ease-in-out var(--dl) infinite; }
+      .ocean .fish .r { animation: face-r var(--d) step-end var(--dl) infinite; }
+      .ocean .fish .l { animation: face-l var(--d) step-end var(--dl) infinite; }
+      .ocean .bub { animation: bubble 9s linear infinite; }
+      @keyframes swim { 0%, 4% { transform: translateX(0); } 46%, 54% { transform: translateX(10vw); } 96%, 100% { transform: translateX(0); } }
+      @keyframes face-r { 0% { opacity: 1; } 50% { opacity: 0; } }
+      @keyframes face-l { 0% { opacity: 0; } 50% { opacity: 1; } }
+      @keyframes bubble { from { transform: translateY(0); opacity: 0.4; } to { transform: translateY(-64px); opacity: 0; } }
+    }
+
+    /* Below this the margins are too narrow to hold the fish without them
+       swimming behind text; on phones the sheep would sit on the pitch. */
+    @media (max-width: 1100px) { .ocean .fish { display: none; } }
+    @media (max-width: 640px) { .ocean { display: none; } }
   </style>
 </head>
 <body>
+
+<div class="ocean" aria-hidden="true">
+<pre class="sheep">  \ /
+ (o o)}}}}
+  `-}}}}}'</pre>
+<pre class="ledge">__.--~~~~~~~~~~~~
+   `-.,_,.-._,.-.</pre>
+<pre class="bub">°</pre>
+<pre class="fish" style="top:24%;left:5vw;--d:34s;--dl:-6s"><span class="r">&gt;&lt;(((º&gt;</span><span class="l">&lt;º)))&gt;&lt;</span></pre>
+<pre class="fish" style="top:58%;left:9vw;--d:46s;--dl:-30s"><span class="r">&gt;&lt;&gt;</span><span class="l">&lt;&gt;&lt;</span></pre>
+<pre class="fish" style="top:82%;left:4vw;--d:38s;--dl:-14s"><span class="r">&gt;&lt;(º&gt;</span><span class="l">&lt;º)&gt;&lt;</span></pre>
+<pre class="fish" style="top:42%;left:calc(50% + min(23rem, 26vw) + 2vw);--d:42s;--dl:-21s"><span class="r">&gt;&lt;((º&gt;</span><span class="l">&lt;º))&gt;&lt;</span></pre>
+<pre class="fish" style="top:70%;left:calc(50% + min(23rem, 26vw) + 5vw);--d:30s;--dl:-3s"><span class="r">&gt;&lt;&gt;</span><span class="l">&lt;&gt;&lt;</span></pre>
+</div>
 
 <main class="page">
   <h1 class="name">Tanya Nair</h1>
