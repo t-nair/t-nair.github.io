@@ -1,5 +1,15 @@
 [
   {
+    "title": "KATSEYE: Wild Hearts",
+    "year": "2026",
+    "link": "https://letterboxd.com/tanyanair/film/katseye-wild-hearts/",
+    "date": "2026-10-21",
+    "rating": 2.5,
+    "stars": "\u2605\u2605\u00bd",
+    "poster": "https://a.ltrbxd.com/resized/film-poster/1/5/9/4/5/8/9/1594589-katseye-wild-hearts-0-600-0-900-crop.jpg?v=dc547d4ea8",
+    "liked": false
+  },
+  {
     "title": "Best of the Best",
     "year": "2026",
     "link": "https://letterboxd.com/tanyanair/film/best-of-the-best-2026/",
@@ -38,15 +48,5 @@
     "stars": "\u2605\u2605\u2605\u00bd",
     "poster": "https://a.ltrbxd.com/resized/film-poster/8/7/2/8/7/1/872871-spider-man-brand-new-day-0-600-0-900-crop.jpg?v=ebe6beb4fc",
     "liked": false
-  },
-  {
-    "title": "The Odyssey",
-    "year": "2026",
-    "link": "https://letterboxd.com/tanyanair/film/the-odyssey-2026/",
-    "date": "2026-07-29",
-    "rating": 4.0,
-    "stars": "\u2605\u2605\u2605\u2605",
-    "poster": "https://a.ltrbxd.com/resized/film-poster/1/2/5/5/3/9/4/1255394-the-odyssey-2026-0-600-0-900-crop.jpg?v=1eed046d0c",
-    "liked": true
   }
 ]
