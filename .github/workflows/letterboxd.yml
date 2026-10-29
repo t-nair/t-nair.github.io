@@ -17,7 +17,9 @@ jobs:
       - name: Fetch Letterboxd RSS
         run: python .github/scripts/fetch_letterboxd.py
 
+      # Goodreads retired list_rss (404 for all users since 2026-10-27); keep last goodreads.json
       - name: Fetch Goodreads RSS
+        continue-on-error: true
         run: python .github/scripts/fetch_goodreads.py
 
       - name: Commit if changed
