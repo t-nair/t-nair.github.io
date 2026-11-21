@@ -365,12 +365,12 @@
 
     <article data-tags="research ai-ml ongoing" class="project-card project-card--open" onclick="document.getElementById('dlg-gricea').showModal()">
       <div class="project-thumb project-thumb--fit">
-        <img src="images/gricea-thumb.webp" alt="Chart: starting attitudes of simulated agents on three political topics. Agents given political personas sit at the extremes on their stated side.">
+        <img src="images/gricea-thumb.webp" alt="A chart from one of my Gricea experiments.">
       </div>
       <div class="project-card-body">
         <span class="project-tag">Research &middot; ongoing</span>
         <h3 class="project-title">LLM-Simulated Users on Gricea</h3>
-        <p class="project-desc">With Prof. Ziang Xiao at JHU CLSP. Building LLM-simulated users that run through conversational AI studies on Gricea, an open-science platform for CAI research, to predict human results. Benchmarked against methods like population-aligned personas.</p>
+        <p class="project-desc">With Prof. Ziang Xiao at JHU CLSP. Replicating HCI studies on the Gricea platform and writing papers on what I find.</p>
         <span class="project-card-link">Open &rarr;</span>
       </div>
     </article>
@@ -631,51 +631,24 @@
     <p class="dlg-meta">JHU CLSP &mdash; ISLE Lab, with Prof. Ziang Xiao</p>
 
     <p class="dlg-body">
-      Can LLM agents with personas stand in for human participants in conversational AI studies?
-      I'm building simulated users that run through studies on
+      I'm replicating HCI studies on
       <a href="https://arxiv.org/abs/2609.22039" style="color: var(--color-accent)">Gricea</a>, an
-      open-science platform for conversational AI research, and comparing their results with the
-      original human results. I'm also benchmarking against methods like
-      <a href="https://arxiv.org/abs/2509.10127" style="color: var(--color-accent)">population-aligned personas</a>.
-    </p>
-
-    <h4 class="dlg-h">First replication</h4>
-    <p class="dlg-body">
-      I replicated a study on how people search about controversial topics. 120 Gemini agents, each
-      given a persona, rated their stance on three topics (universal health care, student-loan
-      relief, and sanctuary-city funding), searched with web search or conversational search, then
-      rated again and wrote an essay. I rebuilt the article set from archived pages and used a
-      model to label which side each search and essay sentence took.
-    </p>
-    <p class="dlg-body">
-      The agents didn't reproduce the paper's main finding. They wrote one-sided essays in every
-      search condition, and most of that lean came from the model, not the persona. Agents with an
-      explicitly political persona started at the extremes and never changed their answers. Other
-      agents started with milder answers but still argued one side.
+      open-science platform for conversational AI research, and writing papers on what I find.
     </p>
 
     <h4 class="dlg-h">Figures</h4>
+    <p class="dlg-body">Some graphs from my experiments.</p>
     <div class="dlg-shots">
       <figure class="dlg-shot">
-        <img src="images/gricea-summary.webp" alt="Left: starting attitudes by topic, with political personas at the extremes. Right: political personas versus others. Extreme starting answer 83% vs 1%, changed attitude 0% vs 26%, own-side searching 78% vs 9%, own-side essay arguments 94% vs 52%.">
-        <figcaption>Political personas vs. everyone else</figcaption>
+        <img src="images/gricea-summary.webp" alt="A chart from one of my Gricea experiments.">
       </figure>
       <figure class="dlg-shot">
-        <img src="images/gricea-all-agents.webp" alt="Before and after stance for every agent on the three topics. 16% changed on health care, 24% on student loans, and 43% on sanctuary cities.">
-        <figcaption>Every agent, before and after searching</figcaption>
+        <img src="images/gricea-all-agents.webp" alt="A chart from one of my Gricea experiments.">
       </figure>
       <figure class="dlg-shot">
-        <img src="images/gricea-loans.webp" alt="Six example agents on student loan debt, with their persona summaries and their stance before and after searching.">
-        <figcaption>Example personas, student loans</figcaption>
+        <img src="images/gricea-loans.webp" alt="A chart from one of my Gricea experiments.">
       </figure>
     </div>
-
-    <h4 class="dlg-h">Next</h4>
-    <p class="dlg-body">
-      Every agent stopped at the minimum three searches, so the next run puts that rule in the study
-      instructions instead of each prompt. It also lets agents open citations in the conversational
-      condition and tries other models.
-    </p>
   </dialog>
 
   <dialog id="dlg-sine" class="dlg" onclick="if (event.target === this) this.close()">
