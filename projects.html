@@ -284,7 +284,7 @@
       <div class="project-card-body">
         <span class="project-tag">Accessibility</span>
         <h3 class="project-title">Automated Accessibility Enhancer</h3>
-        <p class="project-desc">Open-source tool that fixes PowerPoint reading order and writes missing alt text. UW, presented at EDUCAUSE 2025.</p>
+        <p class="project-desc">Open-source web app that fixes PowerPoints and PDFs and scores what's left against WCAG 2.1. Live on AWS. UW, presented at EDUCAUSE 2025.</p>
         <span class="project-card-link">Open &rarr;</span>
       </div>
     </article>
@@ -517,24 +517,41 @@
     <p class="dlg-meta">University of Washington &mdash; Advancing Accessibility for Engineering Education, with Prof. Anant and Dr. Lalitha Subramanian</p>
 
     <p class="dlg-body">
-      An open-source tool that fixes common accessibility problems in PowerPoint files. Screen
-      readers read shapes in the order they were added, not top to bottom, so the tool moves slide
-      titles to the front of the reading order, writes descriptions for images that have no alt
-      text, and produces a slide-by-slide report of every change.
+      An open-source web app at <a href="https://accessibilityenhancer.com" style="color: var(--color-accent)">accessibilityenhancer.com</a>.
+      Upload a PowerPoint or a PDF and get back a more accessible file plus a report. The tool fixes
+      what it safely can: slide reading order, missing image descriptions, document language, and
+      PDF tags. Everything else goes on a list for a person to check, scored by severity and mapped
+      to WCAG 2.1.
     </p>
 
     <h4 class="dlg-h">How it works</h4>
     <p class="dlg-body">
-      Written in Python on python-pptx. Decks come in through a Flask upload page, a folder script,
-      or an S3 bucket on AWS Lambda (deployed with Terraform), and all go through one pipeline:
-      older <code>.ppt</code> files are converted with LibreOffice, shapes named &ldquo;Title&rdquo;
-      are moved first, and each image without alt text is described by Claude on Amazon Bedrock.
-      Out come a fixed <code>.pptx</code> and a report. 123 tests.
+      Written in Python on python-pptx. Slide shapes are reordered by role: title, subtitle,
+      content, then footer. A small trained model finds titles typed into ordinary text boxes.
+      Claude on Amazon Bedrock describes images that have no alt text, and descriptions a person
+      wrote are never overwritten. The report flags slides with no title, low contrast, small text,
+      and vague link text. PDFs are rebuilt as tagged PDFs, scanned pages go through local OCR, and
+      anything the tool isn't sure about stops for a person. The report scores the original file out
+      of 100 and lists every change with before and after values.
     </p>
-    <figure class="dlg-shot" style="margin-top: var(--space-3);">
-      <img src="images/a11y-workflow.webp" alt="Workflow: decks from an input folder go through a Python script that moves each slide's title to the front of the reading order, then land in an output folder as updated files." style="aspect-ratio: auto;">
-      <figcaption>Original folder workflow &mdash; before the web and Lambda front ends</figcaption>
-    </figure>
+    <p class="dlg-body">
+      In production, a Cloudflare proxy forwards requests to a Flask site on ECS Express Mode. Uploads
+      land in S3 and trigger a Lambda that does the fixing. Status lives in DynamoDB, sign-in uses
+      Cognito, and everything is built with Terraform and deployed from GitHub Actions. An axe-core
+      audit of the web app finds no WCAG 2.1 A or AA violations. 300+ tests run in CI.
+    </p>
+
+    <h4 class="dlg-h">Photos</h4>
+    <div class="dlg-shots">
+      <figure class="dlg-shot">
+        <img src="images/a11y-architecture.webp" alt="Production architecture: the browser goes through a Cloudflare /app proxy to a Flask site on ECS Express Mode, which saves uploads to S3. An S3 event starts a Lambda that gets alt text from Claude on Bedrock, writes the fixed file and report to a processed S3 bucket, and records status in DynamoDB. Cognito handles sign-in, and GitHub Actions deploys with Terraform and ECR.">
+        <figcaption>Production architecture on AWS</figcaption>
+      </figure>
+      <figure class="dlg-shot">
+        <img src="images/a11y-workflow.webp" alt="Workflow: decks from an input folder go through a Python script that moves each slide's title to the front of the reading order, then land in an output folder as updated files.">
+        <figcaption>Original folder workflow</figcaption>
+      </figure>
+    </div>
 
     <h4 class="dlg-h">Iterations</h4>
     <ol class="dlg-log">
@@ -560,19 +577,33 @@
         <strong>EDUCAUSE 2026, Denver</strong>
         <p>Attended in person as an EDUCAUSE Pipeline scholar.</p>
       </li>
+      <li>
+        <span class="dlg-date">Oct 2026</span>
+        <strong>PDFs, more checks, scored reports</strong>
+        <p>Added a PDF pipeline with tagging and OCR, a trained title detector, language,
+           contrast, font-size, and link-text checks, table header rows, and a severity score
+           mapped to WCAG. Added CSRF protection and an axe-core audit of the app in CI.</p>
+      </li>
+      <li>
+        <span class="dlg-date">Nov 2026</span>
+        <strong>Production on AWS</strong>
+        <p>Moved the site to ECS Express Mode behind accessibilityenhancer.com, with deploys from
+           CI, required sign-in through Cognito (email or Google), PDFs processed on Lambda, S3 and
+           DynamoDB backups, and a Bedrock cost estimator.</p>
+      </li>
       <li class="dlg-log--next">
         <span class="dlg-date">Next</span>
         <strong>Roadmap</strong>
-        <p>Title detection by position and formatting, PDF support, university sign-in, and moving
-           the web app to AWS.</p>
+        <p>Microsoft and UW NetID sign-in, and more of the checks that are reported today turned into
+           fixes.</p>
       </li>
     </ol>
 
     <h4 class="dlg-h">Limitations</h4>
     <p class="dlg-body">
-      Titles are found by shape name only. Generated alt text needs human review, and technical
-      diagrams are still hard to describe well. There are no user accounts yet, and files are
-      processed one at a time.
+      Generated alt text is a starting point. It needs human review, and technical diagrams are
+      still hard to describe well. New titles, colours, and link wording are design decisions, so
+      they are reported, not fixed. PDFs with images wait for a person to approve the descriptions.
     </p>
 
     <p class="dlg-body"><a href="https://t-nair.github.io/automated-accessibility-enhancer-site/" style="color: var(--color-accent)">Project site &rarr;</a>
