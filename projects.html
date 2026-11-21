@@ -181,6 +181,17 @@
       border-top: var(--border-width) solid var(--color-divider);
       background: var(--color-surface);
     }
+    /* Image viewer: any picture in a project dialog opens here full size. */
+    .dlg img, .project-card:not(.project-card--open) .project-thumb img { cursor: zoom-in; }
+    .lightbox {
+      margin: auto; padding: 0; border: 0; background: none;
+      max-width: 95vw; max-height: 95vh; overflow: visible; cursor: zoom-out;
+    }
+    .lightbox::backdrop { background: rgba(0, 0, 0, 0.85); }
+    .lightbox img {
+      display: block; max-width: 95vw; max-height: 95vh; object-fit: contain;
+      background: #fff; border-radius: var(--radius-md);
+    }
     .dlg-shot--empty {
       display: grid; place-items: center; aspect-ratio: 16 / 10;
       font-size: var(--text-xs); color: var(--color-node-past);
@@ -289,6 +300,18 @@
       </div>
     </article>
 
+    <article data-tags="ai-ml web" class="project-card project-card--open" onclick="document.getElementById('dlg-sine').showModal()">
+      <div class="project-thumb">
+        <img src="images/sine-thumb.webp" alt="sine analytics dashboard with a sentiment pie chart and goal progress bars.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Hackathon &middot; Winner</span>
+        <h3 class="project-title">sine</h3>
+        <p class="project-desc">AI reflection journal from text, voice, or video check-ins, with mood and stress trends over time. Best Data Visualization at HopHacks Fall 2025.</p>
+        <span class="project-card-link">Open &rarr;</span>
+      </div>
+    </article>
+
     <article data-tags="research ai-ml" class="project-card project-card--open" onclick="document.getElementById('dlg-rag').showModal()">
       <div class="project-thumb">
         <img src="images/levy-rag-poster.webp" alt="Top of the research poster: Retrieval Augmented Generation for Pathology Reports, Dartmouth Health.">
@@ -301,15 +324,39 @@
       </div>
     </article>
 
-    <article data-tags="ai-ml web" class="project-card project-card--open" onclick="document.getElementById('dlg-sine').showModal()">
-      <div class="project-thumb">
-        <img src="images/sine-thumb.webp" alt="sine analytics dashboard with a sentiment pie chart and goal progress bars.">
+    <article data-tags="research ai-ml ongoing" class="project-card project-card--open" onclick="document.getElementById('dlg-gricea').showModal()">
+      <div class="project-thumb project-thumb--fit">
+        <img src="images/gricea-thumb.webp" alt="A chart from one of my Gricea experiments.">
       </div>
       <div class="project-card-body">
-        <span class="project-tag">Hackathon &middot; Winner</span>
-        <h3 class="project-title">sine</h3>
-        <p class="project-desc">AI reflection journal from text, voice, or video check-ins, with mood and stress trends over time. Best Data Visualization at HopHacks Fall 2025.</p>
+        <span class="project-tag">Research &middot; ongoing</span>
+        <h3 class="project-title">LLM-Simulated Users on Gricea</h3>
+        <p class="project-desc">With Prof. Ziang Xiao at JHU CLSP. Replicating HCI studies on the Gricea platform and writing papers on what I find.</p>
         <span class="project-card-link">Open &rarr;</span>
+      </div>
+    </article>
+
+    <article data-tags="electrical" class="project-card project-card--open" onclick="document.getElementById('dlg-cansat').showModal()">
+      <div class="project-thumb">
+        <img src="images/cansat-thumb.webp" alt="Close-up of the CanSat flight board layout around the IMU and USB connectors.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Hardware</span>
+        <h3 class="project-title">CanSat Competition</h3>
+        <p class="project-desc">Designed and built a 1 kg satellite for the international CanSat competition. Led ground control, sensors, and communication &amp; data handling; top 20 in the US and top 40 worldwide.</p>
+        <span class="project-card-link">Open &rarr;</span>
+      </div>
+    </article>
+
+    <article data-tags="research ai-ml" class="project-card">
+      <div class="project-thumb project-thumb--fit">
+        <img src="images/clsp-wordclouds.webp" alt="Word clouds of language used when China is portrayed positively versus negatively in South China Sea news coverage.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Research &middot; 2025</span>
+        <h3 class="project-title">CLSP Multilingual Benchmark</h3>
+        <p class="project-desc">With Prof. Ziang Xiao at JHU CLSP. South China Sea coverage in six languages, analyzed for stance, topics, and framing, then used to test how Claude, GPT-4o, and DeepSeek summarized the same news differently.</p>
+        <a class="project-card-link" href="https://arxiv.org/abs/2407.05502">Related: Faux Polyglot &rarr;</a>
       </div>
     </article>
 
@@ -338,6 +385,18 @@
       </div>
     </article>
 
+    <article data-tags="research ai-ml" class="project-card">
+      <div class="project-thumb project-thumb--fit">
+        <img src="images/poetry-frequency.webp" alt="Word frequency plot from the poetry corpus: frequency per document against frequency rank, with common words labeled.">
+      </div>
+      <div class="project-card-body">
+        <span class="project-tag">Published &middot; 2023</span>
+        <h3 class="project-title"><a href="https://www.jsr.org/hs/index.php/path/article/view/4418">NLP in Poetry</a></h3>
+        <p class="project-desc">Journal of Student Research. Compared six NLP techniques for reading emotion in English poetry; bigram and word-embedding models were most accurate at about 62%.</p>
+        <a class="project-card-link" href="https://www.jsr.org/hs/index.php/path/article/view/4418">Paper &rarr;</a>
+      </div>
+    </article>
+
     <article data-tags="web" class="project-card">
       <div class="project-thumb">
         <img src="images/pokedex.webp" alt="SQL Pokédex dashboard: generation filter, biggest, heaviest, and fastest Pokémon, and a type distribution chart.">
@@ -360,54 +419,6 @@
         <h3 class="project-title">Baltimore MSW Case Study</h3>
         <p class="project-desc">Interviews with waste professionals, community groups, and residents through JHU's Kindling pre-accelerator. Defines &ldquo;idle resources&rdquo;: materials that still have value but sit unused before disposal, invisible to recycling and diversion metrics.</p>
         <a class="project-card-link" href="images/msw-idle-resources.pdf">Download the paper (PDF) &rarr;</a>
-      </div>
-    </article>
-
-    <article data-tags="research ai-ml ongoing" class="project-card project-card--open" onclick="document.getElementById('dlg-gricea').showModal()">
-      <div class="project-thumb project-thumb--fit">
-        <img src="images/gricea-thumb.webp" alt="A chart from one of my Gricea experiments.">
-      </div>
-      <div class="project-card-body">
-        <span class="project-tag">Research &middot; ongoing</span>
-        <h3 class="project-title">LLM-Simulated Users on Gricea</h3>
-        <p class="project-desc">With Prof. Ziang Xiao at JHU CLSP. Replicating HCI studies on the Gricea platform and writing papers on what I find.</p>
-        <span class="project-card-link">Open &rarr;</span>
-      </div>
-    </article>
-
-    <article data-tags="research ai-ml" class="project-card">
-      <div class="project-thumb project-thumb--fit">
-        <img src="images/clsp-wordclouds.webp" alt="Word clouds of language used when China is portrayed positively versus negatively in South China Sea news coverage.">
-      </div>
-      <div class="project-card-body">
-        <span class="project-tag">Research &middot; 2025</span>
-        <h3 class="project-title">CLSP Multilingual Benchmark</h3>
-        <p class="project-desc">With Prof. Ziang Xiao at JHU CLSP. South China Sea coverage in six languages, analyzed for stance, topics, and framing, then used to test how Claude, GPT-4o, and DeepSeek summarized the same news differently.</p>
-        <a class="project-card-link" href="https://arxiv.org/abs/2407.05502">Related: Faux Polyglot &rarr;</a>
-      </div>
-    </article>
-
-    <article data-tags="research ai-ml" class="project-card">
-      <div class="project-thumb project-thumb--fit">
-        <img src="images/poetry-frequency.webp" alt="Word frequency plot from the poetry corpus: frequency per document against frequency rank, with common words labeled.">
-      </div>
-      <div class="project-card-body">
-        <span class="project-tag">Published &middot; 2023</span>
-        <h3 class="project-title"><a href="https://www.jsr.org/hs/index.php/path/article/view/4418">NLP in Poetry</a></h3>
-        <p class="project-desc">Journal of Student Research. Compared six NLP techniques for reading emotion in English poetry; bigram and word-embedding models were most accurate at about 62%.</p>
-        <a class="project-card-link" href="https://www.jsr.org/hs/index.php/path/article/view/4418">Paper &rarr;</a>
-      </div>
-    </article>
-
-    <article data-tags="electrical" class="project-card project-card--open" onclick="document.getElementById('dlg-cansat').showModal()">
-      <div class="project-thumb">
-        <img src="images/cansat-thumb.webp" alt="Close-up of the CanSat flight board layout around the IMU and USB connectors.">
-      </div>
-      <div class="project-card-body">
-        <span class="project-tag">Hardware</span>
-        <h3 class="project-title">CanSat Competition</h3>
-        <p class="project-desc">Designed and built a 1 kg satellite for the international CanSat competition. Led ground control, sensors, and communication &amp; data handling; top 20 in the US and top 40 worldwide.</p>
-        <span class="project-card-link">Open &rarr;</span>
       </div>
     </article>
 
@@ -676,15 +687,15 @@
     <h4 class="dlg-h">Screenshots</h4>
     <div class="dlg-shots">
       <figure class="dlg-shot">
-        <a href="images/sine-dashboard.webp" target="_blank"><img src="images/sine-dashboard.webp" alt="Analytics dashboard: sentiment distribution pie chart, goal progress bars, and a monthly mood heatmap."></a>
+        <img src="images/sine-dashboard.webp" alt="Analytics dashboard: sentiment distribution pie chart, goal progress bars, and a monthly mood heatmap.">
         <figcaption>Analytics dashboard</figcaption>
       </figure>
       <figure class="dlg-shot">
-        <a href="images/sine-trends.webp" target="_blank"><img src="images/sine-trends.webp" alt="Line chart of mood trends over a week, with daily insight cards showing primary emotion and sentiment score."></a>
+        <img src="images/sine-trends.webp" alt="Line chart of mood trends over a week, with daily insight cards showing primary emotion and sentiment score.">
         <figcaption>Mood trends &amp; daily insights</figcaption>
       </figure>
       <figure class="dlg-shot">
-        <a href="images/sine-reflection.webp" target="_blank"><img src="images/sine-reflection.webp" alt="Gemini reflection on a journal entry: a summary, three pieces of advice, and motivational words."></a>
+        <img src="images/sine-reflection.webp" alt="Gemini reflection on a journal entry: a summary, three pieces of advice, and motivational words.">
         <figcaption>Gemini reflection on an entry</figcaption>
       </figure>
     </div>
@@ -701,9 +712,34 @@
       &nbsp;&middot;&nbsp;
       <a href="https://github.com/t-nair/hophacks-25" style="color: var(--color-accent)">Source code on GitHub &rarr;</a></p>
   </dialog>
+
+  <dialog id="lightbox" class="lightbox" aria-label="Enlarged image. Click or press Escape to close." onclick="this.close()">
+    <img alt="">
+  </dialog>
 </div>
 
 <script>
+  // Image viewer: pictures in a project dialog, and the covers of cards that
+  // don't open one, enlarge in place. The lightbox is its own modal, so it
+  // stacks above an open project dialog; click or Esc closes just the viewer.
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = lightbox.querySelector('img');
+  document.querySelectorAll('.dlg img, .project-card:not(.project-card--open) .project-thumb img').forEach(function (img) {
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
+    function open(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.showModal();
+    }
+    img.addEventListener('click', open);
+    img.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') open(e);
+    });
+  });
+
   // Filter chips: one active at a time; "all" shows everything.
   var chips = document.querySelectorAll('.filter');
   chips.forEach(function (chip) {
